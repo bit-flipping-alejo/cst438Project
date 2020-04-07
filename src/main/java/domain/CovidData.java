@@ -3,44 +3,32 @@ package domain;
 import javax.persistence.*;
 
 @Entity
-
-public class covidData {
+public class CovidData {
    @Id
    @GeneratedValue
    private long ID;
-
    private String State;
-   
    private long TestedPositive;
-   
    private long TestedNegative;
-   
-   private long AmountCurrentlyHospitalized;
-   
+   private long CurrentlyHospitalized;
    private long TotalHospitalized;
-   
    private long CurrentICUCount;
-   
    private long TotalICUCount;
-   
    private long CurrentlyOnVentilator;
-   
    private long TotalVentilated;
-   
    private long Recovered;
-   
    private long Deaths;
    
-   public covidData() {
+   public CovidData() {
       
    }
    
-   public covidData(
+   public CovidData(
          long ID,
          String State,
          long TestedPositive,
          long TestedNegative,
-         long AmountCurrentlyHospitalized,
+         long CurrentlyHospitalized,
          long TotalHospitalized,
          long CurrentICUCount,
          long TotalICUCount,
@@ -53,7 +41,7 @@ public class covidData {
       this.ID = ID;
       this.State = State;
       this.TestedPositive = TestedPositive;
-      this.AmountCurrentlyHospitalized = AmountCurrentlyHospitalized;
+      this.CurrentlyHospitalized = CurrentlyHospitalized;
       this.TotalHospitalized = TotalHospitalized;
       this.CurrentICUCount = CurrentICUCount;
       this.TotalICUCount = TotalICUCount;
@@ -96,11 +84,11 @@ public class covidData {
    }
 
    public long getAmountCurrentlyHospitalized() {
-      return AmountCurrentlyHospitalized;
+      return CurrentlyHospitalized;
    }
 
-   public void setAmountCurrentlyHospitalized(long amountCurrentlyHospitalized) {
-      this.AmountCurrentlyHospitalized = amountCurrentlyHospitalized;
+   public void setAmountCurrentlyHospitalized(long CurrentlyHospitalized) {
+      this.CurrentlyHospitalized = CurrentlyHospitalized;
    }
 
    public long getTotalHospitalized() {
