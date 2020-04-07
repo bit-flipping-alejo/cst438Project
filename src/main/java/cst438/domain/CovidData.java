@@ -1,4 +1,4 @@
-package domain;
+package cst438.domain;
 
 import javax.persistence.*;
 
@@ -7,6 +7,7 @@ public class CovidData {
    @Id
    @GeneratedValue
    private long ID;
+   private long Date;
    private String State;
    private long TestedPositive;
    private long TestedNegative;
@@ -59,6 +60,14 @@ public class CovidData {
       this.ID = iD;
    }
 
+   public long getDate() {
+      return Date;
+   }
+
+   public void setDate(long date) {
+      Date = date;
+   }
+
    public String getState() {
       return State;
    }
@@ -83,11 +92,11 @@ public class CovidData {
       this.TestedNegative = testedNegative;
    }
 
-   public long getAmountCurrentlyHospitalized() {
+   public long getCurrentlyHospitalized() {
       return CurrentlyHospitalized;
    }
 
-   public void setAmountCurrentlyHospitalized(long CurrentlyHospitalized) {
+   public void setCurrentlyHospitalized(long CurrentlyHospitalized) {
       this.CurrentlyHospitalized = CurrentlyHospitalized;
    }
 
