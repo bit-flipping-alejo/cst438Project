@@ -17,11 +17,8 @@ public class covidController {
    
    @GetMapping("/home")
    public String getTodaysData(Model model) {
-      covidService.populate();
       LocalDate localDate = LocalDate.now();
-      String todayDate = Integer.toString(localDate.getYear()) + 
-            Integer.toString(localDate.getMonthValue()) + 
-            Integer.toString(localDate.getDayOfMonth());
+      String todayDate = formatDate(localDate);
       System.out.println(todayDate);
       List<CovidData> currentData = covidService.fetchByDate(
             Long.parseLong(todayDate));
@@ -29,5 +26,30 @@ public class covidController {
       model.addAllAttributes(currentData);
       
       return "home";
+   }
+   
+   @GetMapping("/populate")
+   public String populateDB() {
+      covidService.populate();
+      return "populate";
+   }
+   
+   // helper function to format date
+   private String formatDate(LocalDate localDate) {
+      String formattedDate  = Integer.toString(localDate.getYear());
+      
+      if (localDate.getMonthValue() < 10) {
+         formattedDate += "0" + Integer.toString(localDate.getMonthValue());
+      } else {
+         formattedDate += Integer.toString(localDate.getMonthValue());
+      }
+      
+      if (localDate.getDayOfMonth() < 10) {
+         formattedDate += "0" + Integer.toString(localDate.getDayOfMonth());
+      } else {
+         formattedDate += Integer.toString(localDate.getDayOfMonth());
+      }
+      
+      return formattedDate;
    }
 }

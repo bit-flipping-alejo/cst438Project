@@ -24,31 +24,27 @@ public class CovidAPIService {
    @Autowired
    private CovidRepository covidRepository;
    
-   public CovidAPIService() {
-      
-   }
-   
-   public CovidAPIService(CovidRepository covidRepository) {
-      this.covidRepository = covidRepository;
-   }
-   
    private static final Logger log = 
          LoggerFactory.getLogger(CovidAPIService.class);
    private RestTemplate restTemplate;
    private String covidDataUrl;
    
-   public CovidAPIService(
-         @Value("${covidData.url}") final String covidUrl) {
-      
+//   public CovidAPIService() {
+//      
+//   }
+   
+   public CovidAPIService(@Value("${covidData.url}") final String covidUrl,
+         CovidRepository covidRepository) {
+      this.covidRepository = covidRepository;
       this.restTemplate = new RestTemplate();
       this.covidDataUrl = covidUrl;
    }
-   
+       
    // This method will be used frequently to pull current COVID data
    public void pullCurrentCovidData() {
       ResponseEntity<List<JsonCovidCurrentHelper>> response = 
             restTemplate.exchange(
-                  covidDataUrl, HttpMethod.GET, null, new ParameterizedTypeReference<List<JsonCovidCurrentHelper>>() {});
+                  this.covidDataUrl, HttpMethod.GET, null, new ParameterizedTypeReference<List<JsonCovidCurrentHelper>>() {});
       List<JsonCovidCurrentHelper> covidDataJson = response.getBody();
       log.info("Status code from weather server:" + 
                   response.getStatusCodeValue());
@@ -72,9 +68,10 @@ public class CovidAPIService {
    }
    
    public void populate() {
+      System.out.println(this.covidDataUrl);
       ResponseEntity<List<JsonCovidHistoryHelper>> response = 
             restTemplate.exchange(
-                  covidDataUrl, HttpMethod.GET, null, 
+                  this.covidDataUrl, HttpMethod.GET, null, 
                   new ParameterizedTypeReference<List<JsonCovidHistoryHelper>>() {});
       List<JsonCovidHistoryHelper> covidDataJson = response.getBody();
       log.info("Status code from weather server:" + 

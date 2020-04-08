@@ -5,7 +5,7 @@ import javax.persistence.*;
 @Entity
 public class CovidData {
    @Id
-   @GeneratedValue
+   @GeneratedValue(strategy = GenerationType.IDENTITY)
    private long ID;
    private long Date;
    private String State;

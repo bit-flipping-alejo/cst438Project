@@ -2,9 +2,11 @@ package cst438.domain;
 
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public interface CovidRepository extends JpaRepository<CovidData, Long> {
@@ -15,10 +17,13 @@ public interface CovidRepository extends JpaRepository<CovidData, Long> {
          + ":totalICU, :currentVent, :totalVent, :recovered, :deaths)";
    
    // insert into db with date
-   String insertHistorical = "INSERT INTO covid_data VALUES (null, :date, "
-         + ":state, :positive, :negative, :currentHospital, :totalHospital, "
-         + ":currentICU, :totalICU, :currentVent, :totalVent, :recovered, "
-         + ":deaths)";
+   String insertHistorical = "INSERT INTO covid_data (id, date, state, "
+         + "tested_positive, tested_negative, currently_hospitalized, "
+         + "total_hospitalized, currenticucount, totalicucount, "
+         + "currently_on_ventilator, total_ventilated, recovered, deaths) VALUES "
+         + "(default, :date, :state, :positive, :negative, :currentHospital, "
+         + ":totalHospital, :currentICU, :totalICU, :currentVent, :totalVent, "
+         + ":recovered, :deaths)";
    
    // Select by state
    String selectState = "SELECT * FROM covid_data WHERE state=:state";
@@ -32,6 +37,8 @@ public interface CovidRepository extends JpaRepository<CovidData, Long> {
    @Query(value=selectState, nativeQuery=true)
    CovidData findByState(@Param("state") String state);
    
+   @Modifying
+   @Transactional
    @Query(value=insert, nativeQuery=true)
    void insertDataPoint(
          @Param("state") String name,
@@ -47,6 +54,8 @@ public interface CovidRepository extends JpaRepository<CovidData, Long> {
          @Param("deaths") long deaths
          );
    
+   @Modifying
+   @Transactional
    @Query(value=insertHistorical, nativeQuery=true)
    void insertHistoricalDataPoint(
          @Param("date") long date,
