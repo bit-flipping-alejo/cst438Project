@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cst438.domain.CovidData;
+import cst438.domain.CovidNationalData;
+import cst438.domain.CovidNationalRepository;
 import cst438.domain.CovidRepository;
 
 /* This service is the 'front' facing service meaning it pulls all data from
@@ -17,6 +19,8 @@ public class CovidService {
    private CovidRepository covidRepository;
    @Autowired
    private CovidAPIService covidAPIService;
+   @Autowired
+   private CovidNationalRepository covidNationalRepository;
    
    public CovidService() {
       
@@ -38,9 +42,19 @@ public class CovidService {
       return allStates;
    }
    
+   public CovidNationalData fetchNationalStats(long todayDate) {
+      CovidNationalData NationalStats = covidNationalRepository.findByDate(todayDate);
+      return NationalStats;
+   }
+   
    // Use this to populate your MySQL database
    // **** IMPORTANT: USE IT ONCE, THEN COMMENT OUT ****
-   public void populate() {
-      covidAPIService.populate();
+   public void populate(long date) {
+      // populateStates pulls the historical data from the API. We'll ensure the
+      // table is empty before updating.
+      covidAPIService.populateStates();
+      
+      // insertNationalStats does not require a clean table
+      covidAPIService.insertNationalStats(date);
    }
 }

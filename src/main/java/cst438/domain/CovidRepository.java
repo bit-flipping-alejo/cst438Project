@@ -34,8 +34,20 @@ public interface CovidRepository extends JpaRepository<CovidData, Long> {
    // Select all
    String selectAll = "SELECT * FROM covid_data";
    
+   // Select one by ID
+   String selectOneByID = "SELECT * FROM covid_data WHERE id=:id";
+   
    @Query(value=selectState, nativeQuery=true)
    CovidData findByState(@Param("state") String state);
+   
+   @Query(value=selectDate, nativeQuery=true)
+   List<CovidData> findByDate(@Param("date") long date);
+   
+   @Query(value=selectAll, nativeQuery=true)
+   List<CovidData> findAll();
+   
+   @Query(value=selectOneByID, nativeQuery=true)
+   CovidData findByID(@Param("id") long ID);
    
    @Modifying
    @Transactional
@@ -71,12 +83,4 @@ public interface CovidRepository extends JpaRepository<CovidData, Long> {
          @Param("recovered") long recovered,
          @Param("deaths") long deaths
          );
-   
-   @Query(value=selectDate, nativeQuery=true)
-   List<CovidData> findByDate(@Param("date") long date);
-   
-   @Query(value=selectAll, nativeQuery=true)
-   List<CovidData> findAll();
-   
-   
 }

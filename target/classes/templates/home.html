@@ -6,8 +6,18 @@
 </head>
 	<body>
 		<h2>National Statistics</h2>
-		<h3>Nation-wide infected: </h3>
-		<h3>Nation-wide deaths: </h3>
+		<table>
+			<tr>	
+				<th>Nation-wide infected: </th>
+				<th>Nation-wide deaths: </th>
+			</tr>
+			<tr>
+				<td th:text="${nationalPositive}"/>
+				<td th:text="${nationalDead}"/>
+			</tr>
+
+		</table>
+		
 		<hr><br>
 		<p>NOTE TO TEAM: maybe a pull down menu here with state selection and only display that state's data?</p>
 		<table>
