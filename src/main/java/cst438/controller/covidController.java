@@ -23,7 +23,7 @@ public class covidController {
       List<CovidData> currentData = covidService.fetchByDate(
             Long.parseLong(todayDate));
       
-      model.addAllAttributes(currentData);
+      model.addAttribute("allStateData", currentData);
       
       return "home";
    }
@@ -31,7 +31,7 @@ public class covidController {
    @GetMapping("/populate")
    public String populateDB() {
       covidService.populate();
-      return "populate";
+      return "home";
    }
    
    // helper function to format date

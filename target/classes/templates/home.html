@@ -5,6 +5,38 @@
 	<link rel="stylesheet" type="text/css" th:href="@{../css/style.css}">
 </head>
 	<body>
-		<h2>City</h2>
+		<h2>National Statistics</h2>
+		<h3>Nation-wide infected: </h3>
+		<h3>Nation-wide deaths: </h3>
+		<hr><br>
+		<p>NOTE TO TEAM: maybe a pull down menu here with state selection and only display that state's data?</p>
+		<table>
+			<tr>
+				<th>State</th>
+				<th>Positive Cases</th>
+				<th>Negative Cases</th>
+				<th>Currently Hospitalized</th>
+				<th>Total Hospitalized</th>
+				<th>Currently in ICU</th>
+				<th>Total ICU Patients</th>
+				<th>Currently on Ventilator</th>
+				<th>Total Ventilated</th>
+				<th>Recovered</th>
+				<th>Deaths</th>
+			</tr>
+			<tr th:each="state : ${allStateData}">
+				<td th:text="${state.state}"/>
+				<td th:text="${state.TestedPositive}"/>
+				<td th:text="${state.TestedNegative}"/>
+				<td th:text="${state.CurrentlyHospitalized}"/>
+				<td th:text="${state.TotalHospitalized}"/>
+				<td th:text="${state.CurrentICUCount}"/>
+				<td th:text="${state.TotalICUCount}"/>
+				<td th:text="${state.CurrentlyOnVentilator}"/>
+				<td th:text="${state.TotalVentilated}"/>
+				<td th:text="${state.Recovered}"/>
+				<td th:text="${state.Deaths}"/>
+			</tr>
+		</table>
 	</body>
 </html>

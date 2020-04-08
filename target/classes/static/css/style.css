@@ -1,0 +1,9 @@
+tr {
+	text-align: center;
+	border: 1px solid black;
+}
+
+th {
+	padding: 5px;
+	border: 1px solid black;
+}
