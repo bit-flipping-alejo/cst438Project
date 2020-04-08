@@ -20,11 +20,17 @@ extends JpaRepository<CovidNationalData, Long>{
          + ":totalHospital, :currentICU, :totalICU, :currentVent, :totalVent, "
          + ":recovered, :deaths)";
 
-   // Select all by date
+   // Select by date
    String selectDate = "SELECT * FROM covid_national_data WHERE date=:date";
+   
+   // Select all data points
+   String selectAll = "SELECT * FROM covid_national_data";
    
    @Query(value=selectDate, nativeQuery=true)
    CovidNationalData findByDate(@Param("date") long date);
+   
+   @Query(value=selectAll, nativeQuery=true)
+   List<CovidNationalData> findAll();
    
    @Modifying
    @Transactional
