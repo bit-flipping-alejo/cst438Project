@@ -32,7 +32,7 @@ public class CoctailAPIService {
       JsonNode json = response.getBody();       
       
       // returned array is of size 1, so even though its an iterator it only goes thru once
-      // which is why return is IN the for loop.
+      // because of scope management the return must be IN the for loop.
       for (Iterator<JsonNode> it = json.get("drinks").elements(); it.hasNext();) {
          JsonNode thisDrink = it.next();
          String name = thisDrink.get("strDrink").asText();            
