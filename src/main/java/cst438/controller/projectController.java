@@ -1,7 +1,5 @@
 package cst438.controller;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,7 +27,6 @@ public class projectController {
    @GetMapping("/home")
    public String getCurrentData(Model model) {
       // Covid section
-      Long todayDate = CovidData.formatDate(LocalDate.now());
       List<CovidData> currentData = covidAPIService.pullCurrentStateData(); 
       CovidNationalData currentNationalStats = 
             covidAPIService.pullCurrentNationalStats();    
@@ -51,8 +48,7 @@ public class projectController {
    
    @GetMapping("/populate")
    public String populateDB() {
-      Long todayDate = CovidData.formatDate(LocalDate.now());
-      covidService.populate(todayDate);
+      covidService.populate();
       return "home";
    }
 }

@@ -47,14 +47,13 @@ public class CovidService {
       return covidNationalRepository.findByDate(todayDate);
    }
    
-   // Use this to populate your MySQL database
-   // **** IMPORTANT: USE IT ONCE, THEN COMMENT OUT ****
-   public void populate(long date) {
+   public void populate() {
       // populateStates pulls the historical data from the API. We'll ensure the
       // table is empty within the method before updating.
-      covidAPIService.populateStates();
+      covidAPIService.populateStateStats();
       
-      // insertNationalStats does not require a clean table
+      // populateNationalStats pulls the historical data from the API. We'll ensure the
+      // table is empty within the method before updating.
       covidAPIService.populateNationalStats();
    }
 }

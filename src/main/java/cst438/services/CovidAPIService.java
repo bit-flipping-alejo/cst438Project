@@ -24,7 +24,7 @@ import cst438.domain.JsonCovidHistoryHelper;
 import cst438.domain.JsonNationalStatsHelper;
 
 /* This service is responsible for pulling the data from the external API
- * It will be used by 'CovidService' to pull current data.*/
+ * It will be used by the controller to pull current data.*/
 
 @Service
 public class CovidAPIService {
@@ -115,7 +115,7 @@ public class CovidAPIService {
    }
 
    // This method populates the database with the external historical api
-   public void populateStates() {
+   public void populateStateStats() {
       // pull data from external API
       ResponseEntity<List<JsonCovidHistoryHelper>> response = 
             restTemplate.exchange(
