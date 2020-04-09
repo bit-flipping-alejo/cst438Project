@@ -1,5 +1,6 @@
 package cst438.domain;
 
+import java.time.LocalDate;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -31,11 +32,18 @@ public interface CovidRepository extends JpaRepository<CovidData, Long> {
    // Select all by date
    String selectDate = "SELECT * FROM covid_data WHERE date=:date";
    
+   // Select most current 
+   String selectCurrent = "SELECT * FROM covid_data ORDER BY id, date desc "
+         + "limit 56;";
+   
    // Select all
    String selectAll = "SELECT * FROM covid_data";
    
    // Select one by ID
    String selectOneByID = "SELECT * FROM covid_data WHERE id=:id";
+   
+   @Query(value=selectCurrent, nativeQuery=true)
+   List<CovidData> findCurrent();
    
    @Query(value=selectState, nativeQuery=true)
    CovidData findByState(@Param("state") String state);
@@ -70,7 +78,7 @@ public interface CovidRepository extends JpaRepository<CovidData, Long> {
    @Transactional
    @Query(value=insertHistorical, nativeQuery=true)
    void insertHistoricalDataPoint(
-         @Param("date") long date,
+         @Param("date") LocalDate date,
          @Param("state") String name,
          @Param("positive") long positive,
          @Param("negative") long negative,

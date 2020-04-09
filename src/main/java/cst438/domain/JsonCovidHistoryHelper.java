@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class JsonCovidHistoryHelper {
-   private long date;
+   private String date;
    private String state;
    private long positive;
    private long negative;
@@ -18,10 +18,10 @@ public class JsonCovidHistoryHelper {
    private long death;
    private long hospitalized;
    private long totalTestResults;
-   public long getDate() {
+   public String getDate() {
       return date;
    }
-   public void setDate(long date) {
+   public void setDate(String date) {
       this.date = date;
    }
    public String getState() {

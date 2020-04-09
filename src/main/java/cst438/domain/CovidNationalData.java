@@ -1,5 +1,7 @@
 package cst438.domain;
 
+import java.time.LocalDate;
+
 import javax.persistence.*;
 
 @Entity
@@ -7,7 +9,8 @@ public class CovidNationalData {
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private long ID;
-   private long date;
+   private LocalDate date;
+   private long States_affected;
    private long TestedPositive;
    private long TestedNegative;
    private long CurrentlyHospitalized;
@@ -25,7 +28,8 @@ public class CovidNationalData {
    
    public CovidNationalData(
          long ID,
-         long date,
+         LocalDate date,
+         long States_affected,
          long TestedPositive,
          long TestedNegative,
          long CurrentlyHospitalized,
@@ -40,6 +44,7 @@ public class CovidNationalData {
       super();
       this.ID = ID;
       this.date = date;
+      this.States_affected = States_affected;
       this.TestedPositive = TestedPositive;
       this.CurrentlyHospitalized = CurrentlyHospitalized;
       this.TotalHospitalized = TotalHospitalized;
@@ -59,12 +64,20 @@ public class CovidNationalData {
       ID = iD;
    }
 
-   public long getDate() {
+   public LocalDate getDate() {
       return date;
    }
 
-   public void setDate(long date) {
+   public void setDate(LocalDate date) {
       this.date = date;
+   }
+
+   public long getStates_affected() {
+      return States_affected;
+   }
+
+   public void setStates_affected(long states_affected) {
+      States_affected = states_affected;
    }
 
    public long getTestedPositive() {

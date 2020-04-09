@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class JsonNationalStatsHelper {
-   //private long date;
-   //private String state;
+   private String date;
+   private long states;
    private long positive;
    private long negative;
    private long hospitalizedCurrently;
@@ -19,18 +19,18 @@ public class JsonNationalStatsHelper {
    private long hospitalized;
    private long totalTestResults;
    
-//   public long getDate() {
-//      return date;
-//   }
-//   public void setDate(long date) {
-//      this.date = date;
-//   }
-//   public String getState() {
-//      return state;
-//   }
-//   public void setState(String state) {
-//      this.state = state;
-//   }
+   public String getDate() {
+      return date;
+   }
+   public void setDate(String date) {
+      this.date = date;
+   }
+   public long getStates() {
+      return states;
+   }
+   public void setStates(long states) {
+      this.states = states;
+   }
    public long getPositive() {
       return positive;
    }

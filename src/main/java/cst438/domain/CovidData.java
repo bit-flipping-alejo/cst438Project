@@ -9,7 +9,7 @@ public class CovidData {
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private long ID;
-   private long Date;
+   private LocalDate Date;
    private String State;
    private long TestedPositive;
    private long TestedNegative;
@@ -29,6 +29,7 @@ public class CovidData {
    public CovidData(
          long ID,
          String State,
+         LocalDate Date,
          long TestedPositive,
          long TestedNegative,
          long CurrentlyHospitalized,
@@ -43,6 +44,7 @@ public class CovidData {
       super();
       this.ID = ID;
       this.State = State;
+      this.Date = Date;
       this.TestedPositive = TestedPositive;
       this.CurrentlyHospitalized = CurrentlyHospitalized;
       this.TotalHospitalized = TotalHospitalized;
@@ -80,11 +82,11 @@ public class CovidData {
       this.ID = iD;
    }
 
-   public long getDate() {
+   public LocalDate getDate() {
       return Date;
    }
 
-   public void setDate(long date) {
+   public void setDate(LocalDate date) {
       Date = date;
    }
 

@@ -1,6 +1,7 @@
 package cst438.controller;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,24 +13,30 @@ import cst438.domain.CovidData;
 import cst438.domain.CovidNationalData;
 import cst438.services.CoctailService;
 import cst438.services.CovidService;
+import cst438.services.CovidAPIService;
 
 @Controller
 public class projectController {
    @Autowired 
    private CovidService covidService;
+   @Autowired
+   private CovidAPIService covidAPIService;
    
    @Autowired 
    private CoctailService coctailServ;
    
    
    @GetMapping("/home")
-   public String getTodaysData(Model model) {
+   public String getCurrentData(Model model) {
       // Covid section
       Long todayDate = CovidData.formatDate(LocalDate.now());
-      List<CovidData> currentData = covidService.fetchByDate(todayDate); 
-      CovidNationalData currentNationalStats = covidService.fetchNationalStats(todayDate);    
-      String positive = String.format("%,d",currentNationalStats.getTestedPositive());      
-      String dead = String.format("%,d", currentNationalStats.getDeaths());
+      List<CovidData> currentData = covidAPIService.pullCurrentStateData(); 
+      CovidNationalData currentNationalStats = 
+            covidAPIService.pullCurrentNationalStats();    
+      String positive = String.format("%,d", 
+            currentNationalStats.getTestedPositive());      
+      String dead = String.format("%,d", 
+            currentNationalStats.getDeaths());
       
       model.addAttribute("allStateData", currentData);
       model.addAttribute("nationalPositive", positive);
@@ -38,8 +45,7 @@ public class projectController {
       // Coctail section
       Coctail thisCoctail = coctailServ.getARandomCoctail();
       model.addAttribute("coctail", thisCoctail);
-      
-      
+
       return "home";
    }
    

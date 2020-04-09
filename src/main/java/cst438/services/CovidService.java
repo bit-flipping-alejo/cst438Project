@@ -32,29 +32,29 @@ public class CovidService {
       this.covidAPIService = covidAPIService;
    }
    
+   public List<CovidData> fetchCurrentDayStates() {
+      return covidRepository.findCurrent();
+   }
    public List<CovidData> fetchByDate(long date) {
-      List<CovidData> todayStateData = covidRepository.findByDate(date);
-      return todayStateData;
+      return covidRepository.findByDate(date);
    }
    
    public List<CovidData> fetchAll() {
-      List<CovidData> allStates = covidRepository.findAll();
-      return allStates;
+      return covidRepository.findAll();
    }
    
    public CovidNationalData fetchNationalStats(long todayDate) {
-      CovidNationalData NationalStats = covidNationalRepository.findByDate(todayDate);
-      return NationalStats;
+      return covidNationalRepository.findByDate(todayDate);
    }
    
    // Use this to populate your MySQL database
    // **** IMPORTANT: USE IT ONCE, THEN COMMENT OUT ****
    public void populate(long date) {
       // populateStates pulls the historical data from the API. We'll ensure the
-      // table is empty before updating.
+      // table is empty within the method before updating.
       covidAPIService.populateStates();
       
       // insertNationalStats does not require a clean table
-      covidAPIService.insertNationalStats(date);
+      covidAPIService.populateNationalStats();
    }
 }
