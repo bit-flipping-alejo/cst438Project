@@ -12,7 +12,7 @@ import cst438.domain.CovidNationalData;
 import cst438.services.CovidService;
 
 @Controller
-public class covidController {
+public class projectController {
    @Autowired 
    private CovidService covidService;
    
