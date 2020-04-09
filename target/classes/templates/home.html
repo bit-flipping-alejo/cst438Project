@@ -36,16 +36,26 @@
 			</tr>
 			<tr th:each="state : ${allStateData}">
 				<td th:text="${state.state}"/>
-				<td th:text="${state.TestedPositive}"/>
-				<td th:text="${state.TestedNegative}"/>
-				<td th:text="${state.CurrentlyHospitalized}"/>
-				<td th:text="${state.TotalHospitalized}"/>
-				<td th:text="${state.CurrentICUCount}"/>
-				<td th:text="${state.TotalICUCount}"/>
-				<td th:text="${state.CurrentlyOnVentilator}"/>
-				<td th:text="${state.TotalVentilated}"/>
-				<td th:text="${state.Recovered}"/>
-				<td th:text="${state.Deaths}"/>
+				<td th:text="${state.TestedPositive} ? 
+					${#numbers.formatInteger(state.TestedPositive,1,'COMMA')} : '-'"/>
+				<td th:text="${state.TestedNegative} ? 
+					${#numbers.formatInteger(state.TestedNegative,1,'COMMA')} : '-'"/>
+				<td th:text="${state.CurrentlyHospitalized} ? 
+					${#numbers.formatInteger(state.CurrentlyHospitalized,1,'COMMA')} : '-'"/>
+				<td th:text="${state.TotalHospitalized} ? 
+					${#numbers.formatInteger(state.TotalHospitalized,1,'COMMA')} : '-'"/>
+				<td th:text="${state.CurrentICUCount} ?
+					${#numbers.formatInteger(state.CurrentICUCount,1,'COMMA')} :  '-'"/>
+				<td th:text="${state.TotalICUCount} ? 
+					${#numbers.formatInteger(state.TotalICUCount,1,'COMMA')} : '-'"/>
+				<td th:text="${state.CurrentlyOnVentilator} ? 
+					${#numbers.formatInteger(state.CurrentlyOnVentilator,1,'COMMA')} : '-'"/>
+				<td th:text="${state.TotalVentilated} ? 
+					${#numbers.formatInteger(state.TotalVentilated,1,'COMMA')} : '-'"/>
+				<td th:text="${state.Recovered} ? 
+					${#numbers.formatInteger(state.Recovered,1,'COMMA')} : '-'"/>
+				<td th:text="${state.Deaths} ? 
+					${#numbers.formatInteger(state.Deaths,1,'COMMA')} : '-'"/>
 			</tr>
 		</table>
 	</body>
