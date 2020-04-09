@@ -3,6 +3,7 @@ package cst438.services;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,13 +68,25 @@ public class CovidAPIService {
       log.info("Status code from weather server:" + 
                   response.getStatusCodeValue());
       
-      // parse the json list into new entries and save them into the db
+      // parse the json list into new entries
       List<CovidData> currentStateData = new ArrayList<CovidData>();
       for(JsonCovidCurrentHelper stateData : covidDataJson) {
          CovidData currentData =  new CovidData();
          currentData.setState(stateData.getState());
          currentData.setTestedPositive(stateData.getPositive());
-         //finish remaining fields
+         currentData.setTestedNegative(stateData.getNegative());
+         currentData.setCurrentlyHospitalized(
+               stateData.getHospitalizedCurrently());
+         currentData.setTotalHospitalized(
+               stateData.getHospitalizedCumulative());
+         currentData.setCurrentICUCount(stateData.getInIcuCurrently());
+         currentData.setTotalICUCount(stateData.getInIcuCumulative());
+         currentData.setCurrentlyOnVentilator(
+               stateData.getOnVentilatorCurrently());
+         currentData.setTotalVentilated(
+               stateData.getOnVentilatorCumulative());
+         currentData.setRecovered(stateData.getRecovered());
+         currentData.setDeaths(stateData.getDeath());
          
          currentStateData.add(currentData);
       }
@@ -89,20 +102,13 @@ public class CovidAPIService {
       ResponseEntity<List<JsonNationalStatsHelper>> response = 
             restTemplate.exchange(
                   this.currentNationalDataUrl, HttpMethod.GET, null, 
-                  new ParameterizedTypeReference<List<JsonNationalStatsHelper>>() {});
+                  new ParameterizedTypeReference<List<JsonNationalStatsHelper>>
+                  () {});
       JsonNationalStatsHelper covidDataJson = response.getBody().get(0);
 
       CovidNationalData currentNationalData = new CovidNationalData();
             
       currentNationalData.setTestedPositive(covidDataJson.getPositive());
-//            covidDataJson.getNegative(),
-//            covidDataJson.getHospitalizedCurrently(),
-//            covidDataJson.getHospitalizedCumulative(),
-//            covidDataJson.getInIcuCurrently(),
-//            covidDataJson.getInIcuCumulative(),
-//            covidDataJson.getOnVentilatorCurrently(),
-//            covidDataJson.getOnVentilatorCumulative(),
-//            covidDataJson.getRecovered(),
       currentNationalData.setDeaths(covidDataJson.getDeath());
       
       return currentNationalData;
@@ -120,9 +126,11 @@ public class CovidAPIService {
 
       // parse the json list into new entries and save them into the db only 
       // if it's empty
+
       if (covidRepository.findByID(1) == null) {
          log.info("Status code: " + response.getStatusCodeValue() + " Updated"
                + " state statistics");
+         Collections.reverse(covidDataJson);
          for(JsonCovidHistoryHelper stateData : covidDataJson) {
             covidRepository.insertHistoricalDataPoint(
                   LocalDate.parse(stateData.getDate(), dateFormat),
@@ -156,6 +164,7 @@ public class CovidAPIService {
       if (covidNationalRepository.findByID(1) == null) {
          log.info("Status code: " + response.getStatusCodeValue() + " Updated"
                + " national statistics");
+         Collections.reverse(covidDataJson);
          for(JsonNationalStatsHelper nationalData : covidDataJson) {
             System.out.print(nationalData.getDate());
             covidNationalRepository.insertHistoricalDataPoint(
