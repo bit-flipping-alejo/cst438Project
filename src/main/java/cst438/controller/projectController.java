@@ -46,6 +46,16 @@ public class projectController {
       return "home";
    }
    
+   @GetMapping("/login")
+   public String login() {
+      return "login";
+   }
+   
+   @GetMapping("/register")
+   public String register() {
+      return "register";
+   }
+   
    @GetMapping("/populate")
    public String populateDB() {
       covidService.populate();
