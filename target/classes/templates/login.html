@@ -8,26 +8,24 @@
 <title>Login Page</title>
 
 <!-- Add CSS  -->
-<link href="css/login.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" th:href="@{../css/login.css}">
 
 </head>
 
 
 <body>
 
-	<form action="/login" method="post" id="loginFormDiv">
+	<form action="#" th:action="@{/login}" method="post"  th:object="${user}" id="loginFormDiv">
 		<fieldset>
 			<legend>Login</legend>
 			<label>User Name</label>
 			<div>
-				<input id="userName" name="userName" type="text"
-					placeholder="user name" required="">
+				<input type="text" th:field="*{name}">
 			</div>
 
 			<label>Password</label>
 			<div>
-				<input id="userPass" name="userPass" type="text"
-					placeholder="your password here" required="">
+				<input type="text"  th:field="*{password}">
 			</div>
 
 			<div>
@@ -39,7 +37,7 @@
 	<br>
 	<br>
 
-	<a href="/register">Register as new user</a>
+	<a href="@{/register}">Register as new user</a>
 
 </body>
 

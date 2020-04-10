@@ -52,6 +52,11 @@ public class User {
       this.numberOfVisits = numberOfVisits;
    }
    
+   public void printToConsole() {
+      System.out.println(">>>>>>>><<<<<<<<<<<<<<");
+      System.out.println("You created a user with name: " + this.name + " and pw: " + this.password);
+      System.out.println(">>>>>>>><<<<<<<<<<<<<<");
+   }
    
    
 }

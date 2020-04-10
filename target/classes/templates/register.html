@@ -18,7 +18,7 @@
 </head>
 <body>
 
-	<form class="form-horizontal" action="/register" method="POST">
+	<form class="form-horizontal" action="#" method="POST" th:action="@{/login}" th:object="${user}">
 		<fieldset>
 
 			<!-- Form Name -->
@@ -30,7 +30,7 @@
 				<div class="col-md-4">
 					<input id="userPass" name="userPass" type="text"
 						placeholder="your password here" class="form-control input-md"
-						required="">
+						required="" th:field="*{password}">
 
 				</div>
 			</div>
@@ -41,7 +41,7 @@
 				<div class="col-md-4">
 					<input id="userName" name="userName" type="text"
 						placeholder="your name here" class="form-control input-md"
-						required="">
+						required="" th:field="*{name}">
 
 				</div>
 			</div>
