@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmls:th="www.thymeleaf.org">
+
+
+<head>
+
+<meta charset="UTF-8">
+<title>Login Page</title>
+
+<!-- Add CSS  -->
+<link href="css/login.css" rel="stylesheet">
+
+</head>
+
+
+<body>
+
+	<form action="/login" method="post" id="loginFormDiv">
+		<fieldset>
+			<legend>Login</legend>
+			<label>User Name</label>
+			<div>
+				<input id="userName" name="userName" type="text"
+					placeholder="user name" required="">
+			</div>
+
+			<label>Password</label>
+			<div>
+				<input id="userPass" name="userPass" type="text"
+					placeholder="your password here" required="">
+			</div>
+
+			<div>
+				<button value="Submit" name="submit">Login</button>
+			</div>
+		</fieldset>
+	</form>
+
+	<br>
+	<br>
+
+	<a href="/register">Register as new user</a>
+
+</body>
+
+
+
+</html>

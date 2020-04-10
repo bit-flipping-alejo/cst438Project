@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import cst438.domain.Coctail;
 import cst438.domain.CovidData;
@@ -53,6 +54,13 @@ public class projectController {
    
    @GetMapping("/register")
    public String register() {
+      System.out.println("Hit the /register Get mapping");
+      return "register";
+   }
+   
+   @PostMapping("/register")
+   public String registerWithUserData() {
+      System.out.println("Hit the /register Post mapping");
       return "register";
    }
    
