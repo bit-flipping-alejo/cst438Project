@@ -31,18 +31,19 @@ public class CoctailAPIService {
       ResponseEntity<JsonNode> response = restTemplate.getForEntity(randomCoctailUrl ,JsonNode.class);
       JsonNode json = response.getBody();       
       
+      Coctail retCoctail = new Coctail();
+      
       // returned array is of size 1, so even though its an iterator it only goes thru once
-      // because of scope management the return must be IN the for loop.
+      // so it doesnt set the members of retCoctail more than once even though its in a 
+      // for loop
       for (Iterator<JsonNode> it = json.get("drinks").elements(); it.hasNext();) {
          JsonNode thisDrink = it.next();
-         String name = thisDrink.get("strDrink").asText();            
-         String url = thisDrink.get("strDrinkThumb").asText();
-         String instr = thisDrink.get("strInstructions").asText();
-         return new Coctail(name, url, instr);
+         retCoctail.setName( thisDrink.get("strDrink").asText() );         
+         retCoctail.setPicUrl( thisDrink.get("strDrinkThumb").asText() );
+         retCoctail.setInstructions( thisDrink.get("strInstructions").asText() );         
       }
 
-      // below return to make Eclipse error checking happy
-      return null;
+      return retCoctail;
    }
 
 
