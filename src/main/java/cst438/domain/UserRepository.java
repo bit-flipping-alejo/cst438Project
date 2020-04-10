@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long>{
    
-   String insertUser = "INSERT INTO user VALUES (null, :name, :numberOfVisits, :password";
+   String insertUser = "INSERT INTO user VALUES (null, :name, :numberOfVisits, :password)";
    
    User findByNameAndPassword(String name, String password);
    
