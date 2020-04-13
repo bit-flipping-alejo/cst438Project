@@ -70,12 +70,6 @@ public class projectController {
       return "register";
    }
    
-   @GetMapping("/populate")
-   public String populateDB() {
-      covidService.populate();
-      return "redirect:/home";
-   }
-   
    /*//////////////////////////////*/
    /*Post Mappings*/
    /*//////////////////////////////*/

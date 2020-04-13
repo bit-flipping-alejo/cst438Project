@@ -89,15 +89,4 @@ public class CovidService {
       
       return displayInfo;
    }
-   
-   
-   public void populate() {
-      // populateStates pulls the historical data from the API. We'll ensure the
-      // table is empty within the method before updating.
-      covidAPIService.populateStateStats();
-      
-      // populateNationalStats pulls the historical data from the API. We'll ensure the
-      // table is empty within the method before updating.
-      covidAPIService.populateNationalStats();
-   }
 }

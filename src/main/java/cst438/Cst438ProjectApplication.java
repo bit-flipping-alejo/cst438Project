@@ -6,8 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class Cst438ProjectApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(Cst438ProjectApplication.class, args);
+	public static void main(String[] args) throws InterruptedException {
+	   SpringApplication.run(Cst438ProjectApplication.class, args);
 	}
-
 }

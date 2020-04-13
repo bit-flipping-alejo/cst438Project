@@ -1,7 +1,5 @@
 package cst438.domain;
 
-import java.time.LocalDate;
-
 public class NationalDisplayHelper {
    private String positive;
    private String dead;
