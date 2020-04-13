@@ -1,67 +1,47 @@
 <!DOCTYPE html>
-<html xmls:th="www.thymeleaf.org">
-<head>
-<meta charset="UTF-8">
-<title>Register New User</title>
-
-
- <!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-
-<!-- jQuery library -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
-<!-- Latest compiled JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> 
-
-
-</head>
-<body>
-
-	<form class="form-horizontal" action="#" method="POST" th:action="@{/login}" th:object="${user}">
-		<fieldset>
-
-			<!-- Form Name -->
-			<legend>Register as New User</legend>
-
-			<!-- Text input-->
-			<div class="form-group">
-				<label class="col-md-4 control-label" for="userPass">Password</label>
-				<div class="col-md-4">
-					<input id="userPass" name="userPass" type="text"
-						placeholder="your password here" class="form-control input-md"
-						required="" th:field="*{password}">
-
+<html xmlns:th="www.thymeleaf.org">
+	<head>
+	<meta charset="UTF-8">
+	<title>Register New User</title>
+	 <!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<!-- Latest compiled JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> 
+	</head>
+	<body>
+		<form class="form-horizontal" action="#" method="POST" th:action="@{/login}" th:object="${user}">
+			<fieldset>
+				<!-- Form Name -->
+				<legend>Register as New User</legend>
+				<!-- Text input-->
+				<div class="form-group">
+					<label class="col-md-4 control-label" for="userPass">Password</label>
+					<div class="col-md-4">
+						<input id="userPass" name="userPass" type="text"
+							placeholder="your password here" class="form-control input-md"
+							required="" th:field="*{password}">
+					</div>
 				</div>
-			</div>
-
-			<!-- Text input-->
-			<div class="form-group">
-				<label class="col-md-4 control-label" for="userName">Name</label>
-				<div class="col-md-4">
-					<input id="userName" name="userName" type="text"
-						placeholder="your name here" class="form-control input-md"
-						required="" th:field="*{name}">
-
+				<!-- Text input-->
+				<div class="form-group">
+					<label class="col-md-4 control-label" for="userName">Name</label>
+					<div class="col-md-4">
+						<input id="userName" name="userName" type="text"
+							placeholder="your name here" class="form-control input-md"
+							required="" th:field="*{name}">
+					</div>
 				</div>
-			</div>
-
-			<!-- Button -->
-			
-			<div class="form-group">
-				<label class="col-md-4 control-label" for="submit"></label>
-				<div class="col-md-4">
-					<button id="submit" name="submit" class="btn btn-primary">Submit</button>
+				<!-- Button -->
+				<div class="form-group">
+					<label class="col-md-4 control-label" for="submit"></label>
+					<div class="col-md-4">
+						<button id="submit" name="submit" class="btn btn-primary">Submit</button>
+					</div>
 				</div>
-			</div>
-
-			<a href="/login">Go back to login page</a>
-
-		</fieldset>
-	</form>
-
-
-	
-
-</body>
+				<a href="/login">Go back to login page</a>
+			</fieldset>
+		</form>
+	</body>
 </html>

@@ -1,46 +1,31 @@
 <!DOCTYPE html>
-<html xmls:th="www.thymeleaf.org">
-
-
-<head>
-
-<meta charset="UTF-8">
-<title>Login Page</title>
-
-<!-- Add CSS  -->
-<link rel="stylesheet" type="text/css" th:href="@{../css/login.css}">
-
-</head>
-
-
-<body>
-
-	<form action="#" th:action="@{/login}" method="post"  th:object="${user}" id="loginFormDiv">
-		<fieldset>
-			<legend>Login</legend>
-			<label>User Name</label>
-			<div>
-				<input type="text" th:field="*{name}">
-			</div>
-
-			<label>Password</label>
-			<div>
-				<input type="text"  th:field="*{password}">
-			</div>
-
-			<div>
-				<button value="Submit" name="submit">Login</button>
-			</div>
-		</fieldset>
-	</form>
-
-	<br>
-	<br>
-
-	<a href="@{/register}">Register as new user</a>
-
-</body>
-
-
-
+<html xmlns:th="www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<title>Login Page</title>
+		<!-- Add CSS  -->
+		<link rel="stylesheet" type="text/css" th:href="@{../css/login.css}">
+	</head>
+	<body>
+		<form action="#" th:action="@{/login}" method="post"  th:object="${user}" id="loginFormDiv">
+			<fieldset>
+				<legend>Login</legend>
+				<label>User Name</label>
+				<div>
+					<input type="text" th:field="*{name}">
+				</div>
+	
+				<label>Password</label>
+				<div>
+					<input type="text"  th:field="*{password}">
+				</div>
+	
+				<div>
+					<button value="Submit" name="submit">Login</button>
+				</div>
+			</fieldset>
+		</form>
+		<br><br>
+		<a th:href="@{/register}">Register as new user</a>
+	</body>
 </html>

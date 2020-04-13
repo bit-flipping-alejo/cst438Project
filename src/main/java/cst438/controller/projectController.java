@@ -27,7 +27,7 @@ public class projectController {
    private CoctailService coctailServ;
    
    
-   @GetMapping("/home")
+   @GetMapping("/")
    public String getCurrentData(Model model) {
       // Covid section
       List<CovidData> currentData = covidAPIService.pullCurrentStateData(); 
