@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import cst438.domain.Coctail;
-import cst438.domain.CovidData;
-import cst438.domain.FilterForm;
-import cst438.domain.NationalDisplayHelper;
-import cst438.domain.States;
-import cst438.domain.User;
+import cst438.domain.Model.Coctail;
+import cst438.domain.Model.CovidData;
+import cst438.domain.Helper.FilterForm;
+import cst438.domain.Helper.NationalDisplayHelper;
+import cst438.domain.Model.States;
+import cst438.domain.Model.User;
 import cst438.services.CoctailService;
 import cst438.services.CovidService;
 import cst438.services.StatesService;
@@ -40,6 +40,8 @@ public class projectController {
             covidService.fetchCurrentNationalStats();
       
       model.addAttribute("allStateData", currentData);
+      model.addAttribute("nationalStats", nationalStats);
+      
       model.addAttribute("nationalPositive", nationalStats.getPositive());
       model.addAttribute("nationalDead", nationalStats.getDead());
       model.addAttribute("nationalPosChange", 

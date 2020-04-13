@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
@@ -12,22 +11,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import cst438.domain.CovidData;
-import cst438.domain.CovidNationalData;
-import cst438.domain.CovidNationalRepository;
-import cst438.domain.CovidRepository;
-import cst438.domain.JsonCovidCurrentHelper;
-import cst438.domain.JsonNationalStatsHelper;
+import cst438.domain.Model.CovidData;
+import cst438.domain.Model.CovidNationalData;
+import cst438.domain.Repository.CovidRepository;
+import cst438.domain.Helper.JsonCovidCurrentHelper;
+import cst438.domain.Helper.JsonNationalStatsHelper;
 
 /* This service is responsible for pulling the data from the external API
  * It will be used by the controller to pull current data.*/
 
 @Service
 public class CovidAPIService {
-   @Autowired
-   private CovidRepository covidRepository;
-   @Autowired
-   private CovidNationalRepository covidNationalRepository;
    
    private static final Logger log = 
          LoggerFactory.getLogger(CovidAPIService.class);
@@ -41,7 +35,6 @@ public class CovidAPIService {
          @Value("${historicalCovidStatesData.url}") final String histStatesUrl,
          @Value("${historicalCovidNationalData.url}") final String histNationalUrl,
          CovidRepository covidRepository) {
-      this.covidRepository = covidRepository;
       this.restTemplate = new RestTemplate();
       this.currentStatesDataUrl = currentStatesUrl;
       this.currentNationalDataUrl = currNationUrl;

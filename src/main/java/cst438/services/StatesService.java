@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import cst438.domain.States;
-import cst438.domain.StatesRepository;
+import cst438.domain.Model.States;
+import cst438.domain.Repository.StatesRepository;
 
 @Service
 public class StatesService {

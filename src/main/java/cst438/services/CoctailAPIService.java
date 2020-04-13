@@ -11,7 +11,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import cst438.domain.Coctail;
+import cst438.domain.Model.Coctail;
 
 @Service
 public class CoctailAPIService {

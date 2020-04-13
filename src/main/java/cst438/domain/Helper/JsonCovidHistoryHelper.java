@@ -1,4 +1,4 @@
-package cst438.domain;
+package cst438.domain.Helper;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 

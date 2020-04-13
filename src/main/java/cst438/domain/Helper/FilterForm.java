@@ -1,4 +1,4 @@
-package cst438.domain;
+package cst438.domain.Helper;
 
 public class FilterForm {
    private String state;

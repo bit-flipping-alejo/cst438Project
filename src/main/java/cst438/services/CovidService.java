@@ -6,11 +6,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import cst438.domain.CovidData;
-import cst438.domain.NationalDisplayHelper;
-import cst438.domain.CovidNationalData;
-import cst438.domain.CovidNationalRepository;
-import cst438.domain.CovidRepository;
+import cst438.domain.Model.CovidData;
+import cst438.domain.Model.CovidNationalData;
+import cst438.domain.Helper.NationalDisplayHelper;
+import cst438.domain.Repository.CovidNationalRepository;
+import cst438.domain.Repository.CovidRepository;
 
 /* This service is the 'front' facing service meaning it pulls all data from
  * the repositories. No external API calls in here.

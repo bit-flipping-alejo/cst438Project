@@ -1,16 +1,16 @@
-package cst438.domain;
+package cst438.domain.Model;
 
 import java.time.LocalDate;
 
 import javax.persistence.*;
 
 @Entity
-public class CovidData {
+public class CovidNationalData {
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private long ID;
-   private LocalDate Date;
-   private String State;
+   private LocalDate date;
+   private long States_affected;
    private long TestedPositive;
    private long TestedNegative;
    private long CurrentlyHospitalized;
@@ -22,14 +22,14 @@ public class CovidData {
    private long Recovered;
    private long Deaths;
    
-   public CovidData() {
+   public CovidNationalData() {
       
    }
-   
-   public CovidData(
+
+   public CovidNationalData(
          long ID,
-         String State,
-         LocalDate Date,
+         LocalDate date,
+         long States_affected,
          long TestedPositive,
          long TestedNegative,
          long CurrentlyHospitalized,
@@ -43,8 +43,8 @@ public class CovidData {
       
       super();
       this.ID = ID;
-      this.State = State;
-      this.Date = Date;
+      this.date = date;
+      this.States_affected = States_affected;
       this.TestedPositive = TestedPositive;
       this.CurrentlyHospitalized = CurrentlyHospitalized;
       this.TotalHospitalized = TotalHospitalized;
@@ -55,35 +55,35 @@ public class CovidData {
       this.Recovered = Recovered;
       this.Deaths = Deaths;
    }
-
+   
    /***************************************\
    |*                                     *|
    |*         Getters and Setters         *|
    |*                                     *|
    \***************************************/
-      
+   
    public long getID() {
       return ID;
    }
 
    public void setID(long iD) {
-      this.ID = iD;
+      ID = iD;
    }
 
    public LocalDate getDate() {
-      return Date;
+      return date;
    }
 
    public void setDate(LocalDate date) {
-      Date = date;
+      this.date = date;
    }
 
-   public String getState() {
-      return State;
+   public long getStates_affected() {
+      return States_affected;
    }
 
-   public void setState(String state) {
-      this.State = state;
+   public void setStates_affected(long states_affected) {
+      States_affected = states_affected;
    }
 
    public long getTestedPositive() {
@@ -91,7 +91,7 @@ public class CovidData {
    }
 
    public void setTestedPositive(long testedPositive) {
-      this.TestedPositive = testedPositive;
+      TestedPositive = testedPositive;
    }
 
    public long getTestedNegative() {
@@ -99,15 +99,15 @@ public class CovidData {
    }
 
    public void setTestedNegative(long testedNegative) {
-      this.TestedNegative = testedNegative;
+      TestedNegative = testedNegative;
    }
 
    public long getCurrentlyHospitalized() {
       return CurrentlyHospitalized;
    }
 
-   public void setCurrentlyHospitalized(long CurrentlyHospitalized) {
-      this.CurrentlyHospitalized = CurrentlyHospitalized;
+   public void setCurrentlyHospitalized(long currentlyHospitalized) {
+      CurrentlyHospitalized = currentlyHospitalized;
    }
 
    public long getTotalHospitalized() {
@@ -115,7 +115,7 @@ public class CovidData {
    }
 
    public void setTotalHospitalized(long totalHospitalized) {
-      this.TotalHospitalized = totalHospitalized;
+      TotalHospitalized = totalHospitalized;
    }
 
    public long getCurrentICUCount() {
@@ -123,7 +123,7 @@ public class CovidData {
    }
 
    public void setCurrentICUCount(long currentICUCount) {
-      this.CurrentICUCount = currentICUCount;
+      CurrentICUCount = currentICUCount;
    }
 
    public long getTotalICUCount() {
@@ -131,7 +131,7 @@ public class CovidData {
    }
 
    public void setTotalICUCount(long totalICUCount) {
-      this.TotalICUCount = totalICUCount;
+      TotalICUCount = totalICUCount;
    }
 
    public long getCurrentlyOnVentilator() {
@@ -139,7 +139,7 @@ public class CovidData {
    }
 
    public void setCurrentlyOnVentilator(long currentlyOnVentilator) {
-      this.CurrentlyOnVentilator = currentlyOnVentilator;
+      CurrentlyOnVentilator = currentlyOnVentilator;
    }
 
    public long getTotalVentilated() {
@@ -147,7 +147,7 @@ public class CovidData {
    }
 
    public void setTotalVentilated(long totalVentilated) {
-      this.TotalVentilated = totalVentilated;
+      TotalVentilated = totalVentilated;
    }
 
    public long getRecovered() {
@@ -155,7 +155,7 @@ public class CovidData {
    }
 
    public void setRecovered(long recovered) {
-      this.Recovered = recovered;
+      Recovered = recovered;
    }
 
    public long getDeaths() {
@@ -163,6 +163,6 @@ public class CovidData {
    }
 
    public void setDeaths(long deaths) {
-      this.Deaths = deaths;
+      Deaths = deaths;
    }
 }
