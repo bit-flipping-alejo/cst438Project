@@ -1,4 +1,5 @@
-
+drop table if exists `states`;
+create table `states` (`id` bigint not null auto_increment, `state` varchar(255), `state_code` varchar(255), primary key (`id`)) engine=InnoDB;
 INSERT INTO states (id, state, state_code) VALUES
 (NULL, 'Alabama', 'AL'),
 (NULL, 'Alaska', 'AK'),

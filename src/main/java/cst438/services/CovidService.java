@@ -1,5 +1,6 @@
 package cst438.services;
 
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,35 @@ public class CovidService {
    
    public List<CovidData> fetchAll() {
       return covidRepository.findAll();
+   }
+   
+   public List<CovidData> fetchByStateAndDate(
+         String state, 
+         String daysBack,
+         String direction) {
+      System.out.println(direction);
+      LocalDate dateNow = LocalDate.now();
+      if (daysBack.equals("all")) {
+         if (direction.equals("asc")) {
+            return covidRepository.findByState(state);
+         } else {
+            return covidRepository.findByStateDesc(state);
+         }
+         
+      } else {
+         System.out.println(direction.equals("asc"));
+         if (direction.equals("asc")) {
+            System.out.println("call asc");
+            return covidRepository.findByStateAndDate(
+                  state, 
+                  dateNow.minusDays(Integer.parseInt(daysBack)));
+         } else {
+            System.out.println("call desc");
+            
+            return covidRepository.findByStateAndDateDesc(
+                  state, dateNow.minusDays(Integer.parseInt(daysBack)));
+         }
+      }
    }
    
    public NationalDisplayHelper fetchCurrentNationalStats() {

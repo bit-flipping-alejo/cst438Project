@@ -24,6 +24,11 @@ public class States {
       this.state_code = state_code;
    }
 
+/***************************************\
+|*         Getters and Setters         *|
+|*                                     *|
+\***************************************/
+   
    public long getID() {
       return ID;
    }

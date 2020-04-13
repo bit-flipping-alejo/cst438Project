@@ -25,7 +25,7 @@ public class CovidNationalData {
    public CovidNationalData() {
       
    }
-   
+
    public CovidNationalData(
          long ID,
          LocalDate date,
@@ -55,7 +55,13 @@ public class CovidNationalData {
       this.Recovered = Recovered;
       this.Deaths = Deaths;
    }
-
+   
+   /***************************************\
+   |*                                     *|
+   |*         Getters and Setters         *|
+   |*                                     *|
+   \***************************************/
+   
    public long getID() {
       return ID;
    }
