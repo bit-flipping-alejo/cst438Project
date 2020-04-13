@@ -1,5 +1,6 @@
 package cst438.services;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -51,6 +52,7 @@ public class CovidService {
       CovidNationalData recentNationalHist = 
             covidNationalRepository.findByRecentDate();
       NationalDisplayHelper displayInfo = new NationalDisplayHelper();
+      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM d, YYYY");
       
       // set our input variables
       String positive = String.format("%,d", 
@@ -63,16 +65,13 @@ public class CovidService {
             recentNationalHist.getDeaths();
       boolean isPositiveIncrease = (positiveChange > 0);
       boolean isDeadIncrease = (deadChange > 0);
-      
-      System.out.println(dead);
-      System.out.println(deadChange);
-      System.out.println(isDeadIncrease);
+
       // assign our variables into the class container
       displayInfo.setPositive(positive);
       displayInfo.setDead(dead);
       displayInfo.setPositiveIncrease(isPositiveIncrease);
       displayInfo.setDeadIncrease(isDeadIncrease);
-      displayInfo.setDate(recentNationalHist.getDate());
+      displayInfo.setDate(formatter.format(recentNationalHist.getDate()));
       
       if (isPositiveIncrease) {
          displayInfo.setPositiveChange("+" + 

@@ -9,7 +9,7 @@ public class NationalDisplayHelper {
    private String deadChange;
    private boolean isPositiveIncrease;
    private boolean isDeadIncrease;
-   private LocalDate date;
+   private String date;
    
    public NationalDisplayHelper() {}
    
@@ -20,7 +20,7 @@ public class NationalDisplayHelper {
          String deadChange,
          boolean isPositiveIncrease,
          boolean isDeadIncrease, 
-         LocalDate date) {
+         String date) {
       
       super();
       this.positive = positive;
@@ -80,11 +80,11 @@ public class NationalDisplayHelper {
       this.isDeadIncrease = isDeadIncrease;
    }
 
-   public LocalDate getDate() {
+   public String getDate() {
       return date;
    }
 
-   public void setDate(LocalDate date) {
+   public void setDate(String date) {
       this.date = date;
    }
 }

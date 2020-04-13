@@ -82,7 +82,7 @@ public class projectController {
    
    @PostMapping("/login")
    public String loginWithUserData(@ModelAttribute User user) {
-      
+      // let's actually make this work. Use the empty UserService class for logic
       user.printToConsole();
       
       System.out.println("Hit the /register Post mapping");
@@ -91,7 +91,7 @@ public class projectController {
    
    @PostMapping("/register")
    public String registerWithUserData(@ModelAttribute User user) {
-      
+      // let's actually make this work. Use the empty UserService class for logic
       user.printToConsole();
       System.out.println("Hit the /register Post mapping");
       return "redirect:/home";

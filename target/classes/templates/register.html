@@ -10,7 +10,7 @@
 		<!-- Thymeleaf header navbar -->
 		<div th:replace="fragments/header :: header"/>
 		<br><br><br>
-		<form class="form-horizontal" action="#" method="POST" th:action="@{/login}" th:object="${user}">
+		<form class="form-horizontal" action="#" method="POST" th:action="@{/register}" th:object="${user}">
 			<fieldset>
 				<!-- Form Name -->
 				<legend>Register as New User</legend>
@@ -40,7 +40,6 @@
 					</div>
 				</div>
 				<a th:href="@{/}">Go home</a><br>
-				<a th:href="@{/login}">Go back to login page</a>
 			</fieldset>
 		</form>
 	</body>
