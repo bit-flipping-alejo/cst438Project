@@ -3,14 +3,13 @@
 	<head>
 	<meta charset="UTF-8">
 	<title>Register New User</title>
-	 <!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-	<!-- jQuery library -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-	<!-- Latest compiled JavaScript -->
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> 
+	<!-- Thymeleaf generic header-css -->
+	<div th:replace="fragments/header :: header-css"/>
 	</head>
 	<body>
+		<!-- Thymeleaf header navbar -->
+		<div th:replace="fragments/header :: header"/>
+		<br><br><br>
 		<form class="form-horizontal" action="#" method="POST" th:action="@{/login}" th:object="${user}">
 			<fieldset>
 				<!-- Form Name -->
@@ -40,7 +39,8 @@
 						<button id="submit" name="submit" class="btn btn-primary">Submit</button>
 					</div>
 				</div>
-				<a href="/login">Go back to login page</a>
+				<a th:href="@{/}">Go home</a><br>
+				<a th:href="@{/login}">Go back to login page</a>
 			</fieldset>
 		</form>
 	</body>

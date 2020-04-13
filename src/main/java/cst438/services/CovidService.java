@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cst438.domain.CovidData;
+import cst438.domain.NationalDisplayHelper;
 import cst438.domain.CovidNationalData;
 import cst438.domain.CovidNationalRepository;
 import cst438.domain.CovidRepository;
@@ -43,9 +44,53 @@ public class CovidService {
       return covidRepository.findAll();
    }
    
-   public CovidNationalData fetchNationalStats(long todayDate) {
-      return covidNationalRepository.findByDate(todayDate);
+   public NationalDisplayHelper fetchCurrentNationalStats() {
+      // grab our working data
+      CovidNationalData currentNationalStats = 
+            covidAPIService.pullCurrentNationalStats();
+      CovidNationalData recentNationalHist = 
+            covidNationalRepository.findByRecentDate();
+      NationalDisplayHelper displayInfo = new NationalDisplayHelper();
+      
+      // set our input variables
+      String positive = String.format("%,d", 
+            currentNationalStats.getTestedPositive());
+      String dead = String.format("%,d", 
+            currentNationalStats.getDeaths());
+      long positiveChange = currentNationalStats.getTestedPositive() -
+            recentNationalHist.getTestedPositive();
+      long deadChange = currentNationalStats.getDeaths() -
+            recentNationalHist.getDeaths();
+      boolean isPositiveIncrease = (positiveChange > 0);
+      boolean isDeadIncrease = (deadChange > 0);
+      
+      System.out.println(dead);
+      System.out.println(deadChange);
+      System.out.println(isDeadIncrease);
+      // assign our variables into the class container
+      displayInfo.setPositive(positive);
+      displayInfo.setDead(dead);
+      displayInfo.setPositiveIncrease(isPositiveIncrease);
+      displayInfo.setDeadIncrease(isDeadIncrease);
+      displayInfo.setDate(recentNationalHist.getDate());
+      
+      if (isPositiveIncrease) {
+         displayInfo.setPositiveChange("+" + 
+               String.format("%,d", positiveChange));
+      } else {
+         displayInfo.setPositiveChange("-" + 
+               String.format("%,d", positiveChange));
+      }
+      
+      if (isDeadIncrease) {
+         displayInfo.setDeadChange("+" + String.format("%,d",deadChange));
+      } else {
+         displayInfo.setDeadChange("-" + String.format("%,d",deadChange));
+      }
+      
+      return displayInfo;
    }
+   
    
    public void populate() {
       // populateStates pulls the historical data from the API. We'll ensure the

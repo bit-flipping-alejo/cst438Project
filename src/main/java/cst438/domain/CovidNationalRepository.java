@@ -30,6 +30,10 @@ extends JpaRepository<CovidNationalData, Long>{
    // Select all data points
    String selectAll = "SELECT * FROM covid_national_data";
    
+   // Select the most recent date entry
+   String selectRecentDate = "SELECT * FROM covid_national_data ORDER BY date"
+         + " desc LIMIT 1";
+   
    @Query(value=selectDate, nativeQuery=true)
    CovidNationalData findByDate(@Param("date") long date);
    
@@ -38,6 +42,9 @@ extends JpaRepository<CovidNationalData, Long>{
    
    @Query(value=selectAll, nativeQuery=true)
    List<CovidNationalData> findAll();
+   
+   @Query(value=selectRecentDate, nativeQuery=true)
+   CovidNationalData findByRecentDate();
    
    @Modifying
    @Transactional

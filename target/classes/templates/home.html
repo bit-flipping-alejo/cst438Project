@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-	<title>US National Data for COVID-19</title>
-	<!-- Thymeleaf generic header-css -->
-	<div th:replace="fragments/header :: header-css"/>
-</head>
+	<head>
+		<title>US National Data for COVID-19</title>
+		<!-- Thymeleaf generic header-css -->
+		<div th:replace="fragments/header :: header-css"/>
+	</head>
 	<body>
 	<!-- Thymeleaf header navbar -->
 	<div th:replace="fragments/header :: header"/>
@@ -14,8 +14,20 @@
 		  <h1 class="display-3">National Statistics</h1>
 		   <p class="lead">A view on how the US is affected by COVID-19</p>
 		   <hr class="my-4">
-		   <p>Nation-wide Infected: <span class="text-danger">[[${nationalPositive}]]</span> </p>
-		   <p>Nation-wide Dead: <span class="text-danger">[[${nationalDead}]]</span> </p>
+		   <p>Nation-wide Infected: 
+		   		<span class="text-info">[[${nationalPositive}]]</span>
+		   		<span th:if="${nationalPosInd}" class="text-danger">
+		   		[[${nationalPosChange}]]</span>
+		   		<span> since [[${nationalHistDate}]]</span>
+		   </p>
+		   <p>Nation-wide Dead: 
+		   <span class="text-info">[[${nationalDead}]]</span> 
+		   <span th:if="${nationalDeadInd}" class="text-danger">
+		   [[${nationalDeadChange}]]</span>
+		   <span th:unless="${nationalDeadInd}" class="text-success font-italic">
+		   [[${nationalDeadChange}]]</span>
+		   <span> since [[${nationalHistDate}]]</span>
+		   </p>
 		</div>
 		
 		<!-- Words above states table -->

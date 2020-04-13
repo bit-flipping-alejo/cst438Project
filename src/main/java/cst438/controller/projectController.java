@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import cst438.domain.Coctail;
 import cst438.domain.CovidData;
 import cst438.domain.CovidNationalData;
+import cst438.domain.NationalDisplayHelper;
 import cst438.domain.User;
 import cst438.services.CoctailService;
 import cst438.services.CovidService;
@@ -31,16 +32,19 @@ public class projectController {
    public String getCurrentData(Model model) {
       // Covid section
       List<CovidData> currentData = covidAPIService.pullCurrentStateData(); 
-      CovidNationalData currentNationalStats = 
-            covidAPIService.pullCurrentNationalStats();    
-      String positive = String.format("%,d", 
-            currentNationalStats.getTestedPositive());      
-      String dead = String.format("%,d", 
-            currentNationalStats.getDeaths());
+      NationalDisplayHelper nationalStats = 
+            covidService.fetchCurrentNationalStats();
       
       model.addAttribute("allStateData", currentData);
-      model.addAttribute("nationalPositive", positive);
-      model.addAttribute("nationalDead", dead);
+      model.addAttribute("nationalPositive", nationalStats.getPositive());
+      model.addAttribute("nationalDead", nationalStats.getDead());
+      model.addAttribute("nationalPosChange", 
+            nationalStats.getPositiveChange());
+      model.addAttribute("nationalDeadChange", 
+            nationalStats.getDeadChange());
+      model.addAttribute("nationalPosInd", nationalStats.isPositiveIncrease());
+      model.addAttribute("nationalDeadInd", nationalStats.isDeadIncrease());
+      model.addAttribute("nationalHistDate", nationalStats.getDate());
       
       // Coctail section
       Coctail thisCoctail = coctailServ.getARandomCoctail();
@@ -69,7 +73,7 @@ public class projectController {
    @GetMapping("/populate")
    public String populateDB() {
       covidService.populate();
-      return "home";
+      return "redirect:/home";
    }
    
    /*//////////////////////////////*/
