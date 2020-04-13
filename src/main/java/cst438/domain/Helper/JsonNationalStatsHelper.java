@@ -1,10 +1,11 @@
-package cst438.domain;
+package cst438.domain.Helper;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class JsonCovidCurrentHelper {
-   private String state;
+public class JsonNationalStatsHelper {
+   private String date;
+   private long states;
    private long positive;
    private long negative;
    private long hospitalizedCurrently;
@@ -18,11 +19,17 @@ public class JsonCovidCurrentHelper {
    private long hospitalized;
    private long totalTestResults;
    
-   public String getState() {
-      return state;
+   public String getDate() {
+      return date;
    }
-   public void setState(String state) {
-      this.state = state;
+   public void setDate(String date) {
+      this.date = date;
+   }
+   public long getStates() {
+      return states;
+   }
+   public void setStates(long states) {
+      this.states = states;
    }
    public long getPositive() {
       return positive;
@@ -96,5 +103,5 @@ public class JsonCovidCurrentHelper {
    public void setTotalTestResults(long totalTestResults) {
       this.totalTestResults = totalTestResults;
    }
+   
 }
-

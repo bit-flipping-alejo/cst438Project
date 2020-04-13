@@ -1,4 +1,4 @@
-package cst438.domain;
+package cst438.domain.Model;
 
 import java.time.LocalDate;
 
@@ -56,23 +56,11 @@ public class CovidData {
       this.Deaths = Deaths;
    }
 
-   public static Long formatDate(LocalDate localDate) {
-      String formattedDate  = Integer.toString(localDate.getYear());
-      
-      if (localDate.getMonthValue() < 10) {
-         formattedDate += "0" + Integer.toString(localDate.getMonthValue());
-      } else {
-         formattedDate += Integer.toString(localDate.getMonthValue());
-      }
-      
-      if (localDate.getDayOfMonth() < 10) {
-         formattedDate += "0" + Integer.toString(localDate.getDayOfMonth());
-      } else {
-         formattedDate += Integer.toString(localDate.getDayOfMonth());
-      }
-      
-      return Long.parseLong(formattedDate);
-   }
+   /***************************************\
+   |*                                     *|
+   |*         Getters and Setters         *|
+   |*                                     *|
+   \***************************************/
       
    public long getID() {
       return ID;

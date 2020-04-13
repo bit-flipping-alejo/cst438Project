@@ -15,8 +15,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-import cst438.domain.*;
+import cst438.domain.Helper.JsonCovidHistoryHelper;
+import cst438.domain.Helper.JsonNationalStatsHelper;
+import cst438.domain.Repository.CovidNationalRepository;
+import cst438.domain.Repository.CovidRepository;
 import cst438.services.CovidAPIService;
+
+/** Description: The purpose of this class is to execute the methods responsible 
+ * for calling The COVID Tracking Project history APIs. They return JSON 
+ * containing daily entries for all states and national statistics. In addition,
+ * but not relevant to this class, is a third table that is created and populated
+ * on server start containing the state name and postal code.
+ * 
+ * */
 
 @Component
 public class InitDB {

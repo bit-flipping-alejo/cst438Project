@@ -1,4 +1,4 @@
-package cst438.domain;
+package cst438.domain.Model;
 
 public class Coctail {
 
@@ -10,7 +10,6 @@ public class Coctail {
       
    }
 
-   
    public Coctail(String name, String picUrl, String instructions) {
       super();
       this.name = name;
@@ -18,6 +17,11 @@ public class Coctail {
       this.instructions = instructions;
    }
 
+   /***************************************\
+   |*         Getters and Setters         *|
+   |*                                     *|
+   \***************************************/
+      
    public String getName() {
       return name;
    }

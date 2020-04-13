@@ -1,4 +1,4 @@
-package cst438.domain;
+package cst438.domain.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
+import cst438.domain.Model.CovidData;
 
 @Repository
 public interface CovidRepository extends JpaRepository<CovidData, Long> {
@@ -29,6 +31,18 @@ public interface CovidRepository extends JpaRepository<CovidData, Long> {
    // Select by state
    String selectState = "SELECT * FROM covid_data WHERE state=:state";
    
+   // Select by state desc
+   String selectStateDesc = "SELECT * FROM covid_data WHERE state=:state "
+         + "ORDER BY date desc";
+   
+   // Select by state ordered date ascending
+   String selectStateAndDate = "SELECT * FROM covid_data WHERE state=:state "
+         + "AND date >= :date order by date";
+   
+   // Select by state ordered date descending
+   String selectStateAndDateDesc = "SELECT * FROM covid_data WHERE state=:state "
+         + "AND date >= :date order by date desc";
+   
    // Select all by date
    String selectDate = "SELECT * FROM covid_data WHERE date=:date";
    
@@ -46,10 +60,23 @@ public interface CovidRepository extends JpaRepository<CovidData, Long> {
    List<CovidData> findCurrent();
    
    @Query(value=selectState, nativeQuery=true)
-   CovidData findByState(@Param("state") String state);
+   List<CovidData> findByState(@Param("state") String state);
+   
+   @Query(value=selectStateDesc, nativeQuery=true)
+   List<CovidData> findByStateDesc(@Param("state") String state);
    
    @Query(value=selectDate, nativeQuery=true)
    List<CovidData> findByDate(@Param("date") long date);
+   
+   @Query(value=selectStateAndDate, nativeQuery=true)
+   List<CovidData> findByStateAndDate(
+         @Param("state") String state,
+         @Param("date") LocalDate date);
+   
+   @Query(value=selectStateAndDateDesc, nativeQuery=true)
+   List<CovidData> findByStateAndDateDesc(
+         @Param("state") String state,
+         @Param("date") LocalDate date);
    
    @Query(value=selectAll, nativeQuery=true)
    List<CovidData> findAll();

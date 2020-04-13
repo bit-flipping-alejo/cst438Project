@@ -1,4 +1,4 @@
-package cst438.domain;
+package cst438.domain.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
+import cst438.domain.Model.CovidNationalData;
 
 @Repository
 public interface CovidNationalRepository 
