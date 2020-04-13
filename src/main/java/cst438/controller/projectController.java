@@ -70,6 +70,11 @@ public class projectController {
       return "register";
    }
    
+   @GetMapping("/user")
+   public String userLanding(Model model) {
+      return "userHome";
+   }
+   
    /*//////////////////////////////*/
    /*Post Mappings*/
    /*//////////////////////////////*/

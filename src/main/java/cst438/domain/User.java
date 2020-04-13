@@ -17,14 +17,37 @@ public class User {
    
    private long numberOfVisits;
    
+   private String home_state;
+   
    public User() {
       
    }
 
-   public User(String name, String password, Integer numberOfVisits) {
+   public User(String name, String password, Integer numberOfVisits, String home_state) {
       super();
       this.name = name;
       this.password = password;
+      this.numberOfVisits = numberOfVisits;
+      this.home_state = home_state;
+   }
+
+   public long getId() {
+      return id;
+   }
+
+   public void setId(long id) {
+      this.id = id;
+   }
+
+   public String getHome_state() {
+      return home_state;
+   }
+
+   public void setHome_state(String home_state) {
+      this.home_state = home_state;
+   }
+
+   public void setNumberOfVisits(long numberOfVisits) {
       this.numberOfVisits = numberOfVisits;
    }
 
