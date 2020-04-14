@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
-import cst438.domain.Coctail;
-import cst438.domain.CovidData;
-import cst438.domain.NationalDisplayHelper;
-import cst438.domain.States;
-import cst438.domain.User;
+import cst438.domain.Model.Coctail;
+import cst438.domain.Model.CovidData;
+import cst438.domain.Model.States;
+import cst438.domain.Model.User;
+import cst438.domain.Helper.NationalDisplayHelper;
 import cst438.services.CoctailService;
 import cst438.services.CovidService;
 import cst438.services.StatesService;

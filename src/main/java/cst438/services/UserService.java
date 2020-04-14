@@ -3,8 +3,8 @@ package cst438.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import cst438.domain.User;
-import cst438.domain.UserRepository;
+import cst438.domain.Model.User;
+import cst438.domain.Repository.UserRepository;
 
 @Service
 public class UserService {
