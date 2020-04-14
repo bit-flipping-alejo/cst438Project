@@ -38,8 +38,9 @@ public class CovidService {
    
    public List<CovidData> fetchByStateAndDate(String state, String daysBack,
          String direction) {
-      if (daysBack.compareTo("all") == 0) {
-         if (direction.compareTo("asc") == 0) {
+      
+      if (daysBack.equals("all")) {
+         if (direction.equals("asc")) {
             return covidRepository.findByState(state);
          } else {
             return covidRepository.findByStateDesc(state);
@@ -47,19 +48,20 @@ public class CovidService {
       } else {
          LocalDate dateCheck = 
                LocalDate.now().minusDays(Integer.parseInt(daysBack));
-         if (direction.compareTo("asc") == 0) {
+         
+         if (direction.equals("asc")) {
             return covidRepository.findByStateAndDate(state, dateCheck);
          } else {
             return covidRepository.findByStateAndDateDesc(state, dateCheck);
          }
-         
       }
-      
    }
+   
    public List<CovidData> fetchCurrentDayStates() {
       return covidRepository.findCurrent();
    }
-   public List<CovidData> fetchByDate(long date) {
+   
+   public List<CovidData> fetchByDate(LocalDate date) {
       return covidRepository.findByDate(date);
    }
    

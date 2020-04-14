@@ -29,7 +29,7 @@ public interface CovidRepository extends JpaRepository<CovidData, Long> {
    // Select all by date
    String selectDate = "SELECT * FROM covid_data WHERE date=:date";
    @Query(value=selectDate, nativeQuery=true)
-   List<CovidData> findByDate(@Param("date") long date);
+   List<CovidData> findByDate(@Param("date") LocalDate date);
    
    
    // Select most current 
