@@ -94,13 +94,12 @@ public class InitDB {
                   stateData.getDeath()
                   );
          }
-      }
-//      } else {
+      
+      } else {
 //         System.out.println("Updating state historical data...");
-//         // user overloaded method
 //         updateStateStats(covidDataJson);
 //         System.out.println("Updated state entries.");
-//      }
+      }
    }
    
    // This method populates the database with the external historical api
@@ -138,12 +137,12 @@ public class InitDB {
                   );
          }
          
-      }
-//      } else {
+      
+      } else {
 //         System.out.println("Updating national historical data...");
 //         updateNationalStats(covidDataJson);
 //         System.out.println("Updated national data.");
-//      }
+      }
    }
    
    // This method and the partner method for national history stats are both
@@ -167,8 +166,8 @@ public class InitDB {
       Collections.reverse(covidDataJson);
       
       // query db with that date, see if any entries have the date
-      CovidData results = covidRepository.findByState("CA");
-      LocalDate recentDateInRepo = results.getDate();
+      List<CovidData> results = covidRepository.findByState("CA");
+      LocalDate recentDateInRepo = results.get(0).getDate();
       
       // if we have entries, update up to the current date
       if (recentDateInRepo.compareTo(currentDate) < 0) {
@@ -204,8 +203,8 @@ public class InitDB {
       LocalDate currentDate = LocalDate.now();
       
       // query db to a specific date. looking for the recent date in the table
-      CovidData results = covidRepository.findByState("CA");
-      LocalDate recentDateInRepo = results.getDate();
+      List<CovidData> results = covidRepository.findByState("CA");
+      LocalDate recentDateInRepo = results.get(0).getDate();
       
       // if we have entries, update up to the current date
       if (recentDateInRepo.compareTo(currentDate) < 0) {

@@ -48,7 +48,7 @@ public interface CovidRepository extends JpaRepository<CovidData, Long> {
    List<CovidData> findCurrent();
    
    @Query(value=selectState, nativeQuery=true)
-   CovidData findByState(@Param("state") String state);
+   List<CovidData> findByState(@Param("state") String state);
    
    @Query(value=selectDate, nativeQuery=true)
    List<CovidData> findByDate(@Param("date") long date);
