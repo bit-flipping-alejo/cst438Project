@@ -104,6 +104,7 @@ public class projectController {
       
       if (repoUser == null) {
          System.out.println("User DOESNT exist");
+         //maybe alert the user?
          redirView.setUrl("/login");
          
       } else {
