@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
+
 import javax.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,7 +47,7 @@ public class InitDB {
    private String historicalStatesDataUrl;
    private String historicalNationalDataUrl;
    private DateTimeFormatter dateFormat = 
-         DateTimeFormatter.ofPattern("yyyyMMdd");
+         DateTimeFormatter.ofPattern("yyyyMMdd").withLocale(Locale.US);
    
    public InitDB(
          @Value("${currentCovidStatesData.url}") final String currentStatesUrl,
@@ -96,9 +98,9 @@ public class InitDB {
          }
       
       } else {
-//         System.out.println("Updating state historical data...");
-//         updateStateStats(covidDataJson);
-//         System.out.println("Updated state entries.");
+         System.out.println("Updating state historical data...");
+         updateStateStats(covidDataJson);
+         System.out.println("Updated state entries.");
       }
    }
    
@@ -139,9 +141,9 @@ public class InitDB {
          
       
       } else {
-//         System.out.println("Updating national historical data...");
-//         updateNationalStats(covidDataJson);
-//         System.out.println("Updated national data.");
+         System.out.println("Updating national historical data...");
+         updateNationalStats(covidDataJson);
+         System.out.println("Updated national data.");
       }
    }
    
@@ -203,9 +205,11 @@ public class InitDB {
       LocalDate currentDate = LocalDate.now();
       
       // query db to a specific date. looking for the recent date in the table
-      List<CovidData> results = covidRepository.findByState("CA");
+      List<CovidData> results = covidRepository.findByStateDesc("CA");
       LocalDate recentDateInRepo = results.get(0).getDate();
-      
+
+      System.out.println(currentDate);
+      results.get(0).printToConsole();
       // if we have entries, update up to the current date
       if (recentDateInRepo.compareTo(currentDate) < 0) {
          for (JsonCovidHistoryHelper entry : covidDataJson) {
@@ -296,7 +300,6 @@ public class InitDB {
          for (JsonNationalStatsHelper entry : covidDataJson) {
             LocalDate entryDate = LocalDate.parse(entry.getDate(), dateFormat);
             
-            System.out.println(entryDate.compareTo(recentDateInRepo) > 0);
             // compare the json entry date to now, if it's more recent, enter
             if (entryDate.compareTo(recentDateInRepo) > 0) {
                // add that point into the database

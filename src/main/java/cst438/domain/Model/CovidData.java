@@ -56,22 +56,20 @@ public class CovidData {
       this.Deaths = Deaths;
    }
 
-   public static Long formatDate(LocalDate localDate) {
-      String formattedDate  = Integer.toString(localDate.getYear());
+   public void printToConsole() {
+      System.out.println("id: " + this.ID);
+      System.out.println("date: " + this.Date);
+      System.out.println("state: " + this.State);
+      System.out.println("positive: " + this.TestedPositive);
+      System.out.println("curHosp: " + this.CurrentlyHospitalized);
+      System.out.println("totHosp: " + this.TotalHospitalized);
+      System.out.println("curICU: " + this.CurrentICUCount);
+      System.out.println("totICU: " + this.TotalICUCount);
+      System.out.println("curVent: " + this.CurrentlyOnVentilator);
+      System.out.println("totVent: " + this.TotalVentilated);
+      System.out.println("Recov: " + this.Recovered);
+      System.out.println("dead: " + this.Deaths);
       
-      if (localDate.getMonthValue() < 10) {
-         formattedDate += "0" + Integer.toString(localDate.getMonthValue());
-      } else {
-         formattedDate += Integer.toString(localDate.getMonthValue());
-      }
-      
-      if (localDate.getDayOfMonth() < 10) {
-         formattedDate += "0" + Integer.toString(localDate.getDayOfMonth());
-      } else {
-         formattedDate += Integer.toString(localDate.getDayOfMonth());
-      }
-      
-      return Long.parseLong(formattedDate);
    }
       
    public long getID() {

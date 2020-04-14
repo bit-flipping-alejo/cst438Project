@@ -55,6 +55,7 @@ public class CovidService {
       NationalDisplayHelper displayInfo = new NationalDisplayHelper();
       DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM d, YYYY");
       
+      recentNationalHist.printToConsole();
       // set our input variables
       String positive = String.format("%,d", 
             currentNationalStats.getTestedPositive());

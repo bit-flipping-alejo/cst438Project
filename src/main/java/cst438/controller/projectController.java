@@ -27,7 +27,6 @@ public class projectController {
    private CovidService covidService;
    @Autowired
    private CovidAPIService covidAPIService;
-   
    @Autowired 
    private CoctailService coctailServ;
    @Autowired
@@ -48,15 +47,11 @@ public class projectController {
             covidService.fetchCurrentNationalStats();
       
       model.addAttribute("allStateData", currentData);
-      model.addAttribute("nationalPositive", nationalStats.getPositive());
-      model.addAttribute("nationalDead", nationalStats.getDead());
+      model.addAttribute("nationalStats", nationalStats);
       model.addAttribute("nationalPosChange", 
             nationalStats.getPositiveChange());
       model.addAttribute("nationalDeadChange", 
             nationalStats.getDeadChange());
-      model.addAttribute("nationalPosInd", nationalStats.isPositiveIncrease());
-      model.addAttribute("nationalDeadInd", nationalStats.isDeadIncrease());
-      model.addAttribute("nationalHistDate", nationalStats.getDate());
       
       // Coctail section
       Coctail thisCoctail = coctailServ.getARandomCoctail();
