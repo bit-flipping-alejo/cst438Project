@@ -18,16 +18,19 @@ public interface CovidRepository extends JpaRepository<CovidData, Long> {
    @Query(value=selectState, nativeQuery=true)
    List<CovidData> findByState(@Param("state") String state);
    
+   
    // Select by state, ordered date desc
    String selectStateDesc = "SELECT * FROM covid_data WHERE state=:state"
          + " ORDER BY date DESC";
    @Query(value=selectStateDesc, nativeQuery=true)
    List<CovidData> findByStateDesc(@Param("state") String state);
    
+   
    // Select all by date
    String selectDate = "SELECT * FROM covid_data WHERE date=:date";
    @Query(value=selectDate, nativeQuery=true)
    List<CovidData> findByDate(@Param("date") long date);
+   
    
    // Select most current 
    String selectCurrent = "SELECT * FROM covid_data ORDER BY id, date desc "
@@ -35,15 +38,35 @@ public interface CovidRepository extends JpaRepository<CovidData, Long> {
    @Query(value=selectCurrent, nativeQuery=true)
    List<CovidData> findCurrent();
    
+   // Select by state and date
+   String selectStateDate = "SELECT * FROM covid_data WHERE state=:state "
+         + "AND date >= :date ORDER BY date";
+   @Query(value=selectStateDate, nativeQuery=true)
+   List<CovidData> findByStateAndDate(
+         @Param("state") String state,
+         @Param("date") LocalDate date);
+   
+   
+   // Select by state and date desc
+   String selectStateDateDesc = "SELECT * FROM covid_data WHERE state=:state "
+         + "AND date >= :date ORDER BY date desc";  
+   @Query(value=selectStateDateDesc, nativeQuery=true)
+   List<CovidData> findByStateAndDateDesc(
+         @Param("state") String state,
+         @Param("date") LocalDate date);
+   
+   
    // Select all
    String selectAll = "SELECT * FROM covid_data";
    @Query(value=selectAll, nativeQuery=true)
    List<CovidData> findAll();
    
+   
    // Select one by ID
    String selectOneByID = "SELECT * FROM covid_data WHERE id=:id";
    @Query(value=selectOneByID, nativeQuery=true)
    CovidData findByID(@Param("id") long ID);
+   
    
    // insert into db
    // maybe won't be used? (4/7 Ivan)
@@ -66,6 +89,7 @@ public interface CovidRepository extends JpaRepository<CovidData, Long> {
          @Param("recovered") long recovered,
          @Param("deaths") long deaths
          );
+   
    
    // insert into db with date
    String insertHistorical = "INSERT INTO covid_data (id, date, state, "

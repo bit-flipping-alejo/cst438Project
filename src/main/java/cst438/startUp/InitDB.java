@@ -100,7 +100,6 @@ public class InitDB {
       } else {
          System.out.println("Updating state historical data...");
          updateStateStats(covidDataJson);
-         System.out.println("Updated state entries.");
       }
    }
    
@@ -143,7 +142,6 @@ public class InitDB {
       } else {
          System.out.println("Updating national historical data...");
          updateNationalStats(covidDataJson);
-         System.out.println("Updated national data.");
       }
    }
    
@@ -177,7 +175,7 @@ public class InitDB {
             LocalDate entryDate = LocalDate.parse(entry.getDate(), dateFormat);
             
             // compare the json entry date to now, if it's more recent, enter
-            if (entryDate.compareTo(currentDate) > 0) {
+            if (entryDate.compareTo(recentDateInRepo) > 0) {
                // add that point into the database
                covidRepository.insertHistoricalDataPoint(
                      entryDate,
@@ -195,7 +193,11 @@ public class InitDB {
                      );
             }
          }
+         
+         System.out.println("Updated state entries.");
+         return;
       } else {
+         System.out.println("State stats current.");
          return;
       }
    }
@@ -208,15 +210,13 @@ public class InitDB {
       List<CovidData> results = covidRepository.findByStateDesc("CA");
       LocalDate recentDateInRepo = results.get(0).getDate();
 
-      System.out.println(currentDate);
-      results.get(0).printToConsole();
       // if we have entries, update up to the current date
       if (recentDateInRepo.compareTo(currentDate) < 0) {
          for (JsonCovidHistoryHelper entry : covidDataJson) {
             LocalDate entryDate = LocalDate.parse(entry.getDate(), dateFormat);
             
             // compare the json entry date to now, if it's more recent, enter
-            if (entryDate.compareTo(currentDate) > 0) {
+            if (entryDate.compareTo(recentDateInRepo) > 0) {
                // add that point into the database
                covidRepository.insertHistoricalDataPoint(
                      entryDate,
@@ -234,7 +234,11 @@ public class InitDB {
                      );
             }
          }
+         
+         System.out.println("Updated state entries.");
+         return;
       } else {
+         System.out.println("State stats current.");
          return;
       }
    }
@@ -263,7 +267,7 @@ public class InitDB {
          for (JsonNationalStatsHelper entry : covidDataJson) {
             LocalDate entryDate = LocalDate.parse(entry.getDate(), dateFormat);
             
-            // compare the json entry date to now, if it's more recent, enter
+         // compare the json entry date to now, if it's more recent, enter
             if (entryDate.compareTo(recentDateInRepo) > 0) {
                // add that point into the database
                covidNationalRepository.insertHistoricalDataPoint(
@@ -282,7 +286,11 @@ public class InitDB {
                      );
             }
          }
+         
+         System.out.println("Updated national data.");
+         return;
       } else {
+         System.out.println("National stats current.");
          return;
       }
    }
@@ -319,7 +327,11 @@ public class InitDB {
                      );
             }
          }
+         
+         System.out.println("Updated national data.");
+         return;
       } else {
+         System.out.println("National stats current.");
          return;
       }
    }

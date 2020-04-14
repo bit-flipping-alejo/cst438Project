@@ -1,5 +1,6 @@
 package cst438.services;
 
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,26 @@ public class CovidService {
       this.covidAPIService = covidAPIService;
    }
    
+   public List<CovidData> fetchByStateAndDate(String state, String daysBack,
+         String direction) {
+      if (daysBack.compareTo("all") == 0) {
+         if (direction.compareTo("asc") == 0) {
+            return covidRepository.findByState(state);
+         } else {
+            return covidRepository.findByStateDesc(state);
+         }
+      } else {
+         LocalDate dateCheck = 
+               LocalDate.now().minusDays(Integer.parseInt(daysBack));
+         if (direction.compareTo("asc") == 0) {
+            return covidRepository.findByStateAndDate(state, dateCheck);
+         } else {
+            return covidRepository.findByStateAndDateDesc(state, dateCheck);
+         }
+         
+      }
+      
+   }
    public List<CovidData> fetchCurrentDayStates() {
       return covidRepository.findCurrent();
    }
@@ -46,7 +67,7 @@ public class CovidService {
       return covidRepository.findAll();
    }
    
-   public NationalDisplayHelper fetchCurrentNationalStats() {
+    public NationalDisplayHelper fetchCurrentNationalStats() {
       // grab our working data
       CovidNationalData currentNationalStats = 
             covidAPIService.pullCurrentNationalStats();
@@ -55,7 +76,6 @@ public class CovidService {
       NationalDisplayHelper displayInfo = new NationalDisplayHelper();
       DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM d, YYYY");
       
-      recentNationalHist.printToConsole();
       // set our input variables
       String positive = String.format("%,d", 
             currentNationalStats.getTestedPositive());
