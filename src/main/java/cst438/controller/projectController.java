@@ -21,14 +21,11 @@ import cst438.services.CoctailService;
 import cst438.services.CovidService;
 import cst438.services.StatesService;
 import cst438.services.UserService;
-import cst438.services.CovidAPIService;
 
 @Controller
 public class projectController {
    @Autowired 
    private CovidService covidService;
-   @Autowired
-   private CovidAPIService covidAPIService;
    @Autowired 
    private CoctailService coctailServ;
    @Autowired
@@ -44,7 +41,7 @@ public class projectController {
    public String getCurrentData(Model model, RedirectAttributes redirectAttrs) {
       
       // Covid section
-      List<CovidData> currentData = covidAPIService.pullCurrentStateData(); 
+      List<CovidData> currentData = covidService.fetchCurrentStateStats(); 
       NationalDisplayHelper nationalStats = 
             covidService.fetchCurrentNationalStats();
       
@@ -88,7 +85,7 @@ public class projectController {
    }
    
    @GetMapping("/user")
-   public String userLanding(Model model) {
+   public String userLanding(Model model, @ModelAttribute User user) {
       // explore into user state using tokens/cookies/whatever the fuck
       // for now, default to Cali
       // if (User.home_state) {
@@ -99,12 +96,15 @@ public class projectController {
       model.addAttribute("stateSelected", "CA");
       
       FilterForm form = new FilterForm();
+      
+      System.out.print(user.getName());
  
       // send state array to page
       List<States> states = stateServ.fetchAll();
       
       model.addAttribute("states", states);
       model.addAttribute("form", form);
+      model.addAttribute("user", user);
       
       return "userHome";
    }
@@ -126,6 +126,8 @@ public class projectController {
       if (repoUser == null) {
          System.out.println("User DOESNT exist");
          //maybe alert the user?
+         // IA: yes, make it so it redirects to the current page and uses
+         // the error field in thymeleaf like the first week assignment
          redirView.setUrl("/login");
          
       } else {

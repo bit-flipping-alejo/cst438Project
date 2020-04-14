@@ -57,8 +57,8 @@ public class CovidService {
       }
    }
    
-   public List<CovidData> fetchCurrentDayStates() {
-      return covidRepository.findCurrent();
+   public List<CovidData> fetchCurrentStateStats() {
+      return covidAPIService.pullCurrentStateData();
    }
    
    public List<CovidData> fetchByDate(LocalDate date) {

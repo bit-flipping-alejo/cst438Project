@@ -11,6 +11,7 @@
 		
 		<br><br><br><br>
 		<!-- filter container -->
+		<h2 class="container" th:if="${user}">Welcome, [[${user.name}]]</h2>
 		<div class="container">
 			
 			<form action="#" method="POST" th:action="@{/user}" th:object="${form}">
@@ -19,7 +20,7 @@
 				<!-- state selector -->	
 				State: 
 				<select th:field="*{state}">
-					<option th:text="${stateSelected}" value=""></option>
+					<option th:text="${stateSelected}" th:value="${stateSelected}"></option>
 					<option value=""> --- </option>
 					<option th:each="state : ${states}" id="${state.state_code}" 
 					th:value="${state.state_code}">
