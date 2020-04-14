@@ -17,18 +17,18 @@ public class User {
    
    private long numberOfVisits;
    
-   private String home_state;
+   private String state;
    
    public User() {
       
    }
 
-   public User(String name, String password, Integer numberOfVisits, String home_state) {
+   public User(String name, String password, Integer numberOfVisits, String state) {
       super();
       this.name = name;
       this.password = password;
       this.numberOfVisits = numberOfVisits;
-      this.home_state = home_state;
+      this.state = state;
    }
 
    public long getId() {
@@ -39,12 +39,13 @@ public class User {
       this.id = id;
    }
 
-   public String getHome_state() {
-      return home_state;
+   
+   public String getState() {
+      return state;
    }
 
-   public void setHome_state(String home_state) {
-      this.home_state = home_state;
+   public void setState(String state) {
+      this.state = state;
    }
 
    public void setNumberOfVisits(long numberOfVisits) {

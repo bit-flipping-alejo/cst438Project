@@ -10,14 +10,17 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long>{
    
-   String insertUser = "INSERT INTO user VALUES (null, :name, :numberOfVisits, :password)";
+   String insertUser = "INSERT INTO user VALUES (null, :name, :numberOfVisits, :password, :state)";
    
    User findByNameAndPassword(String name, String password);
    
    @Modifying
    @Transactional
    @Query(value=insertUser, nativeQuery=true)
-   void insertUser(@Param("name") String name, @Param("numberOfVisits") long numberOfVisits, @Param("password") String password );
+   void insertUser(@Param("name") String name
+         , @Param("numberOfVisits") long numberOfVisits
+         , @Param("password") String password 
+         , @Param("state") String state );
 
    
    

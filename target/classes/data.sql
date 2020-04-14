@@ -1,4 +1,5 @@
-
+drop table if exists `states`;
+create table `states` (`id` bigint not null auto_increment, `state` varchar(255), `state_code` varchar(255), primary key (`id`)) engine=InnoDB;
 INSERT INTO states (id, state, state_code) VALUES
 (NULL, 'Alabama', 'AL'),
 (NULL, 'Alaska', 'AK'),
@@ -56,3 +57,13 @@ INSERT INTO states (id, state, state_code) VALUES
 (NULL, 'West Virginia', 'WV'),
 (NULL, 'Wisconsin', 'WI'),
 (NULL, 'Wyoming', 'WY');
+
+drop table if exists `user`;
+create table `user` (`id` bigint not null auto_increment, `name` varchar(255), `number_of_visits` integer,`password` varchar(255), `state` varchar(255), primary key (`id`)) engine=InnoDB;
+INSERT INTO user (id, name, number_of_visits, password, state) VALUES
+(NULL, 'ivan', 0, 'ivan', 'California'),
+(NULL, 'alejo', 0, 'alejo', 'Alaska'),
+(NULL, 'matt', 0, 'matt', 'Hawaii'),
+(NULL, 'randy', 0, 'randy', 'Colorado');
+
+

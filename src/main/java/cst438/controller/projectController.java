@@ -7,6 +7,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 import cst438.domain.Coctail;
 import cst438.domain.CovidData;
@@ -15,6 +17,7 @@ import cst438.domain.NationalDisplayHelper;
 import cst438.domain.User;
 import cst438.services.CoctailService;
 import cst438.services.CovidService;
+import cst438.services.UserService;
 import cst438.services.CovidAPIService;
 
 @Controller
@@ -26,10 +29,16 @@ public class projectController {
    
    @Autowired 
    private CoctailService coctailServ;
+   @Autowired
+   private UserService userServ;
    
+   /*//////////////////////////////*/
+   /*Get Mappings*/
+   /*//////////////////////////////*/
    
    @GetMapping("/")
-   public String getCurrentData(Model model) {
+   public String getCurrentData(Model model, RedirectAttributes redirectAttrs) {
+      
       // Covid section
       List<CovidData> currentData = covidAPIService.pullCurrentStateData(); 
       NationalDisplayHelper nationalStats = 
@@ -49,13 +58,17 @@ public class projectController {
       // Coctail section
       Coctail thisCoctail = coctailServ.getARandomCoctail();
       model.addAttribute("coctail", thisCoctail);
-
+      
+      // redirected user input
+      User redirectUser = (User) model.asMap().get("user");
+      // redirectUser should not be null in the "real world"
+      // keeping null check for compatibility with localhost:8080/
+      if (redirectUser != null) {         
+         model.addAttribute("user", redirectUser);
+      }
+      
       return "home";
    }
-   
-   /*//////////////////////////////*/
-   /*Get Mappings*/
-   /*//////////////////////////////*/
    
    @GetMapping("/login")
    public String login( Model model) {
@@ -80,20 +93,33 @@ public class projectController {
    /*//////////////////////////////*/
    
    @PostMapping("/login")
-   public String loginWithUserData(@ModelAttribute User user) {
-      // let's actually make this work. Use the empty UserService class for logic
-      user.printToConsole();
+   public RedirectView loginWithUserData(@ModelAttribute User user, RedirectAttributes redirectAttrs) {
       
-      System.out.println("Hit the /register Post mapping");
-      return "redirect:/home";
+      RedirectView redirView = new RedirectView();
+      redirView.setContextRelative(true);
+      
+      User repoUser = userServ.findByNameAndPassword(user.getName(), user.getPassword());      
+      System.out.println("Hit the /login Post mapping");
+      
+      
+      if (repoUser == null) {
+         System.out.println("User DOESNT exist");
+         redirView.setUrl("/login");
+         
+      } else {
+         System.out.println("User DOES exist");
+         redirectAttrs.addFlashAttribute("user", repoUser);
+         redirView.setUrl("/");
+      }
+      
+      return redirView;
    }
    
    @PostMapping("/register")
    public String registerWithUserData(@ModelAttribute User user) {
-      // let's actually make this work. Use the empty UserService class for logic
-      user.printToConsole();
+      userServ.insertUser(user);      
       System.out.println("Hit the /register Post mapping");
-      return "redirect:/home";
+      return "redirect:/";
    }
    
    
