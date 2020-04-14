@@ -12,11 +12,12 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import cst438.domain.Coctail;
 import cst438.domain.CovidData;
-import cst438.domain.CovidNationalData;
 import cst438.domain.NationalDisplayHelper;
+import cst438.domain.States;
 import cst438.domain.User;
 import cst438.services.CoctailService;
 import cst438.services.CovidService;
+import cst438.services.StatesService;
 import cst438.services.UserService;
 import cst438.services.CovidAPIService;
 
@@ -30,8 +31,10 @@ public class projectController {
    @Autowired 
    private CoctailService coctailServ;
    @Autowired
-   private UserService userServ;
-   
+   private UserService userServ;   
+   @Autowired
+   private StatesService stateServ;
+
    /*//////////////////////////////*/
    /*Get Mappings*/
    /*//////////////////////////////*/
@@ -79,6 +82,10 @@ public class projectController {
    @GetMapping("/register")
    public String register(Model model) {
       model.addAttribute("user", new User());
+      
+      List<States> stateList = stateServ.fetchAll();
+      model.addAttribute("stateList", stateList);
+      
       System.out.println("Hit the /register Get mapping");
       return "register";
    }
