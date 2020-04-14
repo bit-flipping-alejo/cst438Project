@@ -94,12 +94,13 @@ public class InitDB {
                   stateData.getDeath()
                   );
          }
-      } else {
-         System.out.println("Updating state historical data...");
-         // user overloaded method
-         updateStateStats(covidDataJson);
-         System.out.println("Updated state entries.");
       }
+//      } else {
+//         System.out.println("Updating state historical data...");
+//         // user overloaded method
+//         updateStateStats(covidDataJson);
+//         System.out.println("Updated state entries.");
+//      }
    }
    
    // This method populates the database with the external historical api
@@ -136,11 +137,13 @@ public class InitDB {
                   nationalData.getDeath()
                   );
          }
-      } else {
-         System.out.println("Updating national historical data...");
-         updateNationalStats(covidDataJson);
-         System.out.println("Updated national data.");
+         
       }
+//      } else {
+//         System.out.println("Updating national historical data...");
+//         updateNationalStats(covidDataJson);
+//         System.out.println("Updated national data.");
+//      }
    }
    
    // This method and the partner method for national history stats are both
