@@ -115,6 +115,10 @@ public class projectController {
       model.addAttribute("user", user);
       model.addAttribute("stateInfo", stateInfo);
       
+      // Coctail section
+      Coctail thisCoctail = coctailServ.getARandomCoctail();
+      model.addAttribute("coctail", thisCoctail);
+      
       return "userHome";
    }
    
