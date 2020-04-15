@@ -90,7 +90,10 @@ public class projectController {
    }
    
    @GetMapping("/user")
-   public String userLanding(Model model, @ModelAttribute User user, RedirectAttributes redirectAttrs) {
+   public String userLanding(
+         Model model, 
+         @ModelAttribute User user, 
+         RedirectAttributes redirectAttrs) {
       
       System.out.println("GET /user");
 
@@ -182,9 +185,12 @@ public class projectController {
    @PostMapping("/user")
    public String filterQueryUpdate(
          @ModelAttribute FilterForm form,
-         BindingResult result,
+         @ModelAttribute User user, 
+         RedirectAttributes redirectAttrs,
          Model model) {
       
+      // grab the logged in or just registered user passed from that route
+      User redirectUser = (User) model.asMap().get("user");
       // using form data, query the DB with new search parameters
       List<CovidData> stateInfo = 
             covidService.fetchByStateAndDate(
@@ -198,6 +204,11 @@ public class projectController {
       model.addAttribute("stateInfo", stateInfo);
       model.addAttribute("form", form);
       model.addAttribute("states", states);
+      model.addAttribute("user", user);
+      
+      // Coctail section
+      Coctail thisCoctail = coctailServ.getARandomCoctail();
+      model.addAttribute("coctail", thisCoctail);
       
       return "userHome";
    }
