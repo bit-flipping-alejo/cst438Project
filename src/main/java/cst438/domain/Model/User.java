@@ -78,7 +78,7 @@ public class User {
    
    public void printToConsole() {
       System.out.println(">>>>>>>><<<<<<<<<<<<<<");
-      System.out.println("You created a user with name: " + this.name + " and pw: " + this.password);
+      System.out.println("You created a user with name: " + this.name + " and pw: " + this.password + " and state: " + this.state);
       System.out.println(">>>>>>>><<<<<<<<<<<<<<");
    }
    

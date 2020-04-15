@@ -33,6 +33,11 @@ public class projectController {
    @Autowired
    private StatesService stateServ;
 
+   
+   
+   
+   
+   
    /*//////////////////////////////*/
    /*Get Mappings*/
    /*//////////////////////////////*/
@@ -85,7 +90,13 @@ public class projectController {
    }
    
    @GetMapping("/user")
-   public String userLanding(Model model, @ModelAttribute User user) {
+   public String userLanding(Model model, @ModelAttribute User user, RedirectAttributes redirectAttrs) {
+      
+      // Yo this is the user that just registerd AND the one .
+      // that just logged in
+      // STOP COMPLICATING THINGS
+      User redirectUser = (User) model.asMap().get("user");
+      
       // explore into user state using tokens/cookies/whatever the fuck
       // for now, default to Cali
       // if (User.home_state) {
@@ -93,7 +104,8 @@ public class projectController {
       // } else {
       //    model.addAttribute("stateSelected", "CA");
       // }
-      model.addAttribute("stateSelected", "CA");
+      
+      model.addAttribute("stateSelected", redirectUser.getState());
       
       FilterForm form = new FilterForm();
       
@@ -108,6 +120,11 @@ public class projectController {
       
       return "userHome";
    }
+   
+   
+   
+   
+   
    
    /*//////////////////////////////*/
    /*Post Mappings*/
@@ -140,10 +157,25 @@ public class projectController {
    }
    
    @PostMapping("/register")
-   public String registerWithUserData(@ModelAttribute User user) {
-      userServ.insertUser(user);      
-      System.out.println("Hit the /register Post mapping");
-      return "redirect:/";
+   public RedirectView registerWithUserData(@ModelAttribute User user, RedirectAttributes redirectAttrs) {
+      
+      RedirectView redirView = new RedirectView();
+      redirView.setContextRelative(true);
+      
+      user.printToConsole();
+      
+      User testIfExistsUser = userServ.findByNameAndPassword(user.getName(), user.getPassword());
+      
+      if (testIfExistsUser != null ) {
+         // user exists, dont register
+         redirView.setUrl("/login");
+      } else {
+         userServ.insertUser(user);
+         redirectAttrs.addFlashAttribute("user", user);
+         redirView.setUrl("/user");
+      }
+      
+      return redirView;
    }
    
    @PostMapping("/user")
