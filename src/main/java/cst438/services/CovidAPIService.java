@@ -41,7 +41,9 @@ public class CovidAPIService {
    public List<CovidData> pullCurrentStateData() {
       ResponseEntity<List<JsonCovidCurrentHelper>> response = 
             restTemplate.exchange(
-                  this.currentStatesDataUrl, HttpMethod.GET, null, new ParameterizedTypeReference<List<JsonCovidCurrentHelper>>() {});
+                  this.currentStatesDataUrl, HttpMethod.GET, null, 
+                  new ParameterizedTypeReference<List<JsonCovidCurrentHelper>>
+                  () {});
       List<JsonCovidCurrentHelper> covidDataJson = response.getBody();
       
       // parse the json list into new entries

@@ -92,31 +92,28 @@ public class projectController {
    @GetMapping("/user")
    public String userLanding(Model model, @ModelAttribute User user, RedirectAttributes redirectAttrs) {
       
-      // Yo this is the user that just registerd AND the one .
-      // that just logged in
-      // STOP COMPLICATING THINGS
+      System.out.println("GET /user");
+
+      // grab the logged in or just registered user passed from that route
       User redirectUser = (User) model.asMap().get("user");
       
-      // explore into user state using tokens/cookies/whatever the fuck
-      // for now, default to Cali
-      // if (User.home_state) {
-      //    model.addAttribute("stateSelected", User.home_state);
-      // } else {
-      //    model.addAttribute("stateSelected", "CA");
-      // }
+      // let's grab the state info for our user
+      // default to the recent 5 in descending order
+      List<CovidData> stateInfo = 
+            covidService.fetchByStateAndDate(
+                  redirectUser.getState(), "5", "desc");
       
-      model.addAttribute("stateSelected", redirectUser.getState());
-      
+      // create our form object
       FilterForm form = new FilterForm();
-      
-      System.out.print(user.getName());
  
-      // send state array to page
+      // create state array for the select list
       List<States> states = stateServ.fetchAll();
       
+      model.addAttribute("stateSelected", redirectUser.getState());
       model.addAttribute("states", states);
       model.addAttribute("form", form);
       model.addAttribute("user", user);
+      model.addAttribute("stateInfo", stateInfo);
       
       return "userHome";
    }

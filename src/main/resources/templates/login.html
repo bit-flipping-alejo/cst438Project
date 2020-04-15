@@ -3,29 +3,34 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Login Page</title>
-		<!-- Add CSS  -->
-		<link rel="stylesheet" type="text/css" th:href="@{../css/login.css}">
+		<!-- Thymeleaf generic header-css -->
+		<div th:replace="fragments/header :: header-css" />
 	</head>
 	<body>
-		<form action="#" th:action="@{/login}" method="post"  th:object="${user}" id="loginFormDiv">
-			<fieldset>
-				<legend>Login</legend>
-				<label>User Name</label>
-				<div>
-					<input type="text" th:field="*{name}">
-				</div>
-	
-				<label>Password</label>
-				<div>
-					<input type="text"  th:field="*{password}">
-				</div>
-	
-				<div>
-					<button value="Submit" name="submit">Login</button>
-				</div>
-			</fieldset>
-		</form>
+		<!-- Thymeleaf header navbar -->
+		<div th:replace="fragments/header :: header" />
+		<br><br><br>
+		<div class="container">
+			<form action="#" th:action="@{/login}" method="post"  th:object="${user}" id="loginFormDiv">
+				<fieldset>
+					<legend>Login</legend>
+					<label>User Name</label>
+					<div>
+						<input type="text" th:field="*{name}">
+					</div>
+		
+					<label>Password</label>
+					<div>
+						<input type="text"  th:field="*{password}">
+					</div>
+		
+					<div>
+						<button value="Submit" name="submit">Login</button>
+					</div>
+				</fieldset>
+				<a th:href="@{/register}">Register as new user</a>
+			</form>
+		</div>
 		<br><br>
-		<a th:href="@{/register}">Register as new user</a>
 	</body>
 </html>

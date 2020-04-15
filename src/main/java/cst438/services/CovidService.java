@@ -65,6 +65,10 @@ public class CovidService {
       return covidRepository.findByDate(date);
    }
    
+   public List<CovidData> fetchByState(String state) {
+      return covidRepository.findByState(state);
+   }
+   
    public List<CovidData> fetchAll() {
       return covidRepository.findAll();
    }
@@ -97,20 +101,35 @@ public class CovidService {
       displayInfo.setDeadIncrease(isDeadIncrease);
       displayInfo.setDate(formatter.format(recentNationalHist.getDate()));
       
-      if (isPositiveIncrease) {
-         displayInfo.setPositiveChange("+" + 
-               String.format("%,d", positiveChange));
+      if (positiveChange != 0) {
+         if (isPositiveIncrease) {
+            displayInfo.setPositiveChange("+" + 
+                  String.format("%,d", positiveChange));
+         } else {
+            displayInfo.setPositiveChange("-" + 
+                  String.format("%,d", positiveChange));
+         }
       } else {
-         displayInfo.setPositiveChange("-" + 
-               String.format("%,d", positiveChange));
+         displayInfo.setPositiveChange(null);
       }
-      
-      if (isDeadIncrease) {
-         displayInfo.setDeadChange("+" + String.format("%,d",deadChange));
+      if (deadChange != 0) {
+         if (isDeadIncrease) {
+            displayInfo.setDeadChange("+" + String.format("%,d",deadChange));
+         } else {
+            displayInfo.setDeadChange("-" + String.format("%,d",deadChange));
+         }
       } else {
-         displayInfo.setDeadChange("-" + String.format("%,d",deadChange));
+         displayInfo.setDeadChange(null);
       }
       
       return displayInfo;
    }
+    
+    public CovidNationalData fetchCurrentNationalData() {
+       return covidNationalRepository.findByRecentDate();
+    }
+    
+    public List<CovidNationalData> fetchAllNationalData() {
+       return covidNationalRepository.findAll();
+    }
 }

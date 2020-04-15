@@ -13,19 +13,20 @@
 		<div class="jumbotron">
 		  <h1 class="display-3">National Statistics</h1>
 		   <p class="lead">A view on how the US is affected by COVID-19</p>
+		   <p>Daily history is saved at 8PM PST</p>
 		   <hr class="my-4">
 		   <p>Nation-wide Infected: 
 		   		<span class="text-info">[[${nationalStats.positive}]]</span>
-		   		<span th:if="${nationalPosInd}" class="text-danger">
-		   		[[${nationalStats.positiveChange}]]</span>
-		   		<span th:unless="${nationalDeadInd}" class="text-success font-italic">
-		   		[[${nationalStats.positiveChange}]]</span>
+		   		<span th:if="${nationalPosInd}" th:text="${positiveChange?}" 
+		   			class="text-danger"></span>
+		   		<span th:unless="${nationalPosInd}" th:text="${positiveChange}" 
+		   			class="text-success font-italic"></span>
 		   		<span> since [[${nationalStats.date}]]</span>
 		   </p>
 		   <p>Nation-wide Dead: 
 		   <span class="text-info">[[${nationalStats.dead}]]</span> 
-		   <span th:if="${nationalDeadInd}" class="text-danger">
-		   [[${nationalStats.deadChange}]]</span>
+		   <span th:if="${nationalDeadInd}" th:text="${deadChange?}" class="text-danger">
+		   </span>
 		   <span th:unless="${nationalDeadInd}" class="text-success font-italic">
 		   [[${nationalStats.deadChange}]]</span>
 		   <span> since [[${nationalStats.date}]]</span>
