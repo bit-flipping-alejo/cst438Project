@@ -20,7 +20,7 @@
 						<!-- state selector -->	
 						State: 
 						<select th:field="*{state}">
-							<option th:text="${stateSelected}" th:value="${stateSelected}"></option>
+							<option th:value="${stateSelected}">[[${stateName}]]</option>
 							<option value=""> --- </option>
 							<option th:each="state : ${states}" id="${state.state_code}" 
 							th:value="${state.state_code}">

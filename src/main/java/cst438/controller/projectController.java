@@ -111,8 +111,11 @@ public class projectController {
  
       // create state array for the select list
       List<States> states = stateServ.fetchAll();
-      
-      model.addAttribute("stateSelected", redirectUser.getState());
+      States stateName = stateServ.fetchByState(redirectUser.getState());
+      model.addAttribute("stateSelected", stateName.getState_code()
+            );
+      model.addAttribute("stateName", 
+            stateName.getState());
       model.addAttribute("states", states);
       model.addAttribute("form", form);
       model.addAttribute("user", user);
@@ -191,13 +194,18 @@ public class projectController {
       
       // grab the logged in or just registered user passed from that route
       User redirectUser = (User) model.asMap().get("user");
+      
       // using form data, query the DB with new search parameters
       List<CovidData> stateInfo = 
             covidService.fetchByStateAndDate(
                   form.getState(), form.getDaysBack(), form.getDirection());
+      
       // updates first selection(default) with full state name
-      model.addAttribute("stateSelected", 
-            stateServ.fetchByState(form.getState()));
+      States stateName = stateServ.fetchByState(redirectUser.getState());
+      model.addAttribute("stateSelected", stateName.getState_code()
+            );
+      model.addAttribute("stateName", 
+            stateName.getState());
       
       // send state array to page
       List<States> states = stateServ.fetchAll();
