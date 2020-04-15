@@ -12,8 +12,8 @@
 		<br><br><br><br>
 		<!-- filter container -->
 		<div class="container-fluid">
-			<div class="row">
-				<div class="col">
+			<div class="row d-flex justify-content-center">
+				<div class="col-md-6">
 					<form action="#" method="POST" th:action="@{/user}" th:object="${form}">
 						<h4>Filter results</h4>
 						
@@ -47,49 +47,63 @@
 					</form>
 					<br><br>
 					<!-- Table describing individual states' stats by date on y-axis-->
+					<canvas id="lineChart"></canvas>
+					<script th:inline="javascript">
+						var ctxL = document.getElementById("lineChart").getContext('2d');
+						var stateInfo = [[${stateInfo}]];
+						var positive = [];
+						var dead = [];
+						var recovered = [];
+						var dates = []
+						stateInfo.forEach(state => {
+							positive.push(state.testedPositive);
+							dead.push(state.deaths);
+							recovered.push(state.recovered);
+							dates.push(state.date);
+						});
+
+						var myLineChart = new Chart(ctxL, {
+							type: 'line',
+							data: {
+								labels: dates,
+								datasets: [{
+									label: "Positive cases",
+									data: positive,
+									backgroundColor: [
+										'rgba(105, 0, 132, .2)',
+									],
+									borderColor: [
+										'rgba(200, 99, 132, .7)',
+									],
+									borderWidth: 2
+								},
+								{
+									label: "Deaths",
+									data: dead,
+									backgroundColor: [
+										'rgba(0, 137, 132, .2)',
+									],
+									borderColor: [
+										'rgba(0, 10, 130, .7)',
+									],
+									borderWidth: 2
+								},
+								{
+									label: "Recovered",
+									data: recovered,
+									backgroundColor: [
+										'rgba(0, 200, 10, .2)',
+									],
+									borderColor: [
+										'rgba(0, 200, 12, .7)',
+									],
+									borderWidth: 2
+								}
+								]
+							}
+						});
+					</script>
 					
-					<table class="table">
-					  <thead>
-						<tr>
-							<th scope="col">Date</th>
-							<th scope="col">Positive Cases</th>
-							<th scope="col">Negative Cases</th>
-							<th scope="col">Currently Hospitalized</th>
-							<th scope="col">Total Hospitalized</th>
-							<th scope="col">Currently in ICU</th>
-							<th scope="col">Total ICU Patients</th>
-							<th scope="col">Currently on Ventilator</th>
-							<th scope="col">Total Ventilated</th>
-							<th scope="col">Recovered</th>
-							<th scope="col">Deaths</th>
-						</tr>
-					  </thead>
-					  <tbody>
-						<tr th:each="state : ${stateInfo}">
-							<td th:text="${state.date}"/>
-							<td th:text="${state.TestedPositive} ? 
-								${#numbers.formatInteger(state.TestedPositive,1,'COMMA')} : '-'"/>
-							<td th:text="${state.TestedNegative} ? 
-								${#numbers.formatInteger(state.TestedNegative,1,'COMMA')} : '-'"/>
-							<td th:text="${state.CurrentlyHospitalized} ? 
-								${#numbers.formatInteger(state.CurrentlyHospitalized,1,'COMMA')} : '-'"/>
-							<td th:text="${state.TotalHospitalized} ? 
-								${#numbers.formatInteger(state.TotalHospitalized,1,'COMMA')} : '-'"/>
-							<td th:text="${state.CurrentICUCount} ?
-								${#numbers.formatInteger(state.CurrentICUCount,1,'COMMA')} :  '-'"/>
-							<td th:text="${state.TotalICUCount} ? 
-								${#numbers.formatInteger(state.TotalICUCount,1,'COMMA')} : '-'"/>
-							<td th:text="${state.CurrentlyOnVentilator} ? 
-								${#numbers.formatInteger(state.CurrentlyOnVentilator,1,'COMMA')} : '-'"/>
-							<td th:text="${state.TotalVentilated} ? 
-								${#numbers.formatInteger(state.TotalVentilated,1,'COMMA')} : '-'"/>
-							<td th:text="${state.Recovered} ? 
-								${#numbers.formatInteger(state.Recovered,1,'COMMA')} : '-'"/>
-							<td th:text="${state.Deaths} ? 
-								${#numbers.formatInteger(state.Deaths,1,'COMMA')} : '-'"/>
-						</tr>
-					  </tbody>
-					</table>
 				</div>
 			
 				<div class="col">
