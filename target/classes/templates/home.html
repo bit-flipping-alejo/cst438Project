@@ -19,8 +19,8 @@
 		   		<span class="text-info">[[${nationalStats.positive}]]</span>
 		   		<span th:if="${nationalPosInd}" th:text="${positiveChange?}" 
 		   			class="text-danger"></span>
-		   		<span th:unless="${nationalPosInd}" th:text="${positiveChange}" 
-		   			class="text-success font-italic"></span>
+		   		<span th:unless="${nationalPosInd}" class="text-success font-italic">
+		   		[[${nationalStats.positiveChange}]]</span>
 		   		<span> since [[${nationalStats.date}]]</span>
 		   </p>
 		   <p>Nation-wide Dead: 
