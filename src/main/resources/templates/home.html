@@ -15,18 +15,20 @@
 		   <p class="lead">A view on how the US is affected by COVID-19</p>
 		   <hr class="my-4">
 		   <p>Nation-wide Infected: 
-		   		<span class="text-info">[[${nationalPositive}]]</span>
+		   		<span class="text-info">[[${nationalStats.positive}]]</span>
 		   		<span th:if="${nationalPosInd}" class="text-danger">
-		   		[[${nationalPosChange}]]</span>
-		   		<span> since [[${nationalHistDate}]]</span>
+		   		[[${nationalStats.positiveChange}]]</span>
+		   		<span th:unless="${nationalDeadInd}" class="text-success font-italic">
+		   		[[${nationalStats.positiveChange}]]</span>
+		   		<span> since [[${nationalStats.date}]]</span>
 		   </p>
 		   <p>Nation-wide Dead: 
-		   <span class="text-info">[[${nationalDead}]]</span> 
+		   <span class="text-info">[[${nationalStats.dead}]]</span> 
 		   <span th:if="${nationalDeadInd}" class="text-danger">
-		   [[${nationalDeadChange}]]</span>
+		   [[${nationalStats.deadChange}]]</span>
 		   <span th:unless="${nationalDeadInd}" class="text-success font-italic">
-		   [[${nationalDeadChange}]]</span>
-		   <span> since [[${nationalHistDate}]]</span>
+		   [[${nationalStats.deadChange}]]</span>
+		   <span> since [[${nationalStats.date}]]</span>
 		   </p>
 		</div>
 		
@@ -34,9 +36,8 @@
 		<div class="container">
 		  <div class="bd-callout bd-callout-info">
 		    <h2 class="display-4">State Statistics</h2>
-		 	<p class="lead">NOTE TO TEAM: maybe a pull down menu here with state selection and only display that state's data?</p>
 		  </div>
-		
+		<div>
 		<!-- Table describing individual states' stats -->
 		<table class="table">
 		  <thead>

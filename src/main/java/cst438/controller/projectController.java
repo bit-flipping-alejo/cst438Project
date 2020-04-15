@@ -4,6 +4,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,20 +15,17 @@ import cst438.domain.Model.Coctail;
 import cst438.domain.Model.CovidData;
 import cst438.domain.Model.States;
 import cst438.domain.Model.User;
+import cst438.domain.Helper.FilterForm;
 import cst438.domain.Helper.NationalDisplayHelper;
 import cst438.services.CoctailService;
 import cst438.services.CovidService;
 import cst438.services.StatesService;
 import cst438.services.UserService;
-import cst438.services.CovidAPIService;
 
 @Controller
 public class projectController {
    @Autowired 
    private CovidService covidService;
-   @Autowired
-   private CovidAPIService covidAPIService;
-   
    @Autowired 
    private CoctailService coctailServ;
    @Autowired
@@ -43,20 +41,16 @@ public class projectController {
    public String getCurrentData(Model model, RedirectAttributes redirectAttrs) {
       
       // Covid section
-      List<CovidData> currentData = covidAPIService.pullCurrentStateData(); 
+      List<CovidData> currentData = covidService.fetchCurrentStateStats(); 
       NationalDisplayHelper nationalStats = 
             covidService.fetchCurrentNationalStats();
       
       model.addAttribute("allStateData", currentData);
-      model.addAttribute("nationalPositive", nationalStats.getPositive());
-      model.addAttribute("nationalDead", nationalStats.getDead());
+      model.addAttribute("nationalStats", nationalStats);
       model.addAttribute("nationalPosChange", 
             nationalStats.getPositiveChange());
       model.addAttribute("nationalDeadChange", 
             nationalStats.getDeadChange());
-      model.addAttribute("nationalPosInd", nationalStats.isPositiveIncrease());
-      model.addAttribute("nationalDeadInd", nationalStats.isDeadIncrease());
-      model.addAttribute("nationalHistDate", nationalStats.getDate());
       
       // Coctail section
       Coctail thisCoctail = coctailServ.getARandomCoctail();
@@ -91,7 +85,27 @@ public class projectController {
    }
    
    @GetMapping("/user")
-   public String userLanding(Model model) {
+   public String userLanding(Model model, @ModelAttribute User user) {
+      // explore into user state using tokens/cookies/whatever the fuck
+      // for now, default to Cali
+      // if (User.home_state) {
+      //    model.addAttribute("stateSelected", User.home_state);
+      // } else {
+      //    model.addAttribute("stateSelected", "CA");
+      // }
+      model.addAttribute("stateSelected", "CA");
+      
+      FilterForm form = new FilterForm();
+      
+      System.out.print(user.getName());
+ 
+      // send state array to page
+      List<States> states = stateServ.fetchAll();
+      
+      model.addAttribute("states", states);
+      model.addAttribute("form", form);
+      model.addAttribute("user", user);
+      
       return "userHome";
    }
    
@@ -112,12 +126,14 @@ public class projectController {
       if (repoUser == null) {
          System.out.println("User DOESNT exist");
          //maybe alert the user?
+         // IA: yes, make it so it redirects to the current page and uses
+         // the error field in thymeleaf like the first week assignment
          redirView.setUrl("/login");
          
       } else {
          System.out.println("User DOES exist");
          redirectAttrs.addFlashAttribute("user", repoUser);
-         redirView.setUrl("/");
+         redirView.setUrl("/user");
       }
       
       return redirView;
@@ -130,5 +146,26 @@ public class projectController {
       return "redirect:/";
    }
    
-   
+   @PostMapping("/user")
+   public String filterQueryUpdate(
+         @ModelAttribute FilterForm form,
+         BindingResult result,
+         Model model) {
+      
+      // using form data, query the DB with new search parameters
+      List<CovidData> stateInfo = 
+            covidService.fetchByStateAndDate(
+                  form.getState(), form.getDaysBack(), form.getDirection());
+      // updates first selection(default) with full state name
+      model.addAttribute("stateSelected", 
+            stateServ.fetchByState(form.getState()));
+      
+      // send state array to page
+      List<States> states = stateServ.fetchAll();
+      model.addAttribute("stateInfo", stateInfo);
+      model.addAttribute("form", form);
+      model.addAttribute("states", states);
+      
+      return "userHome";
+   }
 }

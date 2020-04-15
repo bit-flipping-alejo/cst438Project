@@ -9,11 +9,91 @@
 		<!-- Thymeleaf header navbar -->
 		<div th:replace="fragments/header :: header"></div>
 		
+		<br><br><br><br>
 		<!-- filter container -->
-		<div>
-			<!-- date pulldown -->
-			<!-- state selector -->
+		<h2 class="container" th:if="${user}">Welcome, [[${user.name}]]</h2>
+		<div class="container">
 			
+			<form action="#" method="POST" th:action="@{/user}" th:object="${form}">
+				<h4>Filter results</h4>
+				
+				<!-- state selector -->	
+				State: 
+				<select th:field="*{state}">
+					<option th:text="${stateSelected}" th:value="${stateSelected}"></option>
+					<option value=""> --- </option>
+					<option th:each="state : ${states}" id="${state.state_code}" 
+					th:value="${state.state_code}">
+					[[${state.state}]]</option>
+				</select>
+				
+				<!-- date pulldown -->
+				Date range:
+				<select th:field="*{daysBack}">
+					<option value="5">Past 5 days</option>
+					<option value="10">Past 10 days</option>
+					<option value="15">Past 15 days</option>
+					<option value="20">Past 20 days</option>
+					<option value="30">Past 30 days</option>
+					<option value="all">All data</option>
+				</select>
+				
+				<!-- list direction -->
+				<select th:field="*{direction}">
+					<option value="desc">Descending</option>
+					<option value="asc">Ascending</option>
+				</select>
+				<button id="submit" name="submit" class="btn btn-primary">Filter</button>
+			</form>
+			<br><br>
+			<!-- Table describing individual states' stats by date on y-axis-->
+			<div>
+				<table class="table">
+				  <thead>
+					<tr>
+						<th scope="col">Date</th>
+						<th scope="col">Positive Cases</th>
+						<th scope="col">Negative Cases</th>
+						<th scope="col">Currently Hospitalized</th>
+						<th scope="col">Total Hospitalized</th>
+						<th scope="col">Currently in ICU</th>
+						<th scope="col">Total ICU Patients</th>
+						<th scope="col">Currently on Ventilator</th>
+						<th scope="col">Total Ventilated</th>
+						<th scope="col">Recovered</th>
+						<th scope="col">Deaths</th>
+					</tr>
+				  </thead>
+				  <tbody>
+					<tr th:each="state : ${stateInfo}">
+						<td th:text="${state.date}"/>
+						<td th:text="${state.TestedPositive} ? 
+							${#numbers.formatInteger(state.TestedPositive,1,'COMMA')} : '-'"/>
+						<td th:text="${state.TestedNegative} ? 
+							${#numbers.formatInteger(state.TestedNegative,1,'COMMA')} : '-'"/>
+						<td th:text="${state.CurrentlyHospitalized} ? 
+							${#numbers.formatInteger(state.CurrentlyHospitalized,1,'COMMA')} : '-'"/>
+						<td th:text="${state.TotalHospitalized} ? 
+							${#numbers.formatInteger(state.TotalHospitalized,1,'COMMA')} : '-'"/>
+						<td th:text="${state.CurrentICUCount} ?
+							${#numbers.formatInteger(state.CurrentICUCount,1,'COMMA')} :  '-'"/>
+						<td th:text="${state.TotalICUCount} ? 
+							${#numbers.formatInteger(state.TotalICUCount,1,'COMMA')} : '-'"/>
+						<td th:text="${state.CurrentlyOnVentilator} ? 
+							${#numbers.formatInteger(state.CurrentlyOnVentilator,1,'COMMA')} : '-'"/>
+						<td th:text="${state.TotalVentilated} ? 
+							${#numbers.formatInteger(state.TotalVentilated,1,'COMMA')} : '-'"/>
+						<td th:text="${state.Recovered} ? 
+							${#numbers.formatInteger(state.Recovered,1,'COMMA')} : '-'"/>
+						<td th:text="${state.Deaths} ? 
+							${#numbers.formatInteger(state.Deaths,1,'COMMA')} : '-'"/>
+					</tr>
+				  </tbody>
+				</table>
+			</div>
+			<div>
+			<!-- COCKTAIL AREA WOOOOOOO LET'S GET CHOCOLATE WASTED -->
+			</div>	
 		</div>
 	</body>
 </html>

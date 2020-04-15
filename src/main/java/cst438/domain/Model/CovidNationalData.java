@@ -56,6 +56,22 @@ public class CovidNationalData {
       this.Deaths = Deaths;
    }
 
+   public void printToConsole() {
+      System.out.println("id: " + this.ID);
+      System.out.println("date: " + this.date);
+      System.out.println("total states: " + this.States_affected);
+      System.out.println("positive: " + this.TestedPositive);
+      System.out.println("curHosp: " + this.CurrentlyHospitalized);
+      System.out.println("totHosp: " + this.TotalHospitalized);
+      System.out.println("curICU: " + this.CurrentICUCount);
+      System.out.println("totICU: " + this.TotalICUCount);
+      System.out.println("curVent: " + this.CurrentlyOnVentilator);
+      System.out.println("totVent: " + this.TotalVentilated);
+      System.out.println("Recov: " + this.Recovered);
+      System.out.println("dead: " + this.Deaths);
+      
+   }
+   
    public long getID() {
       return ID;
    }
