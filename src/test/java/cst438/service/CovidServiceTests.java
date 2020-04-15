@@ -72,7 +72,7 @@ public class CovidServiceTests {
       
       List<CovidData> actual;
       
-      actual = covidService.fetchCurrentDayStates();
+      actual = covidService.fetchCurrentStateStats();
       
       assertThat(actual.get(0).getState()).isEqualTo("CA");
       assertThat(actual.get(0).getTestedPositive()).isEqualTo(1234);
