@@ -1,19 +1,12 @@
 package cst438.services;
 
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Value;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import cst438.domain.Model.Coctail;
 
