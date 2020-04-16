@@ -1,7 +1,10 @@
 package cst438.services;
 
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
 
@@ -10,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import cst438.domain.Model.Coctail;
 
@@ -29,8 +33,7 @@ public class CoctailAPIService {
 
    public Coctail getARandomCoctail() {
       ResponseEntity<JsonNode> response = restTemplate.getForEntity(randomCoctailUrl ,JsonNode.class);
-      JsonNode json = response.getBody();       
-      
+      JsonNode json = response.getBody();  
       Coctail retCoctail = new Coctail();
       
       // returned array is of size 1, so even though its an iterator it only goes thru once
@@ -40,12 +43,24 @@ public class CoctailAPIService {
          JsonNode thisDrink = it.next();
          retCoctail.setName( thisDrink.get("strDrink").asText() );         
          retCoctail.setPicUrl( thisDrink.get("strDrinkThumb").asText() );
-         retCoctail.setInstructions( thisDrink.get("strInstructions").asText() );         
+         retCoctail.setInstructions( thisDrink.get("strInstructions").asText() );      
+         
+         ArrayList<String> ingredients = new ArrayList<String>();
+         String quantity, ingredient;
+         for (int i = 1; i < 16; i++) {
+            if (!thisDrink.get("strIngredient" + i).isNull()) {
+               ingredient = thisDrink.get("strIngredient" + i).asText();
+               if (!thisDrink.get("strMeasure" + i).isNull()) {
+                  quantity = thisDrink.get("strMeasure" + i).asText();
+                  ingredients.add(quantity + ingredient);
+               } else {
+                  ingredients.add(ingredient);
+               }
+            }
+         }
+         retCoctail.setIngredients(ingredients);
       }
-
+      
       return retCoctail;
    }
-
-
-
 }

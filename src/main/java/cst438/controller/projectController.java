@@ -104,7 +104,7 @@ public class projectController {
       // default to the recent 5 in descending order
       List<CovidData> stateInfo = 
             covidService.fetchByStateAndDate(
-                  redirectUser.getState(), "5", "desc");
+                  redirectUser.getState(), "5", "asc");
       
       // create our form object
       FilterForm form = new FilterForm();
@@ -120,6 +120,7 @@ public class projectController {
       model.addAttribute("form", form);
       model.addAttribute("user", user);
       model.addAttribute("stateInfo", stateInfo);
+      redirectAttrs.addFlashAttribute("user", user);
       
       // Coctail section
       Coctail thisCoctail = coctailServ.getARandomCoctail();
@@ -202,10 +203,8 @@ public class projectController {
       
       // updates first selection(default) with full state name
       States stateName = stateServ.fetchByState(redirectUser.getState());
-      model.addAttribute("stateSelected", stateName.getState_code()
-            );
-      model.addAttribute("stateName", 
-            stateName.getState());
+      model.addAttribute("stateSelected", stateName.getState_code());
+      model.addAttribute("stateName", stateName.getState());
       
       // send state array to page
       List<States> states = stateServ.fetchAll();
@@ -213,6 +212,7 @@ public class projectController {
       model.addAttribute("form", form);
       model.addAttribute("states", states);
       model.addAttribute("user", user);
+      redirectAttrs.addFlashAttribute("user", user);
       
       // Coctail section
       Coctail thisCoctail = coctailServ.getARandomCoctail();
