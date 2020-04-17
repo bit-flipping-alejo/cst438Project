@@ -9,18 +9,18 @@ import cst438.domain.Model.Coctail;
 public class CoctailService {
 
    @Autowired
-   public CoctailAPIService coctailServ;
+   public CoctailAPIService coctailAPIServ;
 
    public CoctailService() {
 
    }
 
    public CoctailService(CoctailAPIService coctailServ) {
-      this.coctailServ = coctailServ;
+      this.coctailAPIServ = coctailServ;
    }
 
    public Coctail getARandomCoctail() {
-      return coctailServ.getARandomCoctail();
+      return coctailAPIServ.getARandomCoctail();
    }
    
 }
