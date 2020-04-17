@@ -31,9 +31,11 @@ public class CovidService {
    }
    
    public CovidService(CovidRepository covidRepository,
-         CovidAPIService covidAPIService) {
+         CovidAPIService covidAPIService,
+         CovidNationalRepository covidNationalRepository) {
       this.covidRepository = covidRepository;
       this.covidAPIService = covidAPIService;
+      this.covidNationalRepository = covidNationalRepository;
    }
    
    public List<CovidData> fetchByStateAndDate(String state, String daysBack,
@@ -106,17 +108,18 @@ public class CovidService {
             displayInfo.setPositiveChange("+" + 
                   String.format("%,d", positiveChange));
          } else {
-            displayInfo.setPositiveChange("-" + 
+            displayInfo.setPositiveChange( 
                   String.format("%,d", positiveChange));
          }
       } else {
          displayInfo.setPositiveChange(null);
       }
+      
       if (deadChange != 0) {
          if (isDeadIncrease) {
             displayInfo.setDeadChange("+" + String.format("%,d",deadChange));
          } else {
-            displayInfo.setDeadChange("-" + String.format("%,d",deadChange));
+            displayInfo.setDeadChange(String.format("%,d",deadChange));
          }
       } else {
          displayInfo.setDeadChange(null);
