@@ -1,54 +1,56 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-	<head>
-		<title>US National Data for COVID-19</title>
-		<!-- Thymeleaf generic header-css -->
-		<div th:replace="fragments/header :: header-css"></div>
-	</head>
-	<body>
-		<!-- Thymeleaf header navbar -->
-		<div th:replace="fragments/header :: header"></div>
-		
-		<br><br><br><br>
-		<!-- filter container -->
-		<div class="container-fluid">
-			<div class="row d-flex justify-content-center">
-				<div class="col-md-6">
-					<form action="#" method="POST" th:action="@{/user}" th:object="${form}">
-						<h4>Filter results</h4>
-						
-						<!-- state selector -->	
-						State: 
-						<select th:field="*{state}">
-							<option th:value="${stateSelected}">[[${stateName}]]</option>
-							<option value=""> --- </option>
-							<option th:each="state : ${states}" id="${state.state_code}" 
-							th:value="${state.state_code}">
-							[[${state.state}]]</option>
-						</select>
-						
-						<!-- date pulldown -->
-						Date range:
-						<select th:field="*{daysBack}">
-							<option value="5">Past 5 days</option>
-							<option value="10">Past 10 days</option>
-							<option value="15">Past 15 days</option>
-							<option value="20">Past 20 days</option>
-							<option value="30">Past 30 days</option>
-							<option value="all">All data</option>
-						</select>
-						
-						<!-- list direction -->
-						<select th:field="*{direction}">
-							<option value="asc" >Ascending</option>
-							<option value="desc">Descending</option>
-						</select>
-						<button id="submit" name="submit" class="btn btn-primary">Filter</button>
-					</form>
-					<br><br>
-					<!-- Table describing individual states' stats by date on y-axis-->
-					<canvas id="lineChart"></canvas>
-					<script th:inline="javascript">
+<head>
+<title>US National Data for COVID-19</title>
+<!-- Thymeleaf generic header-css -->
+<div th:replace="fragments/header :: header-css"></div>
+</head>
+<body>
+	<!-- Thymeleaf header navbar -->
+	<div th:replace="fragments/header :: header"></div>
+
+	<br>
+	<br>
+	<br>
+	<br>
+	<!-- filter container -->
+	<div class="container-fluid">
+		<div class="row d-flex justify-content-center">
+			<div class="col-md-6">
+				<form action="#" method="POST" th:action="@{/user}"
+					th:object="${form}">
+					<h4>Filter results</h4>
+
+					<!-- state selector -->
+					State: <select th:field="*{state}">
+						<option th:value="${stateSelected}">[[${stateName}]]</option>
+						<option value="">---</option>
+						<option th:each="state : ${states}" id="${state.state_code}"
+							th:value="${state.state_code}">[[${state.state}]]</option>
+					</select>
+
+					<!-- date pulldown -->
+					Date range: <select th:field="*{daysBack}">
+						<option value="5">Past 5 days</option>
+						<option value="10">Past 10 days</option>
+						<option value="15">Past 15 days</option>
+						<option value="20">Past 20 days</option>
+						<option value="30">Past 30 days</option>
+						<option value="all">All data</option>
+					</select>
+
+					<!-- list direction -->
+					<select th:field="*{direction}">
+						<option value="asc">Ascending</option>
+						<option value="desc">Descending</option>
+					</select>
+					<button id="submit" name="submit" class="btn btn-primary">Filter</button>
+				</form>
+				<br>
+				<br>
+				<!-- Table describing individual states' stats by date on y-axis-->
+				<canvas id="lineChart"></canvas>
+				<script th:inline="javascript">
 						var ctxL = document.getElementById("lineChart").getContext('2d');
 						var stateInfo = [[${stateInfo}]];
 						var positive = [];
@@ -105,16 +107,32 @@
 							}
 						});
 					</script>
-					
-				</div>
-			
-				<div class="col">
+
+			</div>
+
+			<div class="col">
 				<!-- COCKTAIL AREA WOOOOOOO LET'S GET CHOCOLATE WASTED -->
-				Create a cocktail: [[${coctail.name}]]. <br /> <br />
-				<img th:src="${coctail.picUrl}"> <br /> <br />
-				Instructions: [[${coctail.instructions}]]<br />			
-				</div>	
+				
+				<h2 th:text="${coctail.name}"></h2>
+				<img th:src="${coctail.picUrl}" width="300" height="400"> <br />
+				<br />
+				
+				<dl>
+					<dt>Instructions</dt>
+					<dd th:text="${coctail.instructions}"></dd>
+					<dt>Ingredients</dt>
+					<dd>
+						<ul>
+							<li th:each="ingredient: ${coctail.ingredients}"
+								th:text="${ingredient}"></li>
+						</ul>
+					</dd>
+				</dl>
+
+				<br />
+
 			</div>
 		</div>
-	</body>
+	</div>
+</body>
 </html>
