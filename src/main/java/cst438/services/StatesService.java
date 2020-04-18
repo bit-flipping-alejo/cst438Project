@@ -18,6 +18,11 @@ public class StatesService {
       
    }
    
+   public StatesService(StatesRepository statesRepository) {
+      super();
+      this.statesRepository = statesRepository;
+   }
+   
    public States fetchByState(String code) {
       return statesRepository.findByStateCode(code);
    }
