@@ -36,19 +36,26 @@
 		
 		      <div class="collapse navbar-collapse" id="navbarsExampleDefault">
 		        <ul class="navbar-nav mr-auto">
-		          <li class="nav-item active">
+		          <li class="nav-item">
 		            <a class="nav-link" th:href="@{/}">Home <span class="sr-only">(current)</span></a>
 		          </li>
 		          <li class="nav-item">
-		            <a class="nav-link" href="#">Future Dashboard</a>
+		            <a class="nav-link" href="/user">Dashboard</a>
 		          </li>
 		        </ul>
+		        
 		        <ul class="nav navbar-nav navbar-right nav-justified">
-				  <li class="nav-item active">
-				  	<a class="nav-link" href="/login">Login</a>
+				  <li class="nav-item">
+				  	<a th:if="${session.user == null}" class="btn btn-success get-started-btn mt-0 mb-0" href="/login">Login</a>
 				  </li>
 				  <li class="nav-item">
-				  	<a class="btn btn-primary get-started-btn mt-0 mb-0" href="/register">Register</a>
+				  	<a th:if="${session.user == null}" class="btn btn-primary get-started-btn mt-0 mb-0" href="/register">Register</a>
+				  </li>
+				  <li class="nav-item">
+				  	<p class="navbar-brand mb-0 h1" th:if="${session.user != null}" th:text="${'Welcome, ' + session.user}"></p>
+				  </li>
+				  <li class="nav-item">
+				  	<a th:if="${session.user != null}" class="btn btn-primary get-started-btn mt-0 mb-0" href="/logout">Logout</a>
 				  </li>
 		        </ul>
 		      </div>

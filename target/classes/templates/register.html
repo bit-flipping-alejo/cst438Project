@@ -9,63 +9,42 @@
 <body>
 	<!-- Thymeleaf header navbar -->
 	<div th:replace="fragments/header :: header" />
+	
+	<div class="container">
 	<br>
 	<br>
 	<br>
-
-	<form class="form-horizontal" action="#" method="POST" th:action="@{/register}" th:object="${user}">
-		<fieldset>
-
-			<!-- Form Name -->
-			<legend>Form Name</legend>
-
-			<!-- Text input-->
+	<div class="row text-black">
+		<div class="col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto text-center form p-4">
+		    <h1 class="display-4 py-2 text-truncate">Registration</h1>
+		    <p class="alert alert-danger" role="alert" th:if="${error}" th:text="${error}"></p>
+			<form action="#" method="POST" th:action="@{/register}" th:object="${user}">
+			
+			<!-- Username input box-->
 			<div class="form-group">
-				<label class="col-md-4 control-label" for="name">Name</label>
-				<div class="col-md-4">
-					<input id="name" name="name" type="text"
-						placeholder="your name here" class="form-control input-md"
-						required="" th:field="*{name}">
-
-				</div>
+				<input id="name" name="name" type="text" placeholder="Username" class="form-control" required="" th:field="*{name}">
 			</div>
-
-			<!-- Text input-->
+			
+			<!-- Password input box-->
 			<div class="form-group">
-				<label class="col-md-4 control-label" for="password">Password</label>
-				<div class="col-md-4">
-					<input id="password" name="password" type="text"
-						placeholder="your password here" class="form-control input-md"
-						required="" th:field="*{password}">
-
-				</div>
+				<input id="name" name="name" type="password" placeholder="Password" class="form-control" required="" th:field="*{password}">
 			</div>
-
+			
 			<!-- Select Basic -->
 			<div class="form-group">
 				<label class="col-md-4 control-label" for="state" th:field="*{state}">State</label>
-				<div class="col-md-4">
-					<select id="state" name="state" class="form-control" >
-						<option th:each="state: ${stateList}" th:value="${state.state_code}" th:text="${state.state}" />						
-					</select>
-				</div>
+				<select id="state" name="state" class="form-control" >
+					<option th:each="state: ${stateList}" th:value="${state.state_code}" th:text="${state.state}" />						
+				</select>
 			</div>
-
-
+	
 			<!-- Button -->
 			<div class="form-group">
-				<label class="col-md-4 control-label" for="submit"></label>
-				<div class="col-md-4">
 					<button id="submit" name="submit" class="btn btn-primary">Submit</button>
-				</div>
 			</div>
-			<a th:href="@{/}">Go home</a><br>
-
-
-		</fieldset>
-	</form>
-
-
-
+			</form>
+		</div>
+	</div>
+	</div>
 </body>
 </html>
