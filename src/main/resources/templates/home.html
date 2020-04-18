@@ -13,7 +13,6 @@
 		<div class="jumbotron">
 		  <h1 class="display-3">National Statistics</h1>
 		   <p class="lead">A view on how the US is affected by COVID-19</p>
-		   <p>Daily history is saved at 8PM PST</p>
 		   <hr class="my-4">
 		   <p>Nation-wide Infected: 
 		   		<span class="text-info">[[${nationalStats.positive}]]</span>
@@ -31,12 +30,15 @@
 		   [[${nationalStats.deadChange}]]</span>
 		   <span> since [[${nationalStats.date}]]</span>
 		   </p>
+		   <p class="font-italic">History saved at 8PM, PST</p>
 		</div>
 		
 		<!-- Words above states table -->
 		<div class="container">
 		  <div class="bd-callout bd-callout-info">
 		    <h2 class="display-4">State Statistics</h2>
+		    <h5>The current overall statistics on a per state basis</h5>
+		    <p class="font-italic">A dash represents no data reported</p>
 		  </div>
 		<div>
 		<!-- Table describing individual states' stats -->

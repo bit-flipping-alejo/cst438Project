@@ -17,6 +17,7 @@
 	<div class="row text-black">
 		<div class="col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto text-center form p-4">
 		    <h1 class="display-4 py-2 text-truncate">Registration</h1>
+		    <p>Registration allows a detailed view of each state and how they are handling the pandemic.</p>
 		    <p class="alert alert-danger" role="alert" th:if="${error}" th:text="${error}"></p>
 			<form action="#" method="POST" th:action="@{/register}" th:object="${user}">
 			
@@ -31,13 +32,14 @@
 			</div>
 			
 			<!-- Select Basic -->
+			
 			<div class="form-group">
 				<label class="col-md-4 control-label" for="state" th:field="*{state}">State</label>
 				<select id="state" name="state" class="form-control" >
 					<option th:each="state: ${stateList}" th:value="${state.state_code}" th:text="${state.state}" />						
 				</select>
 			</div>
-	
+			<p class="font-italic">Select the state you wish to track as your default. This may be your home state.</p>
 			<!-- Button -->
 			<div class="form-group">
 					<button id="submit" name="submit" class="btn btn-primary">Submit</button>
