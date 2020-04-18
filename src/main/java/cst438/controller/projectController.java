@@ -150,9 +150,7 @@ public class projectController {
       
       if (repoUser == null) {
          System.out.println("User DOESNT exist");
-         //maybe alert the user?
-         // IA: yes, make it so it redirects to the current page and uses
-         // the error field in thymeleaf like the first week assignment
+         redirectAttrs.addFlashAttribute("error", "Invalid user/password combination!");
          redirView.setUrl("/login");
          
       } else {

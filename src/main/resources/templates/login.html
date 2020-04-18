@@ -9,28 +9,33 @@
 	<body>
 		<!-- Thymeleaf header navbar -->
 		<div th:replace="fragments/header :: header" />
-		<br><br><br>
-		<div class="container">
-			<form action="#" th:action="@{/login}" method="post"  th:object="${user}" id="loginFormDiv">
-				<fieldset>
-					<legend>Login</legend>
-					<label>User Name</label>
-					<div>
-						<input type="text" th:field="*{name}">
-					</div>
-		
-					<label>Password</label>
-					<div>
-						<input type="text"  th:field="*{password}">
-					</div>
-		
-					<div>
-						<button value="Submit" name="submit">Login</button>
-					</div>
-				</fieldset>
-				<a th:href="@{/register}">Register as new user</a>
+	<div class="container">
+	<br>
+	<br>
+	<br>
+	<div class="row text-black">
+		<div class="col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto text-center form p-4">
+		    <h1 class="display-4 py-2 text-truncate">Login</h1>
+		    <p class="alert alert-danger" role="alert" th:if="${error}" th:text="${error}"></p>
+			<form action="#" method="POST" th:action="@{/login}" th:object="${user}">
+			
+			<!-- Username input box-->
+			<div class="form-group">
+				<input id="name" name="name" type="text" placeholder="Username" class="form-control" required="" th:field="*{name}">
+			</div>
+			
+			<!-- Password input box-->
+			<div class="form-group">
+				<input id="name" name="name" type="password" placeholder="Password" class="form-control" required="" th:field="*{name}">
+			</div>
+	
+			<!-- Button -->
+			<div class="form-group">
+					<button id="submit" name="submit" class="btn btn-primary">Submit</button>
+			</div>
 			</form>
 		</div>
-		<br><br>
+	</div>
+	</div>
 	</body>
 </html>
