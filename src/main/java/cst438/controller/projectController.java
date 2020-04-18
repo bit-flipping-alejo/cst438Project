@@ -1,6 +1,10 @@
 package cst438.controller;
 
 import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,11 +36,9 @@ public class projectController {
    private UserService userServ;   
    @Autowired
    private StatesService stateServ;
-
    
-   
-   
-   
+   @Autowired
+   ObjectFactory<HttpSession> httpSessionFactory;
    
    /*//////////////////////////////*/
    /*Get Mappings*/
@@ -44,7 +46,7 @@ public class projectController {
    
    @GetMapping("/")
    public String getCurrentData(Model model, RedirectAttributes redirectAttrs) {
-      
+
       // Covid section
       List<CovidData> currentData = covidService.fetchCurrentStateStats(); 
       NationalDisplayHelper nationalStats = 
@@ -61,25 +63,40 @@ public class projectController {
       Coctail thisCoctail = coctailServ.getARandomCoctail();
       model.addAttribute("coctail", thisCoctail);
       
-      // redirected user input
-      User redirectUser = (User) model.asMap().get("user");
-      // redirectUser should not be null in the "real world"
-      // keeping null check for compatibility with localhost:8080/
-      if (redirectUser != null) {         
-         model.addAttribute("user", redirectUser);
-      }
-      
       return "home";
    }
    
    @GetMapping("/login")
    public String login( Model model) {
+	  // Exception handling when a logged in user tries to log in again
+	  HttpSession session = httpSessionFactory.getObject();
+	  
+	  String username = (String) session.getAttribute("user");
+      
+      if (username != null) {
+    	  session.removeAttribute("user");
+    	  return "logout";
+          
+      }
+      
+      // Proceed as normal
       model.addAttribute("user", new User());
       return "login";
    }
    
    @GetMapping("/register")
    public String register(Model model) {
+	  // Exception handling when a logged in user tries to register
+	  HttpSession session = httpSessionFactory.getObject();
+	  String username = (String) session.getAttribute("user");
+	  
+	  if (username != null) {
+		  session.removeAttribute("user");
+		  return "logout";
+	      
+	  }
+	  
+	  // Proceed as normal if not logged in
       model.addAttribute("user", new User());
       
       List<States> stateList = stateServ.fetchAll();
@@ -95,10 +112,19 @@ public class projectController {
          @ModelAttribute User user, 
          RedirectAttributes redirectAttrs) {
       
+	  HttpSession session = httpSessionFactory.getObject();
       System.out.println("GET /user");
 
-      // grab the logged in or just registered user passed from that route
-      User redirectUser = (User) model.asMap().get("user");
+      // Check if user is logged in yet
+      String username = (String) session.getAttribute("user");
+      
+      if (username == null) {
+    	  model.addAttribute("error", "Please log in first to access Dashboard!");
+    	  return "login";
+          
+      }
+      // Get User object from our service
+      User redirectUser = userServ.findUser(username);
       
       // let's grab the state info for our user
       // default to the recent 5 in descending order
@@ -129,10 +155,13 @@ public class projectController {
       return "userHome";
    }
    
-   
-   
-   
-   
+   @GetMapping("/logout")
+   public String logout() {
+	   HttpSession session = httpSessionFactory.getObject();
+	   
+	   session.removeAttribute("user");
+	   return "logout";
+   }
    
    /*//////////////////////////////*/
    /*Post Mappings*/
@@ -141,12 +170,12 @@ public class projectController {
    @PostMapping("/login")
    public RedirectView loginWithUserData(@ModelAttribute User user, RedirectAttributes redirectAttrs) {
       
+	  HttpSession session = httpSessionFactory.getObject();
       RedirectView redirView = new RedirectView();
       redirView.setContextRelative(true);
       
       User repoUser = userServ.findByNameAndPassword(user.getName(), user.getPassword());      
       System.out.println("Hit the /login Post mapping");
-      
       
       if (repoUser == null) {
          System.out.println("User DOESNT exist");
@@ -156,6 +185,7 @@ public class projectController {
       } else {
          System.out.println("User DOES exist");
          redirectAttrs.addFlashAttribute("user", repoUser);
+         session.setAttribute("user", user.getName());
          redirView.setUrl("/user");
       }
       
@@ -165,6 +195,7 @@ public class projectController {
    @PostMapping("/register")
    public RedirectView registerWithUserData(@ModelAttribute User user, RedirectAttributes redirectAttrs) {
       
+	  HttpSession session = httpSessionFactory.getObject();
       RedirectView redirView = new RedirectView();
       redirView.setContextRelative(true);
       
@@ -178,6 +209,7 @@ public class projectController {
       } else {
          userServ.insertUser(user);
          redirectAttrs.addFlashAttribute("user", user);
+         session.setAttribute("user", user.getName());
          redirView.setUrl("/user");
       }
       
