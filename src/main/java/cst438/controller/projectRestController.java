@@ -55,7 +55,7 @@ public class projectRestController {
    }
    
    // returns all national data
-   @GetMapping("/api/covid/allNational")
+   @GetMapping("/api/1/covid/allNational")
    public List<CovidNationalData> getAllNationalStats() {
       return covidServ.fetchAllNationalData();
    }
