@@ -26,5 +26,9 @@ public interface UserRepository extends JpaRepository<User, Long>{
          , @Param("state") String state );
 
    
+   // Return user model
+   String getUser = "SELECT * FROM user WHERE name = :name";
+   @Query(value=getUser, nativeQuery=true)
+   User findUser(@Param("name") String name);
    
 }
