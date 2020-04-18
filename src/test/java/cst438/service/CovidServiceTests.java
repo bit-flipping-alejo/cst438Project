@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.BDDMockito;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -13,7 +12,7 @@ import static org.mockito.BDDMockito.given;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import cst438.domain.Helper.NationalDisplayHelper;
-import cst438.domain.Model.CovidData;
+import cst438.domain.Model.CovidStateData;
 import cst438.domain.Model.CovidNationalData;
 import cst438.domain.Repository.CovidNationalRepository;
 import cst438.domain.Repository.CovidRepository;
@@ -43,8 +42,8 @@ public class CovidServiceTests {
    }
    
    @Test
-   public void getStateAndDateTestAscWithDate() {
-      List<CovidData> testCovidData = Arrays.asList(new CovidData(
+   public void testStateAndDateTestAscWithDate() {
+      List<CovidStateData> testCovidData = Arrays.asList(new CovidStateData(
             1, "CA", LocalDate.now().minusDays(2),
             1234, 0, 333, 222, 0, 0, 12345, 123, 22, 5));
       
@@ -52,7 +51,7 @@ public class CovidServiceTests {
             "CA", LocalDate.now().minusDays(2))).willReturn(
                   testCovidData);
       
-       List<CovidData> actual = 
+       List<CovidStateData> actual = 
              covidService.fetchByStateAndDate("CA", "2", "asc");
       
       assertThat(actual.get(0).getState()).isEqualTo("CA");
@@ -69,8 +68,8 @@ public class CovidServiceTests {
    }
    
    @Test
-   public void getStateAndDateTestDescWithDate() {
-      List<CovidData> testCovidData = Arrays.asList(new CovidData(
+   public void testStateAndDateTestDescWithDate() {
+      List<CovidStateData> testCovidData = Arrays.asList(new CovidStateData(
             1, "CA", LocalDate.now().minusDays(2),
             1234, 0, 333, 222, 0, 0, 12345, 123, 22, 5));
       
@@ -78,7 +77,7 @@ public class CovidServiceTests {
             "CA", LocalDate.now().minusDays(2))).willReturn(
                   testCovidData);
       
-       List<CovidData> actual = 
+       List<CovidStateData> actual = 
              covidService.fetchByStateAndDate("CA", "2", "desc");
       
       assertThat(actual.get(0).getState()).isEqualTo("CA");
@@ -95,14 +94,14 @@ public class CovidServiceTests {
    }
    
    @Test
-   public void getStateAndDateTestAscAll() {
-      List<CovidData> testCovidData = Arrays.asList(new CovidData(
+   public void testStateAndDateTestAscAll() {
+      List<CovidStateData> testCovidData = Arrays.asList(new CovidStateData(
             1, "CA", LocalDate.now().minusDays(2),
             1234, 0, 333, 222, 0, 0, 12345, 123, 22, 5));
       
       given(covidRepo.findByState("CA")).willReturn(testCovidData);
       
-       List<CovidData> actual = 
+       List<CovidStateData> actual = 
              covidService.fetchByStateAndDate("CA", "all", "asc");
       
       assertThat(actual.get(0).getState()).isEqualTo("CA");
@@ -119,14 +118,14 @@ public class CovidServiceTests {
    }
    
    @Test
-   public void getStateAndDateTestDescAll() {
-      List<CovidData> testCovidData = Arrays.asList(new CovidData(
+   public void testStateAndDateTestDescAll() {
+      List<CovidStateData> testCovidData = Arrays.asList(new CovidStateData(
             1, "CA", LocalDate.now().minusDays(2),
             1234, 0, 333, 222, 0, 0, 12345, 123, 22, 5));
       
       given(covidRepo.findByStateDesc("CA")).willReturn(testCovidData);
       
-       List<CovidData> actual = 
+       List<CovidStateData> actual = 
              covidService.fetchByStateAndDate("CA", "all", "desc");
       
       assertThat(actual.get(0).getState()).isEqualTo("CA");
@@ -143,15 +142,15 @@ public class CovidServiceTests {
    }
    
    @Test 
-   public void getCurrentDayStates() {
-      List<CovidData> testCovidData = Arrays.asList(new CovidData(
+   public void testCurrentDayStates() {
+      List<CovidStateData> testCovidData = Arrays.asList(new CovidStateData(
             1, "CA", LocalDate.now().minusDays(2),
             1234, 0, 333, 222, 0, 0, 12345, 123, 22, 5));
       
       given(covidAPIService.pullCurrentStateData()).willReturn(
             testCovidData);
       
-      List<CovidData> actual;
+      List<CovidStateData> actual;
       
       actual = covidService.fetchCurrentStateStats();
       
@@ -169,14 +168,14 @@ public class CovidServiceTests {
    }
    
    @Test
-   public void getState() {
-      List<CovidData> testCovidData = Arrays.asList(new CovidData(
+   public void testState() {
+      List<CovidStateData> testCovidData = Arrays.asList(new CovidStateData(
             1, "CA", LocalDate.now().minusDays(2),
             1234, 0, 333, 222, 0, 0, 12345, 123, 22, 5));
       
       given(covidRepo.findByState("CA")).willReturn(testCovidData);  
       
-      List<CovidData> actual = 
+      List<CovidStateData> actual = 
             covidService.fetchByState("CA");
      
       assertThat(actual.get(0).getState()).isEqualTo("CA");
@@ -193,7 +192,7 @@ public class CovidServiceTests {
    }
    
    @Test
-   public void getCurrentNationalStatsPosDeadInc() {
+   public void testCurrentNationalStatsPosDeadInc() {
       CovidNationalData testAPIData = new CovidNationalData(
             1, LocalDate.parse("2020-04-02"), 50,
             1234, 40, 333, 222, 0, 0, 12345, 123, 22, 5);
@@ -219,7 +218,7 @@ public class CovidServiceTests {
    }
    
    @Test
-   public void getCurrentNationalStatsPosDec() {
+   public void testCurrentNationalStatsPosDec() {
       CovidNationalData testAPIData = new CovidNationalData(
             1, LocalDate.parse("2020-04-02"), 50,
             1000, 40, 333, 222, 0, 0, 12345, 123, 22, 5);
@@ -245,7 +244,7 @@ public class CovidServiceTests {
    }
    
    @Test
-   public void getCurrentNationalStatsPosDeadEqual() {
+   public void testCurrentNationalStatsPosDeadEqual() {
       CovidNationalData testAPIData = new CovidNationalData(
             1, LocalDate.parse("2020-04-02"), 50,
             1000, 40, 333, 222, 0, 0, 12345, 123, 22, 5);
@@ -271,7 +270,7 @@ public class CovidServiceTests {
    }
    
    @Test
-   public void getCurrentNationalStatsDeadDec() {
+   public void testCurrentNationalStatsDeadDec() {
       CovidNationalData testAPIData = new CovidNationalData(
             1, LocalDate.parse("2020-04-02"), 50,
             1000, 40, 333, 222, 0, 0, 12345, 123, 22, 50);
@@ -297,7 +296,7 @@ public class CovidServiceTests {
    }
    
    @Test
-   public void getCurrentNationalDataRaw() {
+   public void testCurrentNationalDataRaw() {
       given(covidNationalRepo.findByRecentDate()).willReturn(
             new CovidNationalData(
                   10, LocalDate.parse("2020-04-02"), 50, 
@@ -320,7 +319,7 @@ public class CovidServiceTests {
    }
    
    @Test
-   public void getAllNationalDataRaw() {
+   public void testAllNationalDataRaw() {
       given(covidNationalRepo.findAll()).willReturn(
             Arrays.asList(new CovidNationalData(
                   10, LocalDate.parse("2020-04-02"), 50, 
@@ -343,15 +342,15 @@ public class CovidServiceTests {
    }
    
    @Test
-   public void getDate() {
-      List<CovidData> testCovidData = Arrays.asList(new CovidData(
+   public void testDate() {
+      List<CovidStateData> testCovidData = Arrays.asList(new CovidStateData(
             1, "CA", LocalDate.now().minusDays(2),
             1234, 0, 333, 222, 0, 0, 12345, 123, 22, 5));
       
       given(covidRepo.findByDate(
             LocalDate.now().minusDays(2))).willReturn(testCovidData);
       
-      List<CovidData> actual;
+      List<CovidStateData> actual;
       
       actual = covidService.fetchByDate(LocalDate.now().minusDays(2));
       
@@ -369,14 +368,14 @@ public class CovidServiceTests {
    }
    
    @Test
-   public void getAll() {
-      List<CovidData> testCovidData = Arrays.asList(new CovidData(
+   public void testAll() {
+      List<CovidStateData> testCovidData = Arrays.asList(new CovidStateData(
             1, "CA", LocalDate.now().minusDays(2),
             1234, 0, 333, 222, 0, 0, 12345, 123, 22, 5));
       
       given(covidRepo.findAll()).willReturn(testCovidData);
       
-      List<CovidData> actual;
+      List<CovidStateData> actual;
       
       actual = covidService.fetchAll();
       

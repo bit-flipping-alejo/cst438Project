@@ -20,7 +20,7 @@ import org.springframework.web.client.RestTemplate;
 
 import cst438.domain.Helper.JsonCovidHistoryHelper;
 import cst438.domain.Helper.JsonNationalStatsHelper;
-import cst438.domain.Model.CovidData;
+import cst438.domain.Model.CovidStateData;
 import cst438.domain.Model.CovidNationalData;
 import cst438.domain.Repository.CovidNationalRepository;
 import cst438.domain.Repository.CovidRepository;
@@ -166,7 +166,7 @@ public class InitDB {
       Collections.reverse(covidDataJson);
       
       // query db with that date, see if any entries have the date
-      List<CovidData> results = covidRepository.findByState("CA");
+      List<CovidStateData> results = covidRepository.findByState("CA");
       LocalDate recentDateInRepo = results.get(0).getDate();
       
       // if we have entries, update up to the current date
@@ -207,7 +207,7 @@ public class InitDB {
       LocalDate currentDate = LocalDate.now();
       
       // query db to a specific date. looking for the recent date in the table
-      List<CovidData> results = covidRepository.findByStateDesc("CA");
+      List<CovidStateData> results = covidRepository.findByStateDesc("CA");
       LocalDate recentDateInRepo = results.get(0).getDate();
 
       // if we have entries, update up to the current date

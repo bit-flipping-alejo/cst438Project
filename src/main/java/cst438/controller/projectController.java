@@ -4,7 +4,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,7 +11,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import cst438.domain.Model.Coctail;
-import cst438.domain.Model.CovidData;
+import cst438.domain.Model.CovidStateData;
 import cst438.domain.Model.States;
 import cst438.domain.Model.User;
 import cst438.domain.Helper.FilterForm;
@@ -35,9 +34,6 @@ public class projectController {
 
    
    
-   
-   
-   
    /*//////////////////////////////*/
    /*Get Mappings*/
    /*//////////////////////////////*/
@@ -46,7 +42,7 @@ public class projectController {
    public String getCurrentData(Model model, RedirectAttributes redirectAttrs) {
       
       // Covid section
-      List<CovidData> currentData = covidService.fetchCurrentStateStats(); 
+      List<CovidStateData> currentData = covidService.fetchCurrentStateStats(); 
       NationalDisplayHelper nationalStats = 
             covidService.fetchCurrentNationalStats();
       
@@ -73,7 +69,7 @@ public class projectController {
    }
    
    @GetMapping("/login")
-   public String login( Model model) {
+   public String login(Model model) {
       model.addAttribute("user", new User());
       return "login";
    }
@@ -85,7 +81,6 @@ public class projectController {
       List<States> stateList = stateServ.fetchAll();
       model.addAttribute("stateList", stateList);
       
-      System.out.println("Hit the /register Get mapping");
       return "register";
    }
    
@@ -94,15 +89,13 @@ public class projectController {
          Model model, 
          @ModelAttribute User user, 
          RedirectAttributes redirectAttrs) {
-      
-      System.out.println("GET /user");
 
       // grab the logged in or just registered user passed from that route
       User redirectUser = (User) model.asMap().get("user");
       
       // let's grab the state info for our user
       // default to the recent 5 in descending order
-      List<CovidData> stateInfo = 
+      List<CovidStateData> stateInfo = 
             covidService.fetchByStateAndDate(
                   redirectUser.getState(), "5", "asc");
       
@@ -129,34 +122,27 @@ public class projectController {
       return "userHome";
    }
    
-   
-   
-   
-   
+
    
    /*//////////////////////////////*/
    /*Post Mappings*/
    /*//////////////////////////////*/
    
    @PostMapping("/login")
-   public RedirectView loginWithUserData(@ModelAttribute User user, RedirectAttributes redirectAttrs) {
+   public RedirectView loginWithUserData(
+         @ModelAttribute User user, 
+         RedirectAttributes redirectAttrs) {
       
       RedirectView redirView = new RedirectView();
       redirView.setContextRelative(true);
       
-      User repoUser = userServ.findByNameAndPassword(user.getName(), user.getPassword());      
-      System.out.println("Hit the /login Post mapping");
-      
+      User repoUser = userServ.findByNameAndPassword(
+            user.getName(), user.getPassword());      
       
       if (repoUser == null) {
-         System.out.println("User DOESNT exist");
-         //maybe alert the user?
-         // IA: yes, make it so it redirects to the current page and uses
-         // the error field in thymeleaf like the first week assignment
          redirView.setUrl("/login");
          
       } else {
-         System.out.println("User DOES exist");
          redirectAttrs.addFlashAttribute("user", repoUser);
          redirView.setUrl("/user");
       }
@@ -165,14 +151,17 @@ public class projectController {
    }
    
    @PostMapping("/register")
-   public RedirectView registerWithUserData(@ModelAttribute User user, RedirectAttributes redirectAttrs) {
+   public RedirectView registerWithUserData(
+         @ModelAttribute User user, 
+         RedirectAttributes redirectAttrs) {
       
       RedirectView redirView = new RedirectView();
       redirView.setContextRelative(true);
       
       user.printToConsole();
       
-      User testIfExistsUser = userServ.findByNameAndPassword(user.getName(), user.getPassword());
+      User testIfExistsUser = userServ.findByNameAndPassword(
+            user.getName(), user.getPassword());
       
       if (testIfExistsUser != null ) {
          // user exists, dont register
@@ -197,7 +186,7 @@ public class projectController {
       User redirectUser = (User) model.asMap().get("user");
       
       // using form data, query the DB with new search parameters
-      List<CovidData> stateInfo = 
+      List<CovidStateData> stateInfo = 
             covidService.fetchByStateAndDate(
                   form.getState(), form.getDaysBack(), form.getDirection());
       

@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import cst438.domain.Model.CovidData;
+import cst438.domain.Model.CovidStateData;
 import cst438.domain.Model.CovidNationalData;
 import cst438.domain.Repository.CovidRepository;
 import cst438.domain.Helper.JsonCovidCurrentHelper;
@@ -38,7 +38,7 @@ public class CovidAPIService {
    // This method will be used frequently to pull current state COVID data
    // Will immediately construct the List<CovidData>, ready to pass to the
    // controller. This method does not save to the database.
-   public List<CovidData> pullCurrentStateData() {
+   public List<CovidStateData> pullCurrentStateData() {
       ResponseEntity<List<JsonCovidCurrentHelper>> response = 
             restTemplate.exchange(
                   this.currentStatesDataUrl, HttpMethod.GET, null, 
@@ -47,9 +47,9 @@ public class CovidAPIService {
       List<JsonCovidCurrentHelper> covidDataJson = response.getBody();
       
       // parse the json list into new entries
-      List<CovidData> currentStateData = new ArrayList<CovidData>();
+      List<CovidStateData> currentStateData = new ArrayList<CovidStateData>();
       for(JsonCovidCurrentHelper stateData : covidDataJson) {
-         CovidData currentData =  new CovidData();
+         CovidStateData currentData =  new CovidStateData();
          currentData.setState(stateData.getState());
          currentData.setTestedPositive(stateData.getPositive());
          currentData.setTestedNegative(stateData.getNegative());

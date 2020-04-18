@@ -5,16 +5,14 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
-
 import java.util.ArrayList;
 
 import cst438.domain.Model.Coctail;
 import cst438.services.CoctailAPIService;
 import cst438.services.CoctailService;
-import cst438.services.CovidService;
+
 
 @SpringBootTest
 public class CoctailServiceTests {

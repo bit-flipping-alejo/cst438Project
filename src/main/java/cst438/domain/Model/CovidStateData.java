@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import javax.persistence.*;
 
 @Entity
-public class CovidData {
+public class CovidStateData {
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private long ID;
@@ -22,11 +22,11 @@ public class CovidData {
    private long Recovered;
    private long Deaths;
    
-   public CovidData() {
+   public CovidStateData() {
       
    }
    
-   public CovidData(
+   public CovidStateData(
          long ID,
          String State,
          LocalDate Date,

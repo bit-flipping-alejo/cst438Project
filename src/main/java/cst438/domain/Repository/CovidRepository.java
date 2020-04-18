@@ -9,40 +9,40 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import cst438.domain.Model.CovidData;
+import cst438.domain.Model.CovidStateData;
 
 @Repository
-public interface CovidRepository extends JpaRepository<CovidData, Long> {
+public interface CovidRepository extends JpaRepository<CovidStateData, Long> {
    // Select by state
    String selectState = "SELECT * FROM covid_data WHERE state=:state";
    @Query(value=selectState, nativeQuery=true)
-   List<CovidData> findByState(@Param("state") String state);
+   List<CovidStateData> findByState(@Param("state") String state);
    
    
    // Select by state, ordered date desc
    String selectStateDesc = "SELECT * FROM covid_data WHERE state=:state"
          + " ORDER BY date DESC";
    @Query(value=selectStateDesc, nativeQuery=true)
-   List<CovidData> findByStateDesc(@Param("state") String state);
+   List<CovidStateData> findByStateDesc(@Param("state") String state);
    
    
    // Select all by date
    String selectDate = "SELECT * FROM covid_data WHERE date=:date";
    @Query(value=selectDate, nativeQuery=true)
-   List<CovidData> findByDate(@Param("date") LocalDate date);
+   List<CovidStateData> findByDate(@Param("date") LocalDate date);
    
    
    // Select most current 
    String selectCurrent = "SELECT * FROM covid_data ORDER BY id, date desc "
          + "limit 56;";
    @Query(value=selectCurrent, nativeQuery=true)
-   List<CovidData> findCurrent();
+   List<CovidStateData> findCurrent();
    
    // Select by state and date
    String selectStateDate = "SELECT * FROM covid_data WHERE state=:state "
          + "AND date >= :date ORDER BY date";
    @Query(value=selectStateDate, nativeQuery=true)
-   List<CovidData> findByStateAndDate(
+   List<CovidStateData> findByStateAndDate(
          @Param("state") String state,
          @Param("date") LocalDate date);
    
@@ -51,7 +51,7 @@ public interface CovidRepository extends JpaRepository<CovidData, Long> {
    String selectStateDateDesc = "SELECT * FROM covid_data WHERE state=:state "
          + "AND date >= :date ORDER BY date desc";  
    @Query(value=selectStateDateDesc, nativeQuery=true)
-   List<CovidData> findByStateAndDateDesc(
+   List<CovidStateData> findByStateAndDateDesc(
          @Param("state") String state,
          @Param("date") LocalDate date);
    
@@ -59,13 +59,13 @@ public interface CovidRepository extends JpaRepository<CovidData, Long> {
    // Select all
    String selectAll = "SELECT * FROM covid_data";
    @Query(value=selectAll, nativeQuery=true)
-   List<CovidData> findAll();
+   List<CovidStateData> findAll();
    
    
    // Select one by ID
    String selectOneByID = "SELECT * FROM covid_data WHERE id=:id";
    @Query(value=selectOneByID, nativeQuery=true)
-   CovidData findByID(@Param("id") long ID);
+   CovidStateData findByID(@Param("id") long ID);
    
    
    // insert into db

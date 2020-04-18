@@ -5,18 +5,12 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
-
-import java.util.List;
-
-import org.assertj.core.util.Arrays;
 
 import cst438.domain.Model.States;
 import cst438.domain.Repository.StatesRepository;
 import cst438.services.StatesService;
-import cst438.services.UserService;
 
 @SpringBootTest
 public class StateServiceTests {

@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import cst438.domain.Model.CovidData;
+import cst438.domain.Model.CovidStateData;
 import cst438.domain.Model.CovidNationalData;
 import cst438.domain.Helper.NationalDisplayHelper;
 import cst438.domain.Repository.CovidNationalRepository;
@@ -38,7 +38,7 @@ public class CovidService {
       this.covidNationalRepository = covidNationalRepository;
    }
    
-   public List<CovidData> fetchByStateAndDate(String state, String daysBack,
+   public List<CovidStateData> fetchByStateAndDate(String state, String daysBack,
          String direction) {
       
       if (daysBack.equals("all")) {
@@ -59,19 +59,19 @@ public class CovidService {
       }
    }
    
-   public List<CovidData> fetchCurrentStateStats() {
+   public List<CovidStateData> fetchCurrentStateStats() {
       return covidAPIService.pullCurrentStateData();
    }
    
-   public List<CovidData> fetchByDate(LocalDate date) {
+   public List<CovidStateData> fetchByDate(LocalDate date) {
       return covidRepository.findByDate(date);
    }
    
-   public List<CovidData> fetchByState(String state) {
+   public List<CovidStateData> fetchByState(String state) {
       return covidRepository.findByState(state);
    }
    
-   public List<CovidData> fetchAll() {
+   public List<CovidStateData> fetchAll() {
       return covidRepository.findAll();
    }
    

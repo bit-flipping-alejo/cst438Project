@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import cst438.domain.Model.Coctail;
-import cst438.domain.Model.CovidData;
+import cst438.domain.Model.CovidStateData;
 import cst438.domain.Model.CovidNationalData;
 import cst438.services.CoctailService;
 import cst438.services.CovidService;
@@ -34,15 +34,15 @@ public class projectRestController {
    
    // returns all current state data
    @GetMapping("/api/1/covid/state")
-   public List<CovidData> getAllStateInfo() {
+   public List<CovidStateData> getAllStateInfo() {
       return covidServ.fetchCurrentStateStats();
    }
    
    // returns all data pertaining to that state
    @GetMapping("/api/1/covid/state={code}")
-   public List<CovidData> getStateInfo(@PathVariable("code") String state) {
+   public List<CovidStateData> getStateInfo(@PathVariable("code") String state) {
       try {
-      return covidServ.fetchByState(state);
+         return covidServ.fetchByState(state);
       } catch (Exception e) {
          throw new ResponseStatusException( HttpStatus.NOT_FOUND, "State not found" );
       }
