@@ -25,27 +25,31 @@ public class projectRestController {
    
    @GetMapping("/api/1/RandomCoctail")
    public Coctail getRandomCoctail() {    
-      //try {
+      try {
          return coctailServ.getARandomCoctail();   
-      //} catch (Exception e) {
-      //   throw new ResponseStatusException( HttpStatus.NOT_FOUND, "No luck ya booze hound" );
-      //}
+      } catch (Exception e) {
+        throw new ResponseStatusException( HttpStatus.NOT_FOUND, "No luck ya booze hound" );
+      }
    }
    
    // returns all current state data
-   @GetMapping("/api/covid/state")
+   @GetMapping("/api/1/covid/state")
    public List<CovidData> getAllStateInfo() {
       return covidServ.fetchCurrentStateStats();
    }
    
    // returns all data pertaining to that state
-   @GetMapping("/api/covid/state={code}")
+   @GetMapping("/api/1/covid/state={code}")
    public List<CovidData> getStateInfo(@PathVariable("code") String state) {
+      try {
       return covidServ.fetchByState(state);
+      } catch (Exception e) {
+         throw new ResponseStatusException( HttpStatus.NOT_FOUND, "State not found" );
+      }
    }
    
    // returns current national data
-   @GetMapping("/api/covid/national")
+   @GetMapping("/api/1/covid/national")
    public CovidNationalData getNationalStats() {
       return covidServ.fetchCurrentNationalData();
    }
