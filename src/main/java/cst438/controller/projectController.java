@@ -172,11 +172,11 @@ public class projectController {
       
       user.printToConsole();
       
-      User testIfExistsUser = userServ.findByNameAndPassword(user.getName(), user.getPassword());
+      User testIfExistsUser = userServ.findByName(user.getName());
       
       if (testIfExistsUser != null ) {
-         // user exists, dont register
-         redirView.setUrl("/login");
+         redirectAttrs.addFlashAttribute("error", "User already exists!");
+         redirView.setUrl("/register");
       } else {
          userServ.insertUser(user);
          redirectAttrs.addFlashAttribute("user", user);

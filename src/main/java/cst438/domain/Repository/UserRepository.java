@@ -15,6 +15,7 @@ public interface UserRepository extends JpaRepository<User, Long>{
    String insertUser = "INSERT INTO user VALUES (null, :name, :numberOfVisits, :password, :state)";
    
    User findByNameAndPassword(String name, String password);
+   User findByName(String name);
    
    @Modifying
    @Transactional

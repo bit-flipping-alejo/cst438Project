@@ -25,6 +25,10 @@ public class UserService {
      return userRepo.findByNameAndPassword(name, password) ;
    }
    
+   public User findByName(String name) {
+	   return userRepo.findByName(name);
+   }
+   
    public void insertUser(User user) {
       userRepo.insertUser(user.getName(), user.getNumberOfVisits(), user.getPassword(), user.getState());
    }
