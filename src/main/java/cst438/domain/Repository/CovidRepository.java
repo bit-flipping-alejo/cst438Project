@@ -14,30 +14,30 @@ import cst438.domain.Model.CovidStateData;
 @Repository
 public interface CovidRepository extends JpaRepository<CovidStateData, Long> {
 
-   String selectState = "SELECT * FROM covid_data WHERE state=:state";
+   String selectState = "SELECT * FROM covid_state_data WHERE state=:state";
    @Query(value=selectState, nativeQuery=true)
    List<CovidStateData> findByState(@Param("state") String state);
    
    
    // Select by state, ordered date desc
-   String selectStateDesc = "SELECT * FROM covid_data WHERE state=:state"
+   String selectStateDesc = "SELECT * FROM covid_state_data WHERE state=:state"
          + " ORDER BY date DESC";
    @Query(value=selectStateDesc, nativeQuery=true)
    List<CovidStateData> findByStateDesc(@Param("state") String state);
    
    
-   String selectDate = "SELECT * FROM covid_data WHERE date=:date";
+   String selectDate = "SELECT * FROM covid_state_data WHERE date=:date";
    @Query(value=selectDate, nativeQuery=true)
    List<CovidStateData> findByDate(@Param("date") LocalDate date);
    
    
-   String selectCurrent = "SELECT * FROM covid_data ORDER BY id, date desc "
+   String selectCurrent = "SELECT * FROM covid_state_data ORDER BY id, date desc "
          + "limit 56;";
    @Query(value=selectCurrent, nativeQuery=true)
    List<CovidStateData> findCurrent();
    
    // Select by state and date
-   String selectStateDate = "SELECT * FROM covid_data WHERE state=:state "
+   String selectStateDate = "SELECT * FROM covid_state_data WHERE state=:state "
          + "AND date >= :date ORDER BY date";
    @Query(value=selectStateDate, nativeQuery=true)
    List<CovidStateData> findByStateAndDate(
@@ -45,23 +45,23 @@ public interface CovidRepository extends JpaRepository<CovidStateData, Long> {
          @Param("date") LocalDate date);
    
    // Select by state and date desc
-   String selectStateDateDesc = "SELECT * FROM covid_data WHERE state=:state "
+   String selectStateDateDesc = "SELECT * FROM covid_state_data WHERE state=:state "
          + "AND date >= :date ORDER BY date desc";  
    @Query(value=selectStateDateDesc, nativeQuery=true)
    List<CovidStateData> findByStateAndDateDesc(
          @Param("state") String state,
          @Param("date") LocalDate date);
    
-   String selectAll = "SELECT * FROM covid_data";
+   String selectAll = "SELECT * FROM covid_state_data";
    @Query(value=selectAll, nativeQuery=true)
    List<CovidStateData> findAll();
    
-   String selectOneByID = "SELECT * FROM covid_data WHERE id=:id";
+   String selectOneByID = "SELECT * FROM covid_state_data WHERE id=:id";
    @Query(value=selectOneByID, nativeQuery=true)
    CovidStateData findByID(@Param("id") long ID);
    
    // insert into db with date
-   String insertHistorical = "INSERT INTO covid_data (id, date, state, "
+   String insertHistorical = "INSERT INTO covid_state_data (id, date, state, "
          + "tested_positive, tested_negative, currently_hospitalized, "
          + "total_hospitalized, currenticucount, totalicucount, "
          + "currently_on_ventilator, total_ventilated, recovered, deaths) VALUES "
