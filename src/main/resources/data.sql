@@ -65,5 +65,6 @@ INSERT INTO user (id, name, number_of_visits, password, state) VALUES
 (NULL, 'alejo', 0, 'alejo', 'AK'),
 (NULL, 'matt', 0, 'matt', 'HI'),
 (NULL, 'randy', 0, 'randy', 'CO');
+(NULL, 'professor', 0, 'cst438', 'NY');
 
 
