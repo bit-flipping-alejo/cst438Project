@@ -16,7 +16,7 @@ import cst438.domain.Helper.JsonCovidCurrentHelper;
 import cst438.domain.Helper.JsonNationalStatsHelper;
 
 /* This service is responsible for pulling the data from the external API
- * It will be used by the controller to pull current data.*/
+ * It will be used by CovidService to pull current data.*/
 
 @Service
 public class CovidAPIService {

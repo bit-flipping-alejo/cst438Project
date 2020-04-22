@@ -35,8 +35,6 @@ public class projectController {
    private UserService userServ;   
    @Autowired
    private StatesService stateServ;
-
-   
    @Autowired
    ObjectFactory<HttpSession> httpSessionFactory;
 

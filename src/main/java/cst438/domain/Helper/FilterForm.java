@@ -1,5 +1,9 @@
 package cst438.domain.Helper;
 
+/**This is the standard form object container similar to the homework assignments
+ * Its purpose is to hold the form data from the user home page. 
+ * */
+
 public class FilterForm {
    private String state;
    private String daysBack;
@@ -23,11 +27,5 @@ public class FilterForm {
    }
    public void setDirection(String direction) {
       this.direction = direction;
-   }
-   public void printToConsole() {
-      System.out.println(">>>>>>>><<<<<<<<<<<<<<");
-      System.out.println("form data: " + this.state + " days: " + this.daysBack
-            + "direction: " + this.direction);
-      System.out.println(">>>>>>>><<<<<<<<<<<<<<");
    }
 }

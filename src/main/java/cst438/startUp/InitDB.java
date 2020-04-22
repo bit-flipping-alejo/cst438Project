@@ -5,10 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
-
 import javax.annotation.PostConstruct;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
@@ -24,12 +21,11 @@ import cst438.domain.Model.CovidStateData;
 import cst438.domain.Model.CovidNationalData;
 import cst438.domain.Repository.CovidNationalRepository;
 import cst438.domain.Repository.CovidRepository;
-import cst438.services.CovidAPIService;
 
 /** Description: The purpose of this class is to execute the methods responsible 
  * for calling The COVID Tracking Project history APIs. They return JSON 
  * containing daily entries for all states and national statistics. In addition,
- * but not relevant to this class, is a third table that is created and populated
+ * but not relevant to this java class, is a third table that is created and populated
  * on server start containing the state name and postal code.
  * 
  * */
@@ -41,8 +37,6 @@ public class InitDB {
    @Autowired
    private CovidNationalRepository covidNationalRepository;
    
-   private static final Logger log = 
-         LoggerFactory.getLogger(CovidAPIService.class);
    private RestTemplate restTemplate;
    private String historicalStatesDataUrl;
    private String historicalNationalDataUrl;
@@ -61,7 +55,14 @@ public class InitDB {
       this.historicalNationalDataUrl = histNationalUrl;
    }
    
-   // This method populates the database with the external historical api
+   /** Description: 
+    * This method and its sibling method are both responsible for populating and updating
+    * the data contained in the repositories. Both of these methods are marked as 
+    * PostContrusct, meaning the are executed by Spring after the server is initialized.
+    * Each method is responsible for filling its respective repository. In summary, the 
+    * method will either completely fill the tables if they are empty, or only fill the missing 
+    * data points (by date). 
+    * */
    @PostConstruct
    public void populateStateStats() {
       // pull data from external API
@@ -72,14 +73,14 @@ public class InitDB {
                   {});
       List<JsonCovidHistoryHelper> covidDataJson = response.getBody();
 
+      // we reverse because the data from the API is in ascending order,
+      // we want in the the database as the oldest date is the first row.
+      Collections.reverse(covidDataJson);
+      
       // parse the json list into new entries and save them into the db only 
       // if it's empty
       // if we have data in the table, update the stats to the current date.
-
       if (covidRepository.findByID(1) == null) {
-         log.info("Status code: " + response.getStatusCodeValue() + " Updated"
-               + " state statistics");
-         Collections.reverse(covidDataJson);
          for(JsonCovidHistoryHelper stateData : covidDataJson) {
             covidRepository.insertHistoricalDataPoint(
                   LocalDate.parse(stateData.getDate(), dateFormat),
@@ -103,7 +104,15 @@ public class InitDB {
       }
    }
    
-   // This method populates the database with the external historical api
+   /** Description: 
+    * This method and its sibling method are both responsible for populating and updating
+    * the data contained in the repositories. Both of these methods are marked as 
+    * PostContrusct, meaning the are executed by Spring after the server is initialized.
+    * Each method is responsible for filling its respective repository. In summary, the 
+    * method will either completely fill the tables if they are empty, or only fill the missing 
+    * data points (by date). 
+    * */
+   
    @PostConstruct
    public void populateNationalStats() {
       // pull data from external API
@@ -112,16 +121,15 @@ public class InitDB {
                   this.historicalNationalDataUrl, HttpMethod.GET, null, 
                   new ParameterizedTypeReference<List<JsonNationalStatsHelper>>() {});
       List<JsonNationalStatsHelper> covidDataJson = response.getBody();
+      
+      // we reverse because the data from the API is in ascending order,
+      // we want in the the database as the oldest date is the first row.
       Collections.reverse(covidDataJson);
       
       // parse the json list into new entries and save them into the db
       // only if the date entry doesn't exist in the db
       if (covidNationalRepository.findByID(1) == null) {
-         log.info("Status code: " + response.getStatusCodeValue() + " Updated"
-               + " national statistics");
-         
          for(JsonNationalStatsHelper nationalData : covidDataJson) {
-            System.out.print(nationalData.getDate());
             covidNationalRepository.insertHistoricalDataPoint(
                   LocalDate.parse(nationalData.getDate(), dateFormat),
                   nationalData.getStates(),
@@ -137,38 +145,25 @@ public class InitDB {
                   nationalData.getDeath()
                   );
          }
-         
-      
       } else {
          System.out.println("Updating national historical data...");
          updateNationalStats(covidDataJson);
       }
    }
    
-   // This method and the partner method for national history stats are both
-   // called by the populate methods above to update the tables, otherwise they
-   // run every night around 8pm PST to update the table automatically.
-   
-   @Scheduled(cron="0 0 20 * * *")
-   public void updateStateStats() {
-      System.out.println("update DB");
-      
+   /** Description:
+    * The following two methods are actually overloaded methods of the cron jobs
+    * at the bottom of this script. They are utilized by the above two methods
+    * respectively. 
+    * */
+   public void updateStateStats(List<JsonCovidHistoryHelper> covidDataJson) {
       // grab the current date
       LocalDate currentDate = LocalDate.now();
       
-      // query the external API for the historical data
-      ResponseEntity<List<JsonCovidHistoryHelper>> response = 
-            restTemplate.exchange(
-                  this.historicalStatesDataUrl, HttpMethod.GET, null, 
-                  new ParameterizedTypeReference<List<JsonCovidHistoryHelper>>()
-                  {});
-      List<JsonCovidHistoryHelper> covidDataJson = response.getBody();
-      Collections.reverse(covidDataJson);
-      
-      // query db with that date, see if any entries have the date
-      List<CovidStateData> results = covidRepository.findByState("CA");
+      // query db to a specific date. looking for the recent date in the table
+      List<CovidStateData> results = covidRepository.findByStateDesc("CA");
       LocalDate recentDateInRepo = results.get(0).getDate();
-      
+
       // if we have entries, update up to the current date
       if (recentDateInRepo.compareTo(currentDate) < 0) {
          for (JsonCovidHistoryHelper entry : covidDataJson) {
@@ -202,14 +197,73 @@ public class InitDB {
       }
    }
    
-   public void updateStateStats(List<JsonCovidHistoryHelper> covidDataJson) {
+   public void updateNationalStats(List<JsonNationalStatsHelper> covidDataJson) {
       // grab the current date
       LocalDate currentDate = LocalDate.now();
       
       // query db to a specific date. looking for the recent date in the table
-      List<CovidStateData> results = covidRepository.findByStateDesc("CA");
-      LocalDate recentDateInRepo = results.get(0).getDate();
+      CovidNationalData results = covidNationalRepository.findByRecentDate();
+      LocalDate recentDateInRepo = results.getDate();
 
+      // if we have entries, update up to the current date
+      if (recentDateInRepo.compareTo(currentDate) < 0) {
+         for (JsonNationalStatsHelper entry : covidDataJson) {
+            LocalDate entryDate = LocalDate.parse(entry.getDate(), dateFormat);
+            
+            // compare the json entry date to now, if it's more recent, enter
+            if (entryDate.compareTo(recentDateInRepo) > 0) {
+               // add that point into the database
+               covidNationalRepository.insertHistoricalDataPoint(
+                     entryDate,
+                     entry.getStates(),
+                     entry.getPositive(),
+                     entry.getNegative(),
+                     entry.getHospitalizedCurrently(),
+                     entry.getHospitalizedCumulative(),
+                     entry.getInIcuCurrently(),
+                     entry.getInIcuCumulative(),
+                     entry.getOnVentilatorCurrently(),
+                     entry.getOnVentilatorCumulative(),
+                     entry.getRecovered(),
+                     entry.getDeath()
+                     );
+            }
+         }
+         
+         System.out.println("Updated national data.");
+         return;
+      } else {
+         System.out.println("National stats current.");
+         return;
+      }
+   }
+   
+   /** Description:
+    * The following two methods are scheduled jobs. They are executed at 8PM server time
+    * each day. They are responsible for querying the external API, and similar to the
+    * populate methods, update the tables so they are made current. 
+    * */
+   
+   @Scheduled(cron="0 0 20 * * *")
+   public void updateStateStats() {
+      System.out.println("updating state DB");
+      
+      // grab the current date
+      LocalDate currentDate = LocalDate.now();
+      
+      // query the external API for the historical data
+      ResponseEntity<List<JsonCovidHistoryHelper>> response = 
+            restTemplate.exchange(
+                  this.historicalStatesDataUrl, HttpMethod.GET, null, 
+                  new ParameterizedTypeReference<List<JsonCovidHistoryHelper>>()
+                  {});
+      List<JsonCovidHistoryHelper> covidDataJson = response.getBody();
+      Collections.reverse(covidDataJson);
+      
+      // query db with that date, see if any entries have the date
+      List<CovidStateData> results = covidRepository.findByState("CA");
+      LocalDate recentDateInRepo = results.get(0).getDate();
+      
       // if we have entries, update up to the current date
       if (recentDateInRepo.compareTo(currentDate) < 0) {
          for (JsonCovidHistoryHelper entry : covidDataJson) {
@@ -268,47 +322,6 @@ public class InitDB {
             LocalDate entryDate = LocalDate.parse(entry.getDate(), dateFormat);
             
          // compare the json entry date to now, if it's more recent, enter
-            if (entryDate.compareTo(recentDateInRepo) > 0) {
-               // add that point into the database
-               covidNationalRepository.insertHistoricalDataPoint(
-                     entryDate,
-                     entry.getStates(),
-                     entry.getPositive(),
-                     entry.getNegative(),
-                     entry.getHospitalizedCurrently(),
-                     entry.getHospitalizedCumulative(),
-                     entry.getInIcuCurrently(),
-                     entry.getInIcuCumulative(),
-                     entry.getOnVentilatorCurrently(),
-                     entry.getOnVentilatorCumulative(),
-                     entry.getRecovered(),
-                     entry.getDeath()
-                     );
-            }
-         }
-         
-         System.out.println("Updated national data.");
-         return;
-      } else {
-         System.out.println("National stats current.");
-         return;
-      }
-   }
-   
-   public void updateNationalStats(List<JsonNationalStatsHelper> covidDataJson) {
-      // grab the current date
-      LocalDate currentDate = LocalDate.now();
-      
-      // query db to a specific date. looking for the recent date in the table
-      CovidNationalData results = covidNationalRepository.findByRecentDate();
-      LocalDate recentDateInRepo = results.getDate();
-
-      // if we have entries, update up to the current date
-      if (recentDateInRepo.compareTo(currentDate) < 0) {
-         for (JsonNationalStatsHelper entry : covidDataJson) {
-            LocalDate entryDate = LocalDate.parse(entry.getDate(), dateFormat);
-            
-            // compare the json entry date to now, if it's more recent, enter
             if (entryDate.compareTo(recentDateInRepo) > 0) {
                // add that point into the database
                covidNationalRepository.insertHistoricalDataPoint(

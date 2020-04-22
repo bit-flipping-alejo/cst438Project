@@ -2,6 +2,12 @@ package cst438.domain.Helper;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+/**This class is an intermediate container class for the received JSON
+ * from the external APIs that we utilize. It holds all the JSON data
+ * as long integers instead of strings. This is done for computation
+ * down the pipeline
+ * */
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class JsonNationalStatsHelper {
    private String date;

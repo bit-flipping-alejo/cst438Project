@@ -14,7 +14,8 @@ import cst438.domain.Repository.CovidRepository;
 import cst438.services.CovidAPIService;
 
 /* This service is the 'front' facing service meaning it pulls all data from
- * the repositories. No external API calls in here.
+ * the repositories. No external API calls in here. All data is passed to the
+ * controller ready for web insertion.
  * */
 
 @Service
@@ -103,6 +104,7 @@ public class CovidService {
       displayInfo.setDeadIncrease(isDeadIncrease);
       displayInfo.setDate(formatter.format(recentNationalHist.getDate()));
       
+      // format some key numbers so they're just a bit more readable
       if (positiveChange != 0) {
          if (isPositiveIncrease) {
             displayInfo.setPositiveChange("+" + 

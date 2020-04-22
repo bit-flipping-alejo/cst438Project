@@ -1,5 +1,10 @@
 package cst438.domain.Helper;
 
+/**This class is the container for the web site data. Essentially it holds all
+ * information needed for the web site to properly display. All fields are 
+ * formatted and ready for insertion.
+ * */
+
 public class NationalDisplayHelper {
    private String positive;
    private String dead;

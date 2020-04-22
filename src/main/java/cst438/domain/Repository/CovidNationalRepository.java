@@ -14,7 +14,24 @@ import cst438.domain.Model.CovidNationalData;
 @Repository
 public interface CovidNationalRepository 
 extends JpaRepository<CovidNationalData, Long>{
-   // insert into db with date
+
+   String selectDate = "SELECT * FROM covid_national_data WHERE date=:date";
+   @Query(value=selectDate, nativeQuery=true)
+   CovidNationalData findByDate(@Param("date") long date);
+   
+   String selectOneByID = "SELECT * FROM covid_national_data WHERE id=:id";
+   @Query(value=selectOneByID, nativeQuery=true)
+   CovidNationalData findByID(@Param("id") long id);
+   
+   String selectAll = "SELECT * FROM covid_national_data";
+   @Query(value=selectAll, nativeQuery=true)
+   List<CovidNationalData> findAll();
+   
+   String selectRecentDate = "SELECT * FROM covid_national_data ORDER BY date"
+         + " desc LIMIT 1";
+   @Query(value=selectRecentDate, nativeQuery=true)
+   CovidNationalData findByRecentDate();
+   
    String insertHistorical = "INSERT INTO covid_national_data (id, date, "
          + "states_affected, tested_positive, tested_negative, "
          + "currently_hospitalized, total_hospitalized, currenticucount, "
@@ -22,32 +39,6 @@ extends JpaRepository<CovidNationalData, Long>{
          + "recovered, deaths) VALUES (default, :date, :states, :positive, "
          + ":negative, :currentHospital, :totalHospital, :currentICU, "
          + ":totalICU, :currentVent, :totalVent, :recovered, :deaths)";
-
-   // Select by date
-   String selectDate = "SELECT * FROM covid_national_data WHERE date=:date";
-   
-   // Select one by ID
-   String selectOneByID = "SELECT * FROM covid_national_data WHERE id=:id";
-   
-   // Select all data points
-   String selectAll = "SELECT * FROM covid_national_data";
-   
-   // Select the most recent date entry
-   String selectRecentDate = "SELECT * FROM covid_national_data ORDER BY date"
-         + " desc LIMIT 1";
-   
-   @Query(value=selectDate, nativeQuery=true)
-   CovidNationalData findByDate(@Param("date") long date);
-   
-   @Query(value=selectOneByID, nativeQuery=true)
-   CovidNationalData findByID(@Param("id") long id);
-   
-   @Query(value=selectAll, nativeQuery=true)
-   List<CovidNationalData> findAll();
-   
-   @Query(value=selectRecentDate, nativeQuery=true)
-   CovidNationalData findByRecentDate();
-   
    @Modifying
    @Transactional
    @Query(value=insertHistorical, nativeQuery=true)

@@ -38,6 +38,7 @@ public class CoctailAPIService {
          retCoctail.setPicUrl( thisDrink.get("strDrinkThumb").asText() );
          retCoctail.setInstructions( thisDrink.get("strInstructions").asText() );      
          
+         // ingredients are received as multiple key value pairs.
          ArrayList<String> ingredients = new ArrayList<String>();
          String quantity, ingredient;
          for (int i = 1; i < 16; i++) {

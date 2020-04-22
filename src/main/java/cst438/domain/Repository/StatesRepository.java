@@ -9,9 +9,8 @@ import cst438.domain.Model.States;
 
 @Repository
 public interface StatesRepository extends JpaRepository<States, Long>{
-   // select state by code
+
    String selectState = "SELECT * FROM states WHERE state_code = :code";
-   
    @Query(value=selectState, nativeQuery=true)
    States findByStateCode(@Param("code") String code);
 }
