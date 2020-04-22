@@ -1,10 +1,12 @@
 # cst438Project
 
+***IMPORTANT PLEASE FOLLOW INSTRUCTIONS***
 ToDo before running the first time:
-	> In MYSQL create "cst438project" database
-
-Update before running
-	> application.propetries
+	> In MYSQL create "cst438project" schema
+	> Port settings and address location are already defaulted to 
+	'localhost:3306/cst438project'
+		> change this if needed in order to point to your local MySQL setup
+	> Update the application.propetries in the resources folder
 		> confirm database location is correct.
 		> update spring.datasource.username
 		> update spring.datasource.password
