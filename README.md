@@ -14,3 +14,7 @@ ToDo before running the first time:
 No other scripts are required to run. Server initialization will take care of all data population
 Please ensure the localhost MySQL server is running with the proper credentials and the required
 schema is present.
+
+You may log in as any of the accounts listed at the bottom of the data.sql file. For convience, 
+the credentials you may use are professor/cst438, ivan/ivan, or randy/randy. You may also create
+your own account.
